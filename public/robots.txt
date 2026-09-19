@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Block admin
+Disallow: /admin
+
+# Sitemap
+Sitemap: https://certwinx-platform.vercel.app/sitemap.xml
