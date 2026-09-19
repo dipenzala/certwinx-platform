@@ -118,8 +118,6 @@ export default function CertificateTicker() {
     if (!root) return;
 
     const ctx = gsap.context(() => {
-      /* ============ VERY SLOW MARQUEE SCROLL ============ */
-      /* 1200 seconds = 20 minutes per full cycle — ekdum slow, readable */
       if (track1Ref.current) {
         gsap.to(track1Ref.current, {
           x: '-50%',
@@ -129,7 +127,6 @@ export default function CertificateTicker() {
         });
       }
 
-      /* ============ Live dot pulse ============ */
       gsap.to('[data-cert-dot]', {
         scale: 1.4,
         opacity: 0.4,
@@ -139,7 +136,6 @@ export default function CertificateTicker() {
         repeat: -1,
       });
 
-      /* ============ Shimmer line ============ */
       gsap.to('[data-ticker-shimmer]', {
         backgroundPosition: '-200% 0',
         duration: 20,
@@ -152,38 +148,34 @@ export default function CertificateTicker() {
   }, []);
 
   const renderRow = (items) => (
-    <div className="flex items-center gap-10 shrink-0 pr-10">
+    <div className="flex items-center gap-4 sm:gap-6 lg:gap-10 shrink-0 pr-4 sm:pr-6 lg:pr-10">
       {items.map((company, i) => (
-        <div key={i} className="flex items-center gap-3 shrink-0">
-          {/* Gold check icon */}
-          <span className="w-4 h-4 rounded-full bg-gold/15 border border-gold/40 flex items-center justify-center shrink-0">
-            <CheckCircle2 size={10} className="text-gold" strokeWidth={2.5} />
+        <div key={i} className="flex items-center gap-2 sm:gap-3 shrink-0">
+          <span className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-gold/15 border border-gold/40 flex items-center justify-center shrink-0">
+            <CheckCircle2 size={8} className="sm:hidden text-gold" strokeWidth={2.5} />
+            <CheckCircle2 size={10} className="hidden sm:block text-gold" strokeWidth={2.5} />
           </span>
 
-          {/* Company name */}
-          <span className="text-[13px] font-semibold tracking-wide text-white/85 whitespace-nowrap uppercase">
+          <span className="text-[10px] sm:text-[12px] lg:text-[13px] font-semibold tracking-wide text-white/85 whitespace-nowrap uppercase">
             {company}
           </span>
 
-          {/* Tagline */}
-          <span className="text-[10px] font-medium tracking-[0.15em] text-blue/80 whitespace-nowrap uppercase ml-1">
+          <span className="text-[7px] sm:text-[9px] lg:text-[10px] font-medium tracking-[0.15em] text-blue/80 whitespace-nowrap uppercase ml-0.5 sm:ml-1">
             GOT 80-IAC CERTIFICATE FROM IMB COMMITTEE
           </span>
 
-          {/* Separator dot */}
-          <span className="w-1 h-1 rounded-full bg-gold/60 shrink-0 ml-3" />
+          <span className="w-1 h-1 rounded-full bg-gold/60 shrink-0 ml-2 sm:ml-3" />
         </div>
       ))}
     </div>
   );
 
-  // Duplicate items for seamless loop
   const loopItems = [...COMPANIES, ...COMPANIES];
 
   return (
     <section
       ref={rootRef}
-      className="relative bg-[#0A0F1F] border-y border-blue/15 overflow-hidden py-3.5"
+      className="relative bg-[#0A0F1F] border-y border-blue/15 overflow-hidden py-2 sm:py-2.5 lg:py-3.5"
       aria-label="Certified companies ticker"
     >
       {/* Shimmer top line */}
@@ -215,30 +207,32 @@ export default function CertificateTicker() {
         }}
       />
 
-      <div className="relative flex items-center gap-4">
-                {/* ============ LEFT BADGE — Premium ============ */}
-        <div className="shrink-0 pl-5 lg:pl-8 z-10">
+      {/* ============ EK ROW: Badge left, Ticker right ============ */}
+      <div className="relative flex items-center gap-1.5 sm:gap-2 lg:gap-4">
+
+        {/* ============ LEFT BADGE — 2 LINES ============ */}
+        <div className="shrink-0 pl-2 sm:pl-3 lg:pl-6 z-10">
           <div className="relative">
             {/* Outer glow */}
             <div
-              className="absolute -inset-2 rounded-2xl opacity-60 pointer-events-none"
+              className="absolute -inset-0.5 sm:-inset-1 rounded-lg opacity-60 pointer-events-none"
               style={{
                 background:
                   'radial-gradient(ellipse at center, rgba(204,171,110,0.35), transparent 70%)',
-                filter: 'blur(12px)',
+                filter: 'blur(8px)',
               }}
               aria-hidden="true"
             />
 
-            {/* Main badge */}
+            {/* Main badge — 2 LINES */}
             <div
-              className="relative flex items-center gap-2.5 px-3.5 py-2 rounded-xl overflow-hidden"
+              className="relative flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md overflow-hidden"
               style={{
                 background:
                   'linear-gradient(135deg, rgba(204,171,110,0.15) 0%, rgba(10,15,31,0.9) 50%, rgba(45,156,255,0.12) 100%)',
                 border: '1px solid rgba(204,171,110,0.35)',
                 boxShadow:
-                  'inset 0 0 20px rgba(204,171,110,0.08), 0 0 25px rgba(45,156,255,0.15)',
+                  'inset 0 0 12px rgba(204,171,110,0.08), 0 0 12px rgba(45,156,255,0.1)',
               }}
             >
               {/* Shimmer sweep */}
@@ -255,7 +249,7 @@ export default function CertificateTicker() {
 
               {/* Gold left accent bar */}
               <span
-                className="relative w-[2px] h-7 rounded-full shrink-0"
+                className="relative w-[1px] sm:w-[1.5px] h-5 sm:h-6 rounded-full shrink-0"
                 style={{
                   background:
                     'linear-gradient(180deg, transparent, #CCAB6E 30%, #CCAB6E 70%, transparent)',
@@ -263,24 +257,25 @@ export default function CertificateTicker() {
                 aria-hidden="true"
               />
 
-              {/* Text block */}
+              {/* Text block — 2 LINES */}
               <div className="relative flex flex-col leading-none">
-                <div className="flex items-center gap-1.5 mb-1">
-                  <span className="text-[8px] font-bold tracking-[0.3em] text-gold/90 uppercase">
+                {/* Line 1: CERTIFIED + green dot */}
+                <div className="flex items-center gap-0.5 sm:gap-1 mb-0.5 sm:mb-1">
+                  <span className="text-[5px] sm:text-[6px] font-bold tracking-[0.15em] text-gold/90 uppercase whitespace-nowrap">
                     Certified
                   </span>
-                  {/* Small live green dot */}
-                  <span className="relative flex items-center justify-center w-1.5 h-1.5">
+                  <span className="relative flex items-center justify-center w-1 h-1 shrink-0">
                     <span
                       data-cert-dot
                       className="absolute inset-0 rounded-full bg-green-400"
                     />
-                    <span className="relative w-1 h-1 rounded-full bg-green-400" />
+                    <span className="relative w-0.5 h-0.5 rounded-full bg-green-400" />
                   </span>
                 </div>
 
+                {/* Line 2: 80-IAC Recognised */}
                 <span
-                  className="font-display text-[13px] font-bold tracking-tight whitespace-nowrap"
+                  className="font-display text-[8px] sm:text-[9px] lg:text-[10px] font-bold tracking-tight whitespace-nowrap"
                   style={{
                     background:
                       'linear-gradient(90deg, #FFFFFF 0%, #F6E9C9 50%, #FFFFFF 100%)',
@@ -293,10 +288,10 @@ export default function CertificateTicker() {
                 </span>
               </div>
 
-              {/* Checkmark circle — small tick on right */}
-              <div className="relative ml-1 shrink-0">
+              {/* Checkmark circle — right side */}
+              <div className="relative shrink-0 self-center">
                 <span
-                  className="flex items-center justify-center w-5 h-5 rounded-full"
+                  className="flex items-center justify-center w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full"
                   style={{
                     background:
                       'linear-gradient(135deg, rgba(204,171,110,0.3), rgba(45,156,255,0.2))',
@@ -304,7 +299,7 @@ export default function CertificateTicker() {
                   }}
                 >
                   <CheckCircle2
-                    size={11}
+                    size={6}
                     className="text-gold"
                     strokeWidth={2.5}
                   />
@@ -313,16 +308,14 @@ export default function CertificateTicker() {
             </div>
           </div>
         </div>
+
         {/* Vertical divider */}
-        <div className="w-px h-8 bg-gradient-to-b from-transparent via-blue/30 to-transparent shrink-0" />
+        <div className="w-px h-5 sm:h-6 lg:h-8 bg-gradient-to-b from-transparent via-blue/30 to-transparent shrink-0" />
 
         {/* ============ MARQUEE TICKER ============ */}
         <div className="flex-1 relative overflow-hidden min-w-0">
-          {/* Left fade */}
-          <div className="absolute left-0 top-0 bottom-0 w-20 z-10 pointer-events-none bg-gradient-to-r from-[#0A0F1F] to-transparent" />
-
-          {/* Right fade */}
-          <div className="absolute right-0 top-0 bottom-0 w-20 z-10 pointer-events-none bg-gradient-to-l from-[#0A0F1F] to-transparent" />
+          <div className="absolute left-0 top-0 bottom-0 w-6 sm:w-10 lg:w-20 z-10 pointer-events-none bg-gradient-to-r from-[#0A0F1F] to-transparent" />
+          <div className="absolute right-0 top-0 bottom-0 w-6 sm:w-10 lg:w-20 z-10 pointer-events-none bg-gradient-to-l from-[#0A0F1F] to-transparent" />
 
           <div
             ref={track1Ref}
@@ -334,9 +327,9 @@ export default function CertificateTicker() {
         </div>
 
         {/* Vertical divider */}
-        <div className="w-px h-8 bg-gradient-to-b from-transparent via-blue/30 to-transparent shrink-0" />
+        <div className="w-px h-5 sm:h-6 lg:h-8 bg-gradient-to-b from-transparent via-blue/30 to-transparent shrink-0" />
 
-        {/* ============ RIGHT LIVE COUNTER ============ */}
+        {/* ============ RIGHT LIVE COUNTER (sirf desktop) ============ */}
         <div className="hidden lg:flex shrink-0 pr-6 lg:pr-10 items-center gap-2 z-10">
           <div className="flex items-center gap-1.5">
             <TrendingUp size={12} className="text-green-400" strokeWidth={2.5} />
