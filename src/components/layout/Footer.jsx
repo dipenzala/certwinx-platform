@@ -5,76 +5,46 @@ import {
   Phone,
   MapPin,
   MessageCircle,
-  Clock,
   ArrowUpRight,
+  ChevronRight,
+  Home,
+  Settings,
   Linkedin,
   Twitter,
   Facebook,
   Instagram,
+  Youtube,
 } from 'lucide-react';
 import { SITE, getWhatsAppLink } from '../../lib/constants';
 import SplitTextReveal from '../motion/SplitTextReveal';
 import { gsap } from '../../lib/gsap';
 
-const COLUMNS = [
-  {
-    title: 'Quick Links',
-    links: [
-      { label: 'Home', path: '/' },
-      { label: 'About', path: '/about' },
-      { label: 'Services', path: '/services' },
-      { label: 'Schemes', path: '/schemes' },
-      { label: 'Contact', path: '/contact' },
-    ],
-  },
-  {
-    title: 'Services',
-    links: [
-      { label: 'Business Registration', path: '/services' },
-      { label: 'Startup India / DPIIT', path: '/startup' },
-      { label: 'Section 80-IAC', path: '/services/section-80-iac' },
-      { label: 'Udyam / MSME', path: '/msme' },
-      { label: 'ISO Certification', path: '/certifications' },
-    ],
-  },
-  {
-    title: 'Consultancy',
-    links: [
-      { label: 'Government Funding', path: '/funding' },
-      { label: 'Eligibility Checker', path: '/eligibility' },
-      { label: 'Book Consultation', path: '/consultation' },
-      { label: 'Case Studies', path: '/case-studies' },
-      { label: 'Resources', path: '/resources' },
-    ],
-  },
+/* ============ NAVIGATION COLUMNS ============ */
+const EXPLORE_LINKS = [
+  { label: 'Home', path: '/' },
+  { label: 'About Us', path: '/about' },
+  { label: 'Services', path: '/services' },
+  { label: 'Success Stories', path: '/case-studies' },
+  { label: 'Blog', path: '/blog' },
+  { label: 'Contact Us', path: '/contact' },
 ];
 
-/* ============ SOCIAL LINKS — UPDATE WITH REAL URLs ============ */
+const POPULAR_SERVICES = [
+  { label: 'Startup India', path: '/startup' },
+  { label: '80-IAC', path: '/services/section-80-iac' },
+  { label: 'Govt. Grants', path: '/funding' },
+  { label: 'Udyam Registration', path: '/msme' },
+  { label: 'ISO Certification', path: '/certifications' },
+  { label: 'View All Services', path: '/services' },
+];
+
+/* ============ SOCIALS — Brand colors ============ */
 const SOCIALS = [
-  {
-    Icon: Instagram,
-    href: 'https://www.instagram.com/certwinx',
-    label: 'Instagram',
-    color: '#E1306C',
-  },
-  {
-    Icon: Linkedin,
-    href: 'https://www.linkedin.com/company/certwinx',
-    label: 'LinkedIn',
-    color: '#0A66C2',
-  },
-  {
-    Icon: Facebook,
-    href: 'https://www.facebook.com/certwinx',
-    label: 'Facebook',
-    color: '#1877F2',
-  },
-  {
-    Icon: Twitter,
-    href: 'https://twitter.com/certwinx',
-    label: 'Twitter',
-    color: '#1DA1F2',
-  },
+  { Icon: Linkedin, href: 'https://www.linkedin.com/company/certwinx', label: 'LinkedIn', color: '#0A66C2' },
+  { Icon: Instagram, href: 'https://www.instagram.com/certwinx', label: 'Instagram', color: '#E1306C' },
+  { Icon: Facebook, href: 'https://www.facebook.com/certwinx', label: 'Facebook', color: '#1877F2' },
+  { Icon: Youtube, href: 'https://www.youtube.com/@certwinx', label: 'YouTube', color: '#FF0000' },
+  { Icon: Twitter, href: 'https://twitter.com/certwinx', label: 'X', color: '#000000' },
 ];
 
 export default function Footer() {
@@ -86,55 +56,40 @@ export default function Footer() {
     if (!root) return;
 
     const ctx = gsap.context(() => {
-      gsap.to('[data-footer-glow]', {
-        x: '+=40',
-        y: '-=30',
-        duration: 12,
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1,
-      });
-
-      gsap.utils.toArray('[data-footer-particle]').forEach((p, i) => {
-        gsap.to(p, {
-          y: () => gsap.utils.random(-40, 40),
-          x: () => gsap.utils.random(-30, 30),
-          opacity: () => gsap.utils.random(0.1, 0.4),
-          duration: 6 + i * 0.6,
-          ease: 'sine.inOut',
-          yoyo: true,
-          repeat: -1,
-        });
-      });
-
-      gsap.to('[data-wa-dot]', {
-        scale: 1.6,
-        opacity: 0.3,
-        duration: 1.5,
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1,
-      });
-
-      gsap.from('[data-footer-col]', {
+      /* Card reveal on scroll */
+      gsap.from('[data-footer-card]', {
         y: 30,
         opacity: 0,
-        duration: 1,
+        duration: 0.8,
         stagger: 0.1,
         ease: 'expo.out',
         scrollTrigger: {
           trigger: root,
-          start: 'top 85%',
+          start: 'top 92%',
           once: true,
         },
       });
 
-      // Tagline shimmer
-      gsap.to('[data-tagline-shimmer]', {
-        backgroundPosition: '200% 0',
-        duration: 5,
-        ease: 'none',
+      /* Live dot pulse */
+      gsap.to('[data-wa-dot]', {
+        scale: 1.5,
+        opacity: 0.4,
+        duration: 1.6,
+        ease: 'sine.inOut',
+        yoyo: true,
         repeat: -1,
+      });
+
+      /* Glow drift */
+      gsap.utils.toArray('[data-footer-glow]').forEach((el, i) => {
+        gsap.to(el, {
+          x: i % 2 === 0 ? '+=40' : '-=40',
+          y: i % 2 === 0 ? '-=30' : '+=30',
+          duration: 14 + i * 2,
+          ease: 'sine.inOut',
+          yoyo: true,
+          repeat: -1,
+        });
       });
     }, root);
 
@@ -142,86 +97,79 @@ export default function Footer() {
   }, []);
 
   return (
-    <footer
-      ref={footerRef}
-      className="relative overflow-hidden"
-      style={{
-        background:
-          'linear-gradient(135deg, #0A1F40 0%, #102A56 30%, #1A3D73 60%, #0F1E3D 100%)',
-      }}
-    >
-      {/* Radial color overlay */}
-      <div
-        className="absolute inset-0 opacity-40"
-        style={{
-          background:
-            'radial-gradient(ellipse 60% 50% at 20% 30%, rgba(204, 171, 110, 0.25), transparent 60%), radial-gradient(ellipse 50% 60% at 80% 70%, rgba(22, 131, 255, 0.3), transparent 60%)',
-        }}
-      />
+    <footer ref={footerRef} className="relative overflow-hidden">
+      {/* ============ BACKGROUND — Dark Navy (Same as 80-IAC page) ============ */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-[#0A0F1F]" />
 
-      {/* Animated glow blobs */}
-      <div
-        data-footer-glow
-        className="absolute top-1/4 right-1/4 w-[500px] h-[500px] rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(204, 171, 110, 0.15), transparent 70%)' }}
-      />
-      <div
-        data-footer-glow
-        className="absolute bottom-1/4 left-1/4 w-[500px] h-[500px] rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(circle, rgba(22, 131, 255, 0.2), transparent 70%)' }}
-      />
-
-      {/* Floating particles */}
-      {[
-        { top: '15%', left: '8%' },
-        { top: '30%', left: '92%' },
-        { top: '50%', left: '5%' },
-        { top: '70%', left: '95%' },
-        { top: '85%', left: '12%' },
-        { top: '25%', left: '50%' },
-        { top: '60%', left: '75%' },
-      ].map((p, i) => (
-        <span
-          key={i}
-          data-footer-particle
-          className="absolute rounded-full pointer-events-none"
+        {/* Radial glows — blue + gold */}
+        <div
+          className="absolute inset-0"
           style={{
-            top: p.top,
-            left: p.left,
-            width: i % 2 === 0 ? 3 : 2,
-            height: i % 2 === 0 ? 3 : 2,
-            background: i % 3 === 0 ? '#CCAB6E' : '#1683FF',
-            boxShadow: `0 0 ${i % 2 === 0 ? 12 : 8}px ${i % 3 === 0 ? '#CCAB6E' : '#1683FF'}88`,
+            background:
+              'radial-gradient(ellipse 50% 40% at 20% 0%, rgba(22,131,255,0.15), transparent 60%), radial-gradient(ellipse 40% 50% at 90% 20%, rgba(22,131,255,0.12), transparent 60%), radial-gradient(ellipse 60% 40% at 50% 100%, rgba(204,171,110,0.08), transparent 60%)',
           }}
         />
-      ))}
 
-      {/* Grid pattern */}
-      <svg className="absolute inset-0 w-full h-full opacity-[0.04]" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <pattern id="footer-grid" width="60" height="60" patternUnits="userSpaceOnUse">
-            <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#FFFFFF" strokeWidth="1" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#footer-grid)" />
-      </svg>
+        {/* Animated glow blobs */}
+        <div
+          data-footer-glow
+          className="absolute top-1/4 right-1/4 w-[400px] h-[400px] rounded-full pointer-events-none opacity-60"
+          style={{
+            background: 'radial-gradient(circle, rgba(22,131,255,0.15), transparent 70%)',
+            filter: 'blur(60px)',
+          }}
+        />
+        <div
+          data-footer-glow
+          className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] rounded-full pointer-events-none opacity-60"
+          style={{
+            background: 'radial-gradient(circle, rgba(204,171,110,0.1), transparent 70%)',
+            filter: 'blur(60px)',
+          }}
+        />
+
+        {/* Subtle grid */}
+        <svg
+          className="absolute inset-0 w-full h-full opacity-[0.04]"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <defs>
+            <pattern id="footer-grid" width="60" height="60" patternUnits="userSpaceOnUse">
+              <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#FFFFFF" strokeWidth="1" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#footer-grid)" />
+        </svg>
+      </div>
 
       {/* ============ CTA STRIP ============ */}
-      <div className="relative max-w-[1440px] mx-auto px-6 lg:px-10 pt-16 lg:pt-20">
-        <div className="pb-12 lg:pb-16 border-b border-white/10">
+      <div className="relative max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 pt-12 sm:pt-14 lg:pt-16">
+        <div className="pb-8 sm:pb-10">
+          {/* Eyebrow */}
+          <span className="inline-flex items-center gap-2 text-[10px] font-bold tracking-[0.25em] text-blue uppercase mb-4">
+            <span className="w-6 h-px bg-blue" />
+            Let's Work Together
+          </span>
+
           <SplitTextReveal
             as="h2"
             trigger="scroll"
-            className="font-display text-[1.75rem] sm:text-[2.25rem] lg:text-[2.75rem] font-bold text-white leading-[1.1] tracking-[-0.02em] max-w-3xl"
-            style={{ textShadow: '0 2px 12px rgba(0, 0, 0, 0.4)' }}
+            className="font-display text-[2rem] sm:text-[2.75rem] lg:text-[3.5rem] font-bold text-white leading-[1.1] tracking-[-0.03em] max-w-4xl"
           >
-            Let's build something that lasts.
+            Let's build something{' '}
+            <span className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 bg-clip-text text-transparent">
+              that lasts.
+            </span>
           </SplitTextReveal>
 
-          <div className="mt-6 flex flex-wrap gap-3">
+          <div className="mt-8 sm:mt-20 flex flex-wrap gap-4 sm:gap-5">
             <Link
               to="/eligibility"
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-ink text-sm font-semibold hover:bg-gold transition-colors duration-300"
+              className="group inline-flex items-center gap-3 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full text-white text-[12px] sm:text-sm font-semibold transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_25px_-8px_rgba(22,131,255,0.6)]"
+              style={{
+                background: 'linear-gradient(135deg, #1683FF 0%, #0A5FCC 100%)',
+              }}
             >
               Check My Eligibility
               <ArrowUpRight
@@ -233,7 +181,7 @@ export default function Footer() {
               href={getWhatsAppLink()}
               target="_blank"
               rel="noopener noreferrer"
-              className="group inline-flex items-center gap-2 px-6 py-3 rounded-full border border-white/25 text-white text-sm font-semibold hover:bg-white/10 transition-colors duration-300"
+              className="group inline-flex items-center gap-3 px-6 sm:px-7 py-2.5 sm:py-3 rounded-full border border-white/20 text-white text-[12px] sm:text-sm font-semibold hover:bg-white/5 hover:border-white/30 transition-colors duration-300"
             >
               <span className="relative shrink-0 flex items-center justify-center w-3 h-3">
                 <span data-wa-dot className="absolute inset-0 rounded-full bg-green-400/60" />
@@ -245,63 +193,53 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* ============ MAIN FOOTER ============ */}
-      <div className="relative max-w-[1440px] mx-auto px-6 lg:px-10 py-12 lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8 pb-12 border-b border-white/10">
+      {/* ============ 4 CARDS GRID ============ */}
+      <div className="relative max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10 pb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 mb-8">
 
-          {/* ============ BRAND COLUMN ============ */}
-          <div data-footer-col className="lg:col-span-2">
+          {/* ============ CARD 1: BRAND ============ */}
+          <div
+            data-footer-card
+            className="sm:col-span-2 lg:col-span-1 rounded-2xl bg-white/[0.04] backdrop-blur-xl border border-white/10 shadow-[0_4px_24px_-8px_rgba(0,0,0,0.4)] p-6 flex flex-col"
+          >
+            {/* Logo — Bigger + White */}
+<div className="mb-6">
+  <img
+    src="/certwinx-logo.png"
+    alt="CertWinX"
+    style={{
+      height: '100px',
+      width: 'auto',
+      filter: 'brightness(0) invert(1)',
+    }}
+    className="object-contain"
+    draggable={false}
+  />
+</div>
 
-            {/* Logo — premium with glow */}
-            <div className="relative mb-6 inline-block">
-              <div
-                className="absolute -inset-3 rounded-full opacity-60 pointer-events-none"
-                style={{
-                  background:
-                    'radial-gradient(ellipse at center, rgba(45,156,255,0.4), transparent 70%)',
-                  filter: 'blur(20px)',
-                }}
-                aria-hidden="true"
-              />
-              <img
-                src="/certwinx-logo.png"
-                alt="CertWinX Private Limited"
-                style={{ height: '64px', width: 'auto', filter: 'brightness(0) invert(1)' }}
-                className="relative object-contain drop-shadow-[0_0_20px_rgba(45,156,255,0.3)]"
-                draggable={false}
-              />
-            </div>
+            {/* Tagline */}
+            <p className="text-[9px] sm:text-[10px] font-bold tracking-[0.12em] text-white/70 uppercase leading-relaxed mb-1">
+              Aapki Tarakki Ka Saathi,
+            </p>
+            <p className="text-[9px] sm:text-[10px] font-bold tracking-[0.12em] text-white/70 uppercase leading-relaxed mb-4">
+              Bharosa Aapka, Jimmedari Humari
+            </p>
 
-            {/* Tagline — PREMIUM HIGHLIGHTED */}
-            <div className="mb-8 max-w-sm">
-              {/* Line 1 — Gold gradient shimmer */}
-              <p
-                data-tagline-shimmer
-                className="font-display text-lg lg:text-xl font-bold leading-tight mb-2"
-                style={{
-                  background:
-                    'linear-gradient(90deg, #FFFFFF 0%, #F6E9C9 25%, #CCAB6E 50%, #F6E9C9 75%, #FFFFFF 100%)',
-                  backgroundSize: '200% 100%',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                  textShadow: '0 0 30px rgba(204,171,110,0.2)',
-                }}
-              >
-                {SITE.tagline}
-              </p>
+            {/* Divider */}
+            <div className="w-16 h-[2px] bg-gradient-to-r from-amber-400 to-transparent rounded-full mb-5" />
 
-              {/* Line 2 — Soft blue italic */}
-              <p
-                className="text-sm lg:text-base italic tracking-wide text-blue-200/90"
-                style={{ textShadow: '0 0 20px rgba(45,156,255,0.2)' }}
-              >
-                {SITE.tagline2}
-              </p>
-            </div>
+            {/* Building Today Text */}
+            <p className="font-display text-[15px] sm:text-base font-bold text-white leading-snug mb-5">
+              Building Today
+              <br />
+              for a{' '}
+              <span className="bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
+                Better Tomorrow.
+              </span>
+            </p>
 
-            {/* Social icons — premium with brand colors */}
-            <div className="flex items-center gap-3 mb-8">
+            {/* Social Icons */}
+            <div className="flex items-center gap-2 mt-auto">
               {SOCIALS.map(({ Icon, href, label, color }, i) => (
                 <a
                   key={i}
@@ -309,269 +247,166 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={label}
-                  className="group relative w-10 h-10 rounded-xl bg-white/8 border border-white/15 flex items-center justify-center text-white/80 transition-all duration-500 hover:scale-110 hover:-translate-y-0.5"
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = color;
-                    e.currentTarget.style.borderColor = color;
-                    e.currentTarget.style.boxShadow = `0 0 25px ${color}88, 0 10px 20px -10px ${color}`;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = '';
-                    e.currentTarget.style.borderColor = '';
-                    e.currentTarget.style.boxShadow = '';
-                  }}
+                  className="w-8 h-8 rounded-full flex items-center justify-center text-white transition-all duration-300 hover:scale-110 hover:-translate-y-0.5"
+                  style={{ background: color }}
                 >
-                  <Icon size={16} className="transition-transform duration-300 group-hover:scale-110" />
+                  <Icon size={14} fill="currentColor" strokeWidth={0} />
                 </a>
               ))}
             </div>
+          </div>
 
-            {/* ============ CONTACT LIST — PREMIUM ANIMATED ============ */}
-            <ul className="space-y-3 text-[14px]">
+          {/* ============ CARD 2: EXPLORE ============ */}
+          <FooterCard icon={Home} title="Explore" links={EXPLORE_LINKS} />
 
-              {/* PHONE — pulse + blue glow */}
-              <li data-contact-row>
+          {/* ============ CARD 3: POPULAR SERVICES ============ */}
+          <FooterCard icon={Settings} title="Popular Services" links={POPULAR_SERVICES} />
+
+          {/* ============ CARD 4: CONTACT ============ */}
+          <div
+            data-footer-card
+            className="rounded-2xl bg-white/[0.04] backdrop-blur-xl border border-white/10 shadow-[0_4px_24px_-8px_rgba(0,0,0,0.4)] p-6"
+          >
+            {/* Header */}
+            <div className="flex items-center gap-2.5 mb-5 pb-4 border-b border-white/10">
+              <span className="w-8 h-8 rounded-lg bg-blue/10 flex items-center justify-center">
+                <Phone size={15} className="text-blue" />
+              </span>
+              <h4 className="font-display text-[15px] font-bold text-white">
+                Contact Us
+              </h4>
+            </div>
+
+            {/* Contact list */}
+            <ul className="space-y-3.5">
+              <li>
                 <a
                   href={`tel:${SITE.phone}`}
-                  className="contact-row group flex items-start gap-3 text-white/85 hover:text-white transition-colors duration-300"
+                  className="flex items-start gap-2.5 text-[13px] text-white/70 hover:text-white transition-colors"
                 >
-                  <span className="relative shrink-0 w-10 h-10 rounded-xl bg-white/[0.06] border border-white/10 group-hover:bg-gradient-to-br group-hover:from-blue group-hover:to-deepblue group-hover:border-blue flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(45,156,255,0.5)]">
-                    <Phone size={15} className="text-white/90 transition-transform duration-500 group-hover:scale-110" />
-                    <span className="absolute inset-0 rounded-xl border border-blue/0 group-hover:border-blue/40 group-hover:animate-ping" />
-                  </span>
-                  <span className="pt-2.5 font-medium tracking-wide">
-                    <span className="phone-number inline-block">{SITE.phone}</span>
-                  </span>
+                  <Phone size={14} className="text-blue mt-0.5 shrink-0" />
+                  <span className="font-medium">{SITE.phone}</span>
                 </a>
               </li>
-
-              {/* WHATSAPP — live typing dots */}
-              <li data-contact-row>
-                <a
-                  href={getWhatsAppLink()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="contact-row group flex items-start gap-3 text-white/85 hover:text-white transition-colors duration-300"
-                >
-                  <span className="relative shrink-0 w-10 h-10 rounded-xl bg-green-500/10 border border-green-400/25 group-hover:bg-green-500 group-hover:border-green-400 flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(37,211,102,0.5)]">
-                    <MessageCircle size={15} className="text-green-400 group-hover:text-white transition-colors" />
-                    <span className="absolute -top-1 -right-1 flex items-center justify-center w-3 h-3">
-                      <span className="absolute inset-0 rounded-full bg-green-400 animate-ping" />
-                      <span className="relative w-2 h-2 rounded-full bg-green-400 border border-[#0A1F40]" />
-                    </span>
-                  </span>
-                  <span className="pt-2.5 font-medium tracking-wide flex items-center gap-2">
-                    <span>WhatsApp Us</span>
-                    <span className="inline-flex items-center gap-0.5 opacity-60 group-hover:opacity-100 transition-opacity">
-                      <span className="typing-dot" style={{ animationDelay: '0s' }}>·</span>
-                      <span className="typing-dot" style={{ animationDelay: '0.2s' }}>·</span>
-                      <span className="typing-dot" style={{ animationDelay: '0.4s' }}>·</span>
-                    </span>
-                  </span>
-                </a>
-              </li>
-
-              {/* EMAIL — gold shimmer */}
-              <li data-contact-row>
+              <li>
                 <a
                   href={`mailto:${SITE.email}`}
-                  className="contact-row group flex items-start gap-3 text-white/85 hover:text-white transition-colors duration-300"
+                  className="flex items-start gap-2.5 text-[13px] text-white/70 hover:text-white transition-colors break-all"
                 >
-                  <span className="relative shrink-0 w-10 h-10 rounded-xl bg-gold/10 border border-gold/25 group-hover:bg-gold group-hover:border-gold flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:shadow-[0_0_20px_rgba(204,171,110,0.5)]">
-                    <Mail size={15} className="text-gold group-hover:text-ink transition-colors" />
-                  </span>
-                  <span className="pt-2.5 font-medium break-all">
-                    <span className="email-shimmer inline-block">{SITE.email}</span>
-                  </span>
+                  <Mail size={14} className="text-blue mt-0.5 shrink-0" />
+                  <span className="font-medium">{SITE.email}</span>
                 </a>
               </li>
-
-              {/* ADDRESS */}
-              <li data-contact-row>
-                <div className="contact-row group flex items-start gap-3 text-white/75">
-                  <span className="shrink-0 w-10 h-10 rounded-xl bg-white/[0.06] border border-white/10 group-hover:bg-white group-hover:border-white flex items-center justify-center transition-all duration-500 group-hover:scale-110">
-                    <MapPin size={15} className="text-white/80 group-hover:text-blue transition-colors" />
+              <li>
+                <div className="flex items-start gap-2.5 text-[13px] text-white/70">
+                  <MapPin size={14} className="text-blue mt-0.5 shrink-0" />
+                  <span className="font-medium leading-relaxed">
+                    Ahmedabad, Gujarat
+                    <br />
+                    India - 380015
                   </span>
-                  <span className="pt-2.5 leading-relaxed max-w-xs text-[13px]">
-                    {SITE.address}
-                  </span>
-                </div>
-              </li>
-
-              {/* HOURS — clock rotates */}
-              <li data-contact-row>
-                <div className="contact-row group flex items-start gap-3 text-white/75">
-                  <span className="shrink-0 w-10 h-10 rounded-xl bg-white/[0.06] border border-white/10 group-hover:bg-gold/15 group-hover:border-gold/30 flex items-center justify-center transition-all duration-500">
-                    <Clock
-                      size={15}
-                      className="text-white/80 group-hover:text-gold transition-all duration-700 group-hover:rotate-[360deg]"
-                    />
-                  </span>
-                  <span className="pt-2.5 text-[13px]">{SITE.hours}</span>
                 </div>
               </li>
             </ul>
+
+            {/* WhatsApp Button */}
+            <a
+              href={getWhatsAppLink()}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-5 inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-full text-white text-[13px] font-semibold transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_8px_25px_-8px_rgba(22,131,255,0.6)]"
+              style={{
+                background: 'linear-gradient(135deg, #1683FF 0%, #0A5FCC 100%)',
+              }}
+            >
+              <MessageCircle size={14} />
+              Chat on WhatsApp
+              <ChevronRight size={14} />
+            </a>
           </div>
-
-          {/* ============ LINK COLUMNS ============ */}
-          {COLUMNS.map((col) => (
-            <div key={col.title} data-footer-col>
-              <h4 className="flex items-center gap-2.5 mb-6">
-                <span
-                  className="w-5 h-[2px] rounded-full"
-                  style={{
-                    background: 'linear-gradient(90deg, #CCAB6E, rgba(204,171,110,0.3))',
-                  }}
-                />
-                <span className="text-[13px] lg:text-[14px] font-bold tracking-[0.2em] uppercase text-white">
-                  {col.title}
-                </span>
-              </h4>
-
-                         <ul className="space-y-2">
-                {col.links.map((l) => (
-                  <li key={l.label}>
-                    <Link
-                      to={l.path}
-                      className="group relative flex items-center gap-2 px-3 py-2 -mx-3 rounded-lg text-[15px] font-medium text-white/85 hover:text-ink transition-all duration-300 overflow-hidden"
-                    >
-                      {/* Sliding white background */}
-                      <span className="absolute inset-0 rounded-lg bg-white origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-[cubic-bezier(0.19,1,0.22,1)]" />
-
-                      {/* Animated dash — blue on hover */}
-                      <span className="relative w-0 h-px bg-blue group-hover:w-3 transition-all duration-300 z-10" />
-
-                      {/* Label — ink on hover */}
-                      <span className="relative z-10 text-white/85 group-hover:text-ink group-hover:translate-x-0.5 transition-all duration-300">
-                        {l.label}
-                      </span>
-
-                      {/* Arrow — blue, slides in on hover */}
-                      <ArrowUpRight
-                        size={11}
-                        className="relative z-10 ml-auto opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300 text-blue"
-                      />
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
         </div>
 
-        {/* ============ BOTTOM LEGAL STRIP ============ */}
-        <div className="pt-8">
-          <p className="text-[12px] text-white/45 leading-relaxed max-w-4xl">
-            <strong className="text-white/70 font-semibold">Disclaimer:</strong> CertWinX provides
-            professional assistance and consultancy services. Government registrations,
-            certifications, approvals, grants, funding, tax benefits and scheme benefits are subject
-            to applicable eligibility criteria, documentation, government rules and decisions of the
-            relevant authorities. Information provided on this website is for general informational
-            purposes and may change.
+        {/* ============ BOTTOM BAR ============ */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 pt-5 border-t border-white/10">
+          {/* Copyright */}
+          <p className="text-[11px] sm:text-[12px] text-white/45">
+            © {new Date().getFullYear()} CertWinX. All Rights Reserved.
           </p>
 
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-3 mt-6">
-            {[
-              { label: 'Privacy Policy', path: '/privacy-policy' },
-              { label: 'Terms', path: '/terms' },
-              { label: 'Refund Policy', path: '/refund-policy' },
-              { label: 'Disclaimer', path: '/disclaimer' },
-              { label: 'Cookie Policy', path: '/cookie-policy' },
-            ].map((l) => (
-              <Link
-                key={l.path}
-                to={l.path}
-                className="text-[12px] font-medium text-white/50 hover:text-white transition-colors relative group"
-              >
-                {l.label}
-                <span className="absolute -bottom-0.5 left-0 w-0 h-px bg-gold group-hover:w-full transition-all duration-300" />
-              </Link>
-            ))}
-            <span className="text-[12px] text-white/40 ml-auto">
-              © {new Date().getFullYear()} CertWinX Private Limited. All rights reserved.
-            </span>
+          {/* Links */}
+          <div className="flex flex-wrap items-center gap-x-3 sm:gap-x-4 gap-y-2 text-[11px] sm:text-[12px] text-white/45">
+            <Link to="/privacy-policy" className="hover:text-blue transition-colors">
+              Privacy Policy
+            </Link>
+            <span className="text-white/20">|</span>
+            <Link to="/terms" className="hover:text-blue transition-colors">
+              Terms & Conditions
+            </Link>
+            <span className="text-white/20">|</span>
+            <Link to="/sitemap" className="hover:text-blue transition-colors">
+              Sitemap
+            </Link>
+          </div>
+
+          {/* Right Tagline */}
+          <div className="flex items-center gap-3 sm:gap-4 text-[11px] sm:text-[12px] text-white/60 font-semibold">
+            <span>Innovate</span>
+            <span className="text-white/20">|</span>
+            <span>Comply</span>
+            <span className="text-white/20">|</span>
+            <span>Grow</span>
           </div>
         </div>
       </div>
 
       {/* Floating language switcher */}
       <button
-        className="fixed bottom-6 right-6 z-40 hidden lg:flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 text-white text-xs font-semibold hover:bg-white/20 transition-all"
+        className="fixed bottom-6 right-6 z-40 hidden lg:flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/5 backdrop-blur-xl border border-white/15 text-white text-xs font-semibold hover:bg-white/10 transition-all"
         aria-label="Change language"
       >
         <span className="w-3 h-3 rounded-full border border-white/40 flex items-center justify-center">
-          <span className="w-1.5 h-1.5 rounded-full bg-white" />
+          <span className="w-1.5 h-1.5 rounded-full bg-blue" />
         </span>
         English
       </button>
-
-      {/* ============ CUSTOM ANIMATIONS ============ */}
-      <style>{`
-        /* Contact rows slide right on hover */
-        .contact-row {
-          transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-        }
-        .contact-row:hover {
-          transform: translateX(4px);
-        }
-
-        /* Phone number — subtle pulse glow */
-        @keyframes phonePulse {
-          0%, 100% {
-            text-shadow: 0 0 0 rgba(45,156,255,0);
-          }
-          50% {
-            text-shadow: 0 0 12px rgba(45,156,255,0.5);
-          }
-        }
-        .phone-number {
-          animation: phonePulse 3s ease-in-out infinite;
-        }
-
-        /* WhatsApp typing dots */
-        @keyframes typingDot {
-          0%, 60%, 100% {
-            transform: translateY(0);
-            opacity: 0.4;
-          }
-          30% {
-            transform: translateY(-3px);
-            opacity: 1;
-          }
-        }
-        .typing-dot {
-          display: inline-block;
-          font-size: 20px;
-          line-height: 0.6;
-          color: #4ADE80;
-          animation: typingDot 1.4s infinite;
-        }
-
-        /* Email gold shimmer */
-        @keyframes emailShimmer {
-          0% {
-            background-position: 200% 0;
-          }
-          100% {
-            background-position: -200% 0;
-          }
-        }
-        .email-shimmer {
-          background: linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.9) 0%,
-            rgba(204, 171, 110, 1) 25%,
-            rgba(255, 255, 255, 0.9) 50%,
-            rgba(204, 171, 110, 1) 75%,
-            rgba(255, 255, 255, 0.9) 100%
-          );
-          background-size: 200% auto;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          animation: emailShimmer 4s linear infinite;
-        }
-      `}</style>
     </footer>
+  );
+}
+
+/* ============ REUSABLE FOOTER CARD ============ */
+function FooterCard({ icon: Icon, title, links }) {
+  return (
+    <div
+      data-footer-card
+      className="rounded-2xl bg-white/[0.04] backdrop-blur-xl border border-white/10 shadow-[0_4px_24px_-8px_rgba(0,0,0,0.4)] p-6"
+    >
+      {/* Header */}
+      <div className="flex items-center gap-2.5 mb-5 pb-4 border-b border-white/10">
+        <span className="w-8 h-8 rounded-lg bg-blue/10 flex items-center justify-center">
+          <Icon size={15} className="text-blue" />
+        </span>
+        <h4 className="font-display text-[15px] font-bold text-white">
+          {title}
+        </h4>
+      </div>
+
+      {/* Links */}
+      <ul className="space-y-1">
+        {links.map((link) => (
+          <li key={link.label}>
+            <Link
+              to={link.path}
+              className="group flex items-center justify-between py-1.5 text-[13px] text-white/70 hover:text-white transition-colors"
+            >
+              <span className="font-medium">{link.label}</span>
+              <ChevronRight
+                size={14}
+                className="text-white/40 group-hover:text-blue group-hover:translate-x-0.5 transition-all shrink-0"
+              />
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }

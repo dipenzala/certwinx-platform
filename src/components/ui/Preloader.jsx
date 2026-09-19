@@ -11,12 +11,12 @@ export default function Preloader({ onComplete }) {
       setTimeout(() => {
         setHidden(true);
         onComplete?.();
-      }, 200);
+      }, 150);
       return;
     }
 
-    // Animate progress 0 → 100
-    const duration = 1800; // 1.8s
+    /* ============ FAST LOADING — 0.6s ============ */
+    const duration = 600; // 0.6s (pehle 1800 tha)
     const startTime = performance.now();
 
     const tick = (now) => {
@@ -30,7 +30,7 @@ export default function Preloader({ onComplete }) {
         setTimeout(() => {
           setHidden(true);
           onComplete?.();
-        }, 200);
+        }, 150);
       }
     };
 
@@ -41,7 +41,7 @@ export default function Preloader({ onComplete }) {
 
   return (
     <div
-      className={`fixed inset-0 z-[200] bg-canvas flex items-center justify-center transition-opacity duration-700 ${
+      className={`fixed inset-0 z-[200] bg-canvas flex items-center justify-center transition-opacity duration-500 ${
         progress >= 100 ? 'opacity-0' : 'opacity-100'
       }`}
       aria-hidden="true"
@@ -54,32 +54,47 @@ export default function Preloader({ onComplete }) {
 
       <div className="relative flex flex-col items-center">
 
-        {/* Logo */}
-        <div className="mb-10">
+        {/* ============ LOGO — BADA ============ */}
+        <div className="mb-8">
           <img
             src="/certwinx-logo.png"
             alt="CertWinX"
-            style={{ height: '56px', width: 'auto' }}
+            style={{ height: '96px', width: 'auto' }}
             className="object-contain"
             draggable={false}
           />
         </div>
 
-        {/* Tagline */}
-        <p className="text-[11px] font-bold tracking-[0.35em] text-muted uppercase mb-8">
+        {/* ============ TAGLINE — NAYA ============ */}
+        <p className="text-[13px] font-bold tracking-[0.35em] text-muted uppercase mb-3">
           Loading Experience
         </p>
 
+        {/* Nayi tagline — brand line */}
+        <p
+          className="text-[10px] font-bold tracking-[0.3em] uppercase mb-8 whitespace-nowrap"
+          style={{
+            background:
+              'linear-gradient(90deg, #CCAB6E 0%, #F6E9C9 25%, #CCAB6E 50%, #F6E9C9 75%, #CCAB6E 100%)',
+            backgroundSize: '200% 100%',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+          }}
+        >
+          Aapki Tarakki Ka Saathi
+        </p>
+
         {/* Progress bar */}
-        <div className="w-[240px] h-[2px] bg-line rounded-full overflow-hidden mb-4">
+        <div className="w-[280px] h-[3px] bg-line rounded-full overflow-hidden mb-4">
           <div
-            className="h-full bg-gradient-to-r from-blue to-gold rounded-full transition-[width] duration-100"
+            className="h-full bg-gradient-to-r from-blue to-gold rounded-full transition-[width] duration-75"
             style={{ width: `${progress}%` }}
           />
         </div>
 
         {/* Percentage */}
-        <p className="text-xs font-bold text-ink tabular-nums">
+        <p className="text-sm font-bold text-ink tabular-nums">
           {String(Math.round(progress)).padStart(3, '0')}%
         </p>
       </div>
