@@ -29,15 +29,6 @@ import CertificateTicker from '../components/sections/CertificateTicker';
 import { SERVICES, getServiceBySlug } from '../data/services';
 import { getWhatsAppLink } from '../lib/constants';
 
-/* ============ ICON MAPPING FOR SECTIONS ============ */
-const SECTION_ICONS = {
-  'Who is it for?': Users,
-  Eligibility: ShieldCheck,
-  Benefits: Award,
-  'Documents required': FileCheck,
-  Process: TrendingUp,
-};
-
 export default function ServiceDetail() {
   const { slug } = useParams();
   const service = getServiceBySlug(slug);
@@ -150,19 +141,15 @@ export default function ServiceDetail() {
         ))}
 
         <div className="relative max-w-[1440px] mx-auto px-6 lg:px-10">
-
-                    {/* Back button — browser history */}
           <RevealOnScroll>
             <div className="mb-8">
               <BackButton label="Back" />
             </div>
           </RevealOnScroll>
-          <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-start">
 
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-start">
             {/* LEFT — Content */}
             <div className="lg:col-span-8">
-
-              {/* Live badge */}
               <RevealOnScroll>
                 <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue/10 border border-blue/30 text-[10px] font-bold tracking-[0.2em] text-white uppercase mb-6">
                   <span className="relative flex items-center justify-center w-2.5 h-2.5">
@@ -173,38 +160,87 @@ export default function ServiceDetail() {
                 </span>
               </RevealOnScroll>
 
-              {/* Heading */}
               <RevealOnScroll delay={0.1}>
                 <h1 className="font-display text-[2.25rem] sm:text-[3rem] lg:text-[3.75rem] font-bold leading-[1.05] tracking-[-0.03em] text-white text-balance mb-6">
                   {service.name}
                 </h1>
               </RevealOnScroll>
 
-              {/* Description */}
               <RevealOnScroll delay={0.2}>
                 <p className="text-base lg:text-lg text-white/70 leading-relaxed max-w-3xl mb-8">
                   {service.description}
                 </p>
               </RevealOnScroll>
 
-              {/* CTA row */}
               <RevealOnScroll delay={0.3}>
                 <div className="flex flex-wrap items-center gap-3">
                   <MagneticButton to="/eligibility" variant="primary" size="lg">
                     Check Eligibility <ArrowUpRight size={15} />
                   </MagneticButton>
-                  <MagneticButton href={getWhatsAppLink(service.name)} variant="whatsapp" size="lg">
+                  <MagneticButton
+                    href={getWhatsAppLink(service.name)}
+                    variant="whatsapp"
+                    size="lg"
+                  >
                     <MessageCircle size={15} /> WhatsApp
                   </MagneticButton>
                 </div>
               </RevealOnScroll>
 
-              {/* Quick facts strip */}
               <RevealOnScroll delay={0.4}>
                 <div className="mt-10 grid grid-cols-2 sm:grid-cols-3 gap-3">
-                  <QuickFact icon={Clock} label="Timeline" value={service.timeline.split('(')[0].trim()} />
-                  <QuickFact icon={FileCheck} label="Documents" value={`${service.documents.length} Required`} />
-                  <QuickFact icon={TrendingUp} label="Process Steps" value={`${service.process.length} Steps`} />
+                  <QuickFact
+                    icon={Clock}
+                    label="Timeline"
+                    value={service.timeline.split('(')[0].trim()}
+                  />
+                  <QuickFact
+                    icon={FileCheck}
+                    label="Documents"
+                    value={`${service.documents.length} Required`}
+                  />
+                  <QuickFact
+                    icon={TrendingUp}
+                    label="Process Steps"
+                    value={`${service.process.length} Steps`}
+                  />
+                </div>
+              </RevealOnScroll>
+
+              {/* ============ BY THE NUMBERS — Stats ============ */}
+              <RevealOnScroll delay={0.5}>
+                <div className="mt-12 pt-10 border-t border-white/10">
+                  <div className="flex items-center gap-2 mb-6">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-400" />
+                    <span className="text-[10px] font-bold tracking-[0.25em] text-white/50 uppercase">
+                      By The Numbers
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+                    <StatBlock
+                      value="250+"
+                      label="Services Offered"
+                      sub="From registration to funding"
+                    />
+                    <StatBlock
+                      value="160+"
+                      label="Schemes Mapped"
+                      sub="Central & state schemes"
+                      highlight
+                    />
+                    <StatBlock
+                      value="8,927+"
+                      label="Clients Served"
+                      sub="Trusted across India"
+                    />
+                    <StatBlock
+                      value="99%"
+                      label="Success Ratio"
+                      sub="Consistent outcomes"
+                      highlight
+                    />
+                  </div>
                 </div>
               </RevealOnScroll>
             </div>
@@ -222,8 +258,14 @@ export default function ServiceDetail() {
 
                   <div className="space-y-4">
                     <Row label="Category" value={service.category} />
-                    <Row label="Timeline" value={service.timeline.split('(')[0].trim()} />
-                    <Row label="Documents" value={`${service.documents.length} items`} />
+                    <Row
+                      label="Timeline"
+                      value={service.timeline.split('(')[0].trim()}
+                    />
+                    <Row
+                      label="Documents"
+                      value={`${service.documents.length} items`}
+                    />
                   </div>
 
                   <div className="mt-6 pt-5 border-t border-white/10 space-y-3">
@@ -232,8 +274,15 @@ export default function ServiceDetail() {
                       'Dedicated Support',
                       'Documentation Assistance',
                     ].map((item, i) => (
-                      <div key={i} className="flex items-center gap-2 text-xs text-white/75">
-                        <Check size={12} className="text-blue shrink-0" strokeWidth={3} />
+                      <div
+                        key={i}
+                        className="flex items-center gap-2 text-xs text-white/75"
+                      >
+                        <Check
+                          size={12}
+                          className="text-blue shrink-0"
+                          strokeWidth={3}
+                        />
                         <span>{item}</span>
                       </div>
                     ))}
@@ -241,9 +290,9 @@ export default function ServiceDetail() {
 
                   <div className="mt-6 p-4 rounded-2xl bg-blue/8 border border-blue/20">
                     <p className="text-[11px] text-white/70 leading-relaxed">
-                      <strong className="text-blue font-semibold">Note:</strong> CertWinX provides
-                      professional assistance only. Approvals are at the sole discretion of the
-                      relevant authorities.
+                      <strong className="text-blue font-semibold">Note:</strong>{' '}
+                      CertWinX provides professional assistance only. Approvals are at
+                      the sole discretion of the relevant authorities.
                     </p>
                   </div>
                 </div>
@@ -260,11 +309,8 @@ export default function ServiceDetail() {
       <section className="relative py-16 lg:py-20 bg-canvas">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
           <div className="grid lg:grid-cols-12 gap-10 lg:gap-12">
-
             {/* LEFT — Main Content */}
             <div className="lg:col-span-8 space-y-14">
-
-              {/* Who is it for? */}
               <ContentBlock
                 icon={Users}
                 eyebrow="Audience"
@@ -272,7 +318,6 @@ export default function ServiceDetail() {
                 items={service.whoIsItFor}
               />
 
-              {/* Eligibility */}
               <ContentBlock
                 icon={ShieldCheck}
                 eyebrow="Requirements"
@@ -280,7 +325,6 @@ export default function ServiceDetail() {
                 items={service.eligibility}
               />
 
-              {/* Benefits */}
               <ContentBlock
                 icon={Award}
                 eyebrow="Advantages"
@@ -367,8 +411,8 @@ export default function ServiceDetail() {
                         {service.timeline}
                       </p>
                       <p className="mt-2 text-xs text-white/50 leading-relaxed">
-                        Actual timelines may vary based on authority processing and completeness of
-                        documentation.
+                        Actual timelines may vary based on authority processing and
+                        completeness of documentation.
                       </p>
                     </div>
                   </div>
@@ -432,11 +476,12 @@ export default function ServiceDetail() {
                         Important Disclaimer
                       </p>
                       <p className="text-xs text-graphite leading-relaxed">
-                        CertWinX provides professional assistance and consultancy services.
-                        Registrations, certifications, approvals and outcomes are subject to
-                        applicable eligibility criteria, documentation, government rules and
-                        decisions of the relevant authorities. Information provided is for general
-                        informational purposes and may change.
+                        CertWinX provides professional assistance and consultancy
+                        services. Registrations, certifications, approvals and outcomes
+                        are subject to applicable eligibility criteria, documentation,
+                        government rules and decisions of the relevant authorities.
+                        Information provided is for general informational purposes and
+                        may change.
                       </p>
                     </div>
                   </div>
@@ -447,11 +492,8 @@ export default function ServiceDetail() {
             {/* RIGHT — Sidebar */}
             <aside className="lg:col-span-4">
               <div className="lg:sticky lg:top-28 space-y-6">
-
-                {/* Lead form */}
                 <LeadForm context={service.name} compact />
 
-                {/* Related services */}
                 {related.length > 0 && (
                   <RevealOnScroll>
                     <div className="bg-[#0A0F1F] rounded-3xl p-6 overflow-hidden relative">
@@ -483,7 +525,6 @@ export default function ServiceDetail() {
                   </RevealOnScroll>
                 )}
 
-                {/* CTA card */}
                 <RevealOnScroll>
                   <div className="bg-white border border-line rounded-3xl p-6">
                     <div className="flex items-start gap-3 mb-4">
@@ -530,15 +571,19 @@ export default function ServiceDetail() {
                   Ready to get started with {service.name}?
                 </h3>
                 <p className="text-base text-white/70 mb-8 max-w-xl mx-auto">
-                  Talk to our team for personalised guidance, documents checklist and process
-                  timeline.
+                  Talk to our team for personalised guidance, documents checklist and
+                  process timeline.
                 </p>
 
                 <div className="flex flex-wrap gap-3 justify-center">
                   <MagneticButton to="/consultation" variant="primary" size="lg">
                     Book a Consultation <ArrowUpRight size={15} />
                   </MagneticButton>
-                  <MagneticButton href={getWhatsAppLink(service.name)} variant="whatsapp" size="lg">
+                  <MagneticButton
+                    href={getWhatsAppLink(service.name)}
+                    variant="whatsapp"
+                    size="lg"
+                  >
                     <MessageCircle size={15} /> WhatsApp Us
                   </MagneticButton>
                 </div>
@@ -572,6 +617,28 @@ function Row({ label, value }) {
     <div className="flex items-center justify-between py-2">
       <span className="text-xs text-white/50">{label}</span>
       <span className="text-xs font-bold text-blue text-right ml-3">{value}</span>
+    </div>
+  );
+}
+
+/* ============ STAT BLOCK ============ */
+function StatBlock({ value, label, sub, highlight }) {
+  return (
+    <div className="relative pr-6">
+      <p
+        className={`font-display text-3xl sm:text-4xl lg:text-5xl font-bold tabular tracking-tight ${
+          highlight ? 'text-blue' : 'text-white'
+        }`}
+      >
+        {value}
+      </p>
+      <p className="mt-3 text-[10px] font-bold tracking-[0.2em] text-white/60 uppercase">
+        {label}
+      </p>
+      <p className="mt-1.5 text-xs text-white/40 leading-relaxed">
+        {sub}
+      </p>
+      <span className="hidden lg:block absolute right-0 top-0 bottom-0 w-px bg-white/10" />
     </div>
   );
 }
@@ -610,4 +677,4 @@ function ContentBlock({ icon: Icon, eyebrow, title, items, tone = 'blue' }) {
       </div>
     </div>
   );
-}S
+}
