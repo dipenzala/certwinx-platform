@@ -1,0 +1,154 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ========================
+   ULTRA-PREMIUM BASE
+   ======================== */
+
+:root {
+  --canvas: #FAFAF8;
+  --paper: #FFFFFF;
+  --ink: #0F0F10;
+  --graphite: #3A3A3D;
+  --muted: #76767A;
+  --line: #E8E6E1;
+  --blue: #1683FF;
+  --blue-soft: #E8F1FF;
+  --gold: #CCAB6E;
+  --gold-soft: #F5EFE2;
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: auto; /* Lenis handles scroll */
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: 'Inter', system-ui, sans-serif;
+  overflow-x: hidden;
+  cursor: none; /* Custom cursor */
+}
+
+@media (max-width: 1024px) {
+  body { cursor: auto; }
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Sora', system-ui, sans-serif;
+  letter-spacing: -0.03em;
+  font-weight: 600;
+}
+
+/* Selection */
+::selection {
+  background: var(--ink);
+  color: var(--canvas);
+}
+
+/* Focus */
+:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--canvas); }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ========================
+   UTILITIES
+   ======================== */
+
+.text-balance { text-wrap: balance; }
+
+.mask-reveal {
+  clip-path: inset(0 0 100% 0);
+  will-change: clip-path;
+}
+
+.reveal-line {
+  overflow: hidden;
+  display: block;
+}
+
+.reveal-line > span {
+  display: block;
+  will-change: transform;
+}
+
+/* Split text helper — GSAP SplitText uses this */
+.split-line {
+  overflow: hidden;
+  display: block;
+}
+
+.split-word {
+  display: inline-block;
+  will-change: transform;
+}
+
+/* Hairline border */
+.hairline {
+  border: 1px solid var(--line);
+}
+
+/* Subtle gradient */
+.gradient-hero {
+  background:
+    radial-gradient(ellipse 60% 50% at 70% 20%, rgba(22, 131, 255, 0.06), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(204, 171, 110, 0.05), transparent 60%),
+    var(--canvas);
+}
+
+/* Noise overlay */
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+/* Numbers */
+.tabular { font-variant-numeric: tabular-nums; }
