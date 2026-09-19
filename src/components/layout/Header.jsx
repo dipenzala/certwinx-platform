@@ -295,14 +295,14 @@ export default function Header({ onMenuToggle }) {
             style={{ background: 'linear-gradient(90deg, transparent 0%, rgba(45,156,255,0.2) 50%, transparent 100%)' }}
           />
 
-          <div className="relative max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10">
+          <div className="relative max-w-[1440px] mx-auto px-3 sm:px-6 lg:px-10">
             <div
-              className={`flex items-center justify-between gap-3 transition-all duration-700 ${
+              className={`flex items-center justify-between gap-2 transition-all duration-700 ${
                 scrolled ? 'h-14 sm:h-16 lg:h-18' : 'h-16 sm:h-18 lg:h-20'
               }`}
             >
               {/* ============ LOGO + TAGLINE ============ */}
-              <div className="flex items-center gap-2 sm:gap-3 shrink-0 min-w-0">
+              <div className="flex items-center gap-2 sm:gap-3 shrink min-w-0 flex-1">
                 {/* Logo */}
                 <div className="relative flex items-center shrink-0">
                   <div
@@ -329,8 +329,8 @@ export default function Header({ onMenuToggle }) {
                   aria-hidden="true"
                 />
 
-                {/* Tagline */}
-                <div className="flex flex-col leading-none min-w-0 items-center text-center">
+                {/* Tagline — MOBILE PAR HIDDEN (sm:flex) */}
+                <div className="hidden sm:flex flex-col leading-none min-w-0 items-center text-center">
                   <span
                     data-tagline-shimmer
                     className="text-[8px] sm:text-[9px] lg:text-[10px] font-bold tracking-[0.22em] uppercase whitespace-nowrap"
@@ -434,42 +434,42 @@ export default function Header({ onMenuToggle }) {
               </div>
 
               {/* ============ MOBILE ACTIONS ============ */}
-              <div className="lg:hidden flex items-center gap-1.5 shrink-0">
+              <div className="lg:hidden flex items-center gap-1 shrink-0">
                 {!open && (
                   <>
-                    {/* Eligibility Button */}
+                    {/* Eligibility Button — COMPACT */}
                     <Link
                       to="/eligibility"
                       aria-label="Check Eligibility"
-                      className="relative flex items-center justify-center px-3 h-9 rounded-full active:scale-95 transition-transform overflow-hidden group"
+                      className="relative flex items-center justify-center px-2.5 h-8 rounded-full active:scale-95 transition-transform overflow-hidden group"
                     >
                       <span
-                        className="absolute inset-0 rounded-full"
+                        className="absolute inset-0 rounded-full z-0"
                         style={{
                           background: 'linear-gradient(135deg, #2D9CFF 0%, #1683FF 50%, #0A5FCC 100%)',
                         }}
                       />
                       <span
                         data-eligibility-glow
-                        className="absolute -inset-1 rounded-full opacity-50 blur-md pointer-events-none"
+                        className="absolute -inset-1 rounded-full opacity-50 blur-md pointer-events-none z-0"
                         style={{
                           background: 'linear-gradient(135deg, #2D9CFF, #CCAB6E)',
                         }}
                         aria-hidden="true"
                       />
-                      <span className="relative flex items-center gap-1 text-white text-[10px] font-bold tracking-wider uppercase">
-                        <CheckCircle2 size={11} strokeWidth={2.5} />
+                      <span className="relative z-10 flex items-center gap-1 text-white text-[9px] font-bold tracking-wide uppercase whitespace-nowrap">
+                        <CheckCircle2 size={10} strokeWidth={2.5} />
                         Eligibility
                       </span>
                     </Link>
 
-                    {/* WhatsApp */}
+                    {/* WhatsApp — COMPACT */}
                     <a
                       href={getWhatsAppLink()}
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label="WhatsApp"
-                      className="relative flex items-center justify-center w-9 h-9 rounded-full active:scale-95 transition-transform"
+                      className="relative flex items-center justify-center w-8 h-8 rounded-full active:scale-95 transition-transform shrink-0"
                     >
                       <span
                         data-wa-glow
@@ -486,7 +486,7 @@ export default function Header({ onMenuToggle }) {
                           background: 'linear-gradient(135deg, rgba(37,211,102,0.2) 0%, rgba(10,15,31,0.9) 100%)',
                         }}
                       />
-                      <MessageCircle size={15} className="relative text-green-400" strokeWidth={2.2} />
+                      <MessageCircle size={14} className="relative text-green-400" strokeWidth={2.2} />
                       <span className="absolute top-0.5 right-0.5 flex items-center justify-center w-2 h-2">
                         <span className="absolute inset-0 rounded-full bg-green-400 animate-ping" />
                         <span className="relative w-1.5 h-1.5 rounded-full bg-green-400 border border-[#0A0F1F]" />
@@ -495,14 +495,14 @@ export default function Header({ onMenuToggle }) {
                   </>
                 )}
 
-                {/* Menu toggle */}
+                {/* Menu toggle — COMPACT */}
                 <button
                   onClick={() => setOpen(!open)}
-                  className="relative z-[60] p-2 text-white rounded-lg hover:bg-white/5 transition-colors"
+                  className="relative z-[60] p-1.5 text-white rounded-lg hover:bg-white/5 transition-colors shrink-0"
                   aria-label={open ? 'Close menu' : 'Open menu'}
                   aria-expanded={open}
                 >
-                  {open ? <X size={22} strokeWidth={1.8} /> : <Menu size={22} strokeWidth={1.8} />}
+                  {open ? <X size={20} strokeWidth={1.8} /> : <Menu size={20} strokeWidth={1.8} />}
                 </button>
               </div>
             </div>
@@ -510,7 +510,7 @@ export default function Header({ onMenuToggle }) {
         </div>
       </header>
 
-      {/* ============ MOBILE MENU — OPTION B (Back button alag row) ============ */}
+      {/* ============ MOBILE MENU ============ */}
       <div
         className={`fixed inset-0 z-[70] lg:hidden transition-all duration-500 ${
           open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
@@ -526,7 +526,7 @@ export default function Header({ onMenuToggle }) {
 
         <nav className="relative h-full flex flex-col pt-20 pb-8 px-5 overflow-y-auto">
 
-          {/* ============ BACK BUTTON — ALAG ROW ============ */}
+          {/* BACK BUTTON */}
           <button
             onClick={() => {
               setOpen(false);
