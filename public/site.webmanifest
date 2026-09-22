@@ -1,0 +1,26 @@
+{
+  "name": "CertWinX — Business Certification Experts",
+  "short_name": "CertWinX",
+  "description": "Business registration, certifications, startup benefits, funding and compliance services in India.",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#0A0F1F",
+  "background_color": "#0A0F1F",
+  "display": "standalone",
+  "start_url": "/",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "lang": "en-IN"
+}
