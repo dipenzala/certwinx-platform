@@ -5,7 +5,7 @@ import {
   Search, X, Eye, Phone, Mail, Building2, MapPin, Calendar,
   MessageCircle, CheckCircle2, Loader2, Trash2, Menu, Bell,
   Settings, ChevronDown, Download, Upload, TrendingUp, Filter,
-  User, Shield, Activity, Star, AlertCircle, Clock, Plus,
+  User, Shield, ShieldCheck, Activity, Star, AlertCircle, Clock, Plus,
   FileSpreadsheet, RefreshCw, Zap, Target, Award, Edit3,
   ChevronUp, ChevronRight, History, Send,
 } from 'lucide-react';
@@ -60,7 +60,7 @@ function getScoreLevel(score) {
   return { label: 'Cold', color: 'text-gray-400', bg: 'bg-gray-500/15 border-gray-500/30' };
 }
 
-/* ==================== LOGIN ==================== */
+/* ==================== LOGIN (ULTRA LUXURY) ==================== */
 function Login({ onLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -84,97 +84,448 @@ function Login({ onLogin }) {
   };
 
   return (
-    <div className="relative min-h-screen flex items-center justify-center px-5 overflow-hidden bg-[#0A0F1F]">
-      <div className="absolute -top-40 -left-40 w-[500px] h-[500px] rounded-full bg-blue/10 blur-[120px]" />
-      <div className="absolute -bottom-40 -right-40 w-[500px] h-[500px] rounded-full bg-blue/10 blur-[120px]" />
+    <div className="relative min-h-screen flex items-center justify-center px-5 overflow-hidden bg-[#03050B]">
+      {/* ============ LUXURY AMBIENT BACKGROUND ============ */}
+      <div
+        className="absolute -top-80 -left-80 w-[900px] h-[900px] rounded-full pointer-events-none"
+        style={{
+          background: 'radial-gradient(circle, rgba(22,131,255,0.25), rgba(22,131,255,0.05) 40%, transparent 70%)',
+          filter: 'blur(100px)',
+          animation: 'aurora1 20s ease-in-out infinite',
+        }}
+      />
+      <div
+        className="absolute -bottom-80 -right-80 w-[900px] h-[900px] rounded-full pointer-events-none"
+        style={{
+          background: 'radial-gradient(circle, rgba(204,171,110,0.2), rgba(204,171,110,0.03) 40%, transparent 70%)',
+          filter: 'blur(100px)',
+          animation: 'aurora2 24s ease-in-out infinite',
+        }}
+      />
+      <div
+        className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full pointer-events-none"
+        style={{
+          background: 'radial-gradient(circle, rgba(92,184,255,0.15), transparent 60%)',
+          filter: 'blur(80px)',
+          animation: 'aurora3 16s ease-in-out infinite',
+        }}
+      />
 
-      <svg className="absolute inset-0 w-full h-full opacity-[0.03]" xmlns="http://www.w3.org/2000/svg">
+      {/* Animated grid */}
+      <svg
+        className="absolute inset-0 w-full h-full opacity-[0.035] pointer-events-none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
         <defs>
-          <pattern id="login-grid" width="60" height="60" patternUnits="userSpaceOnUse">
-            <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#FFFFFF" strokeWidth="1" />
+          <pattern id="lux-grid" width="60" height="60" patternUnits="userSpaceOnUse">
+            <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#FFFFFF" strokeWidth="0.6" />
           </pattern>
         </defs>
-        <rect width="100%" height="100%" fill="url(#login-grid)" />
+        <rect width="100%" height="100%" fill="url(#lux-grid)" />
       </svg>
 
+      {/* Twinkling stars */}
+      {[...Array(20)].map((_, i) => {
+        const positions = [
+          { top: '12%', left: '18%' }, { top: '28%', left: '82%' },
+          { top: '42%', left: '12%' }, { top: '68%', left: '88%' },
+          { top: '85%', left: '22%' }, { top: '75%', left: '72%' },
+          { top: '18%', left: '45%' }, { top: '55%', left: '95%' },
+          { top: '35%', left: '5%' }, { top: '92%', left: '55%' },
+        ];
+        const p = positions[i % positions.length];
+        const delay = `${(i * 0.4) % 5}s`;
+        const size = i % 3 === 0 ? 2.5 : 1.5;
+        const color = i % 4 === 0 ? '#CCAB6E' : '#5CB8FF';
+        return (
+          <span
+            key={i}
+            className="absolute rounded-full pointer-events-none"
+            style={{
+              top: p.top,
+              left: p.left,
+              width: size,
+              height: size,
+              background: color,
+              boxShadow: `0 0 ${size * 8}px ${color}`,
+              animation: `twinkle ${3 + (i % 3)}s ease-in-out infinite`,
+              animationDelay: delay,
+            }}
+          />
+        );
+      })}
+
+      {/* ============ LOGIN CARD ============ */}
       <div
-        className="relative w-full max-w-md rounded-3xl bg-white/[0.04] backdrop-blur-2xl border border-white/10 p-8 shadow-[0_25px_80px_-20px_rgba(0,0,0,0.6)]"
+        className="relative w-full max-w-[480px]"
         style={{ animation: shake ? 'shake 0.5s ease-in-out' : 'none' }}
       >
+        {/* Card glow aura */}
         <div
-          className="absolute top-0 left-0 right-0 h-[2px] rounded-t-3xl"
+          className="absolute -inset-1 rounded-[32px] opacity-60 pointer-events-none"
           style={{
-            background: 'linear-gradient(90deg, transparent, #1683FF, #CCAB6E, #1683FF, transparent)',
-            backgroundSize: '200% 100%',
-            animation: 'loginShimmer 3s linear infinite',
+            background:
+              'conic-gradient(from 0deg, rgba(22,131,255,0.4), rgba(204,171,110,0.3), rgba(92,184,255,0.4), rgba(22,131,255,0.4))',
+            filter: 'blur(24px)',
+            animation: 'rotateRing 12s linear infinite',
           }}
         />
 
-        <div className="flex justify-center mb-6">
-          <div className="relative w-14 h-14 rounded-2xl bg-gradient-to-br from-[#1683FF] to-[#0A5FCC] flex items-center justify-center shadow-[0_0_30px_rgba(22,131,255,0.4)]">
-            <Lock size={22} className="text-white" strokeWidth={2.2} />
-          </div>
-        </div>
+        {/* Main card */}
+        <div
+          className="relative rounded-[28px] overflow-hidden"
+          style={{
+            background:
+              'linear-gradient(160deg, rgba(18,24,38,0.92) 0%, rgba(8,12,24,0.96) 50%, rgba(12,16,28,0.98) 100%)',
+            border: '1px solid rgba(255,255,255,0.07)',
+            boxShadow:
+              '0 40px 120px -20px rgba(0,0,0,0.9), 0 0 60px -20px rgba(22,131,255,0.3), inset 0 1px 0 rgba(255,255,255,0.06)',
+            backdropFilter: 'blur(30px)',
+            WebkitBackdropFilter: 'blur(30px)',
+          }}
+        >
+          {/* Top shimmer line */}
+          <div
+            className="absolute top-0 left-0 right-0 h-[2px]"
+            style={{
+              background:
+                'linear-gradient(90deg, transparent, #1683FF 20%, #CCAB6E 50%, #5CB8FF 80%, transparent)',
+              backgroundSize: '200% 100%',
+              animation: 'shimmerLine 3.5s linear infinite',
+            }}
+          />
 
-        <h1 className="font-display text-2xl font-bold text-white text-center mb-2">Admin Login</h1>
-        <p className="text-xs text-white/50 text-center mb-8">Sign in with your CertWinX admin account</p>
+          {/* Corner accent glow — top right */}
+          <div
+            className="absolute -top-24 -right-24 w-48 h-48 rounded-full pointer-events-none"
+            style={{
+              background: 'radial-gradient(circle, rgba(22,131,255,0.3), transparent 70%)',
+              filter: 'blur(40px)',
+            }}
+          />
+          {/* Corner accent glow — bottom left */}
+          <div
+            className="absolute -bottom-24 -left-24 w-48 h-48 rounded-full pointer-events-none"
+            style={{
+              background: 'radial-gradient(circle, rgba(204,171,110,0.25), transparent 70%)',
+              filter: 'blur(40px)',
+            }}
+          />
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="relative">
-            <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" />
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="admin@certwinx.com"
-              className="w-full pl-11 pr-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white text-sm placeholder-white/40 focus:outline-none focus:border-[#1683FF] transition-all"
-              required
-            />
-          </div>
+          <div className="relative p-8 sm:p-10">
+            {/* ============ LOGO + BRANDING ============ */}
+            <div className="flex flex-col items-center mb-8">
+              {/* Logo with premium animation */}
+              <div className="relative mb-5">
+                {/* Rotating conic ring behind logo */}
+                <div
+                  className="absolute -inset-5 rounded-full pointer-events-none"
+                  style={{
+                    background:
+                      'conic-gradient(from 0deg, transparent 0%, #1683FF 25%, #CCAB6E 50%, #5CB8FF 75%, transparent 100%)',
+                    filter: 'blur(18px)',
+                    opacity: 0.5,
+                    animation: 'rotateRing 10s linear infinite',
+                  }}
+                />
+                {/* Pulse ring */}
+                <div
+                  className="absolute -inset-3 rounded-full pointer-events-none"
+                  style={{
+                    border: '1px solid rgba(22,131,255,0.3)',
+                    animation: 'pulseRing 3s ease-out infinite',
+                  }}
+                />
+                {/* Logo container */}
+                <div
+                  className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl flex items-center justify-center overflow-hidden"
+                  style={{
+                    background:
+                      'linear-gradient(135deg, rgba(22,131,255,0.08) 0%, rgba(10,15,31,0.6) 50%, rgba(204,171,110,0.06) 100%)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    boxShadow:
+                      'inset 0 1px 0 rgba(255,255,255,0.1), 0 20px 60px -10px rgba(22,131,255,0.5)',
+                    animation: 'logoFloat 4s ease-in-out infinite',
+                  }}
+                >
+                  {/* Inner shimmer */}
+                  <div
+                    className="absolute inset-0 opacity-40 pointer-events-none"
+                    style={{
+                      background:
+                        'linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.15) 50%, transparent 70%)',
+                      backgroundSize: '200% 100%',
+                      animation: 'shimmerLine 4s linear infinite',
+                    }}
+                  />
+                  {/* Logo image */}
+                  <img
+                    src="/certwinx-logo.png"
+                    alt="CertWinX"
+                    className="relative w-[72%] h-[72%] object-contain"
+                    style={{
+                      filter:
+                        'drop-shadow(0 0 12px rgba(22,131,255,0.6)) drop-shadow(0 0 24px rgba(92,184,255,0.3))',
+                    }}
+                    draggable={false}
+                  />
+                </div>
+              </div>
 
-          <div className="relative">
-            <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" />
-            <input
-              type={showPass ? 'text' : 'password'}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="••••••••"
-              className="w-full pl-11 pr-11 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-white text-sm placeholder-white/40 focus:outline-none focus:border-[#1683FF] transition-all"
-              required
-            />
-            <button
-              type="button"
-              onClick={() => setShowPass((s) => !s)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-white/40 hover:text-white"
-            >
-              <Eye size={16} />
-            </button>
-          </div>
+              {/* Company name — LUXURY */}
+              <h2
+                className="font-display text-[15px] sm:text-[17px] font-bold tracking-[0.02em] mb-1"
+                style={{
+                  background:
+                    'linear-gradient(180deg, #FFFFFF 0%, #A8C6E8 60%, #5CB8FF 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                CertWinX Private Limited
+              </h2>
 
-          {error && (
-            <div className="p-3 rounded-xl bg-red-500/10 border border-red-500/25 flex items-start gap-2">
-              <AlertCircle size={14} className="text-red-400 mt-0.5 shrink-0" />
-              <p className="text-red-400 text-xs">{error}</p>
+              {/* Divider with dot */}
+              <div className="flex items-center gap-2 my-3">
+                <span className="w-8 h-px bg-gradient-to-r from-transparent to-[#1683FF]/50" />
+                <span className="w-1 h-1 rounded-full bg-[#CCAB6E]" />
+                <span className="w-8 h-px bg-gradient-to-l from-transparent to-[#1683FF]/50" />
+              </div>
+
+              {/* MASTER ADMIN badge */}
+              <span
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-bold tracking-[0.28em] uppercase"
+                style={{
+                  background:
+                    'linear-gradient(135deg, rgba(22,131,255,0.12), rgba(204,171,110,0.08))',
+                  border: '1px solid rgba(22,131,255,0.25)',
+                  color: '#7CBFFF',
+                  boxShadow: '0 0 20px -5px rgba(22,131,255,0.4)',
+                }}
+              >
+                <span className="relative flex w-1.5 h-1.5">
+                  <span className="absolute inset-0 rounded-full bg-[#1683FF] animate-ping" />
+                  <span className="relative w-1.5 h-1.5 rounded-full bg-[#1683FF]" />
+                </span>
+                Master Admin Access
+              </span>
+
+              {/* Welcome heading */}
+              <h1
+                className="font-display text-[26px] sm:text-[30px] font-bold leading-[1.1] tracking-[-0.02em] mt-5 mb-1"
+                style={{
+                  background:
+                    'linear-gradient(180deg, #FFFFFF 0%, #E0ECFF 60%, #5CB8FF 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                Welcome Back
+              </h1>
+
+              <p className="text-[11px] text-white/40 tracking-wide">
+                Sign in to continue to your control panel
+              </p>
             </div>
-          )}
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-3 rounded-xl bg-gradient-to-r from-[#1683FF] to-[#0A5FCC] text-white font-semibold text-sm hover:shadow-[0_10px_30px_-10px_rgba(22,131,255,0.6)] transition-all disabled:opacity-60 inline-flex items-center justify-center gap-2"
-          >
-            {loading ? <><Loader2 size={15} className="animate-spin" /> Signing in...</> : 'Sign In'}
-          </button>
-        </form>
+            {/* ============ FORM ============ */}
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Email */}
+              <div>
+                <label className="block text-[9px] font-bold tracking-[0.22em] text-white/40 uppercase mb-2 ml-1">
+                  Email Address
+                </label>
+                <div className="relative group">
+                  <Mail
+                    size={15}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-white/25 group-focus-within:text-[#1683FF] transition-colors"
+                  />
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="admin@certwinx.com"
+                    className="w-full pl-11 pr-4 py-3.5 rounded-xl bg-white/[0.025] border border-white/10 text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#1683FF]/60 focus:bg-white/[0.05] focus:shadow-[0_0_25px_-5px_rgba(22,131,255,0.5)] transition-all"
+                    style={{ boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.3)' }}
+                    required
+                  />
+                </div>
+              </div>
 
-        <div className="mt-6 pt-6 border-t border-white/10 flex items-center justify-center gap-4 text-[10px] text-white/40">
-          <span className="flex items-center gap-1"><CheckCircle2 size={10} /> 256-bit Encrypted</span>
-          <span className="flex items-center gap-1"><CheckCircle2 size={10} /> Session Only</span>
+              {/* Password */}
+              <div>
+                <div className="flex items-center justify-between mb-2 ml-1">
+                  <label className="block text-[9px] font-bold tracking-[0.22em] text-white/40 uppercase">
+                    Password
+                  </label>
+                  <a
+                    href="#"
+                    className="text-[10px] text-white/35 hover:text-[#1683FF] transition-colors"
+                    onClick={(e) => e.preventDefault()}
+                  >
+                    Forgot password?
+                  </a>
+                </div>
+                <div className="relative group">
+                  <Lock
+                    size={15}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-white/25 group-focus-within:text-[#1683FF] transition-colors"
+                  />
+                  <input
+                    type={showPass ? 'text' : 'password'}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="••••••••••"
+                    className="w-full pl-11 pr-11 py-3.5 rounded-xl bg-white/[0.025] border border-white/10 text-white text-sm placeholder-white/20 focus:outline-none focus:border-[#1683FF]/60 focus:bg-white/[0.05] focus:shadow-[0_0_25px_-5px_rgba(22,131,255,0.5)] transition-all"
+                    style={{ boxShadow: 'inset 0 1px 2px rgba(0,0,0,0.3)' }}
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPass((s) => !s)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 p-1.5 text-white/25 hover:text-white/70 transition-colors"
+                  >
+                    <Eye size={15} />
+                  </button>
+                </div>
+              </div>
+
+              {/* Remember me */}
+              <div className="flex items-center justify-between pt-1">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    className="w-3.5 h-3.5 rounded border-white/20 bg-white/5 accent-[#1683FF] cursor-pointer"
+                  />
+                  <span className="text-[11px] text-white/50 select-none">
+                    Keep me signed in
+                  </span>
+                </label>
+
+                <div className="flex items-center gap-1.5 text-[10px] text-white/30">
+                  <Lock size={9} />
+                  <span>SSL Secured</span>
+                </div>
+              </div>
+
+              {/* Error */}
+              {error && (
+                <div
+                  className="p-3 rounded-xl flex items-start gap-2"
+                  style={{
+                    background: 'rgba(239,68,68,0.08)',
+                    border: '1px solid rgba(239,68,68,0.25)',
+                  }}
+                >
+                  <AlertCircle size={14} className="text-red-400 mt-0.5 shrink-0" />
+                  <p className="text-red-400 text-[11px] leading-relaxed">{error}</p>
+                </div>
+              )}
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="relative w-full py-4 rounded-xl text-white font-semibold text-sm overflow-hidden group transition-all disabled:opacity-60 disabled:cursor-not-allowed mt-2"
+                style={{
+                  background:
+                    'linear-gradient(135deg, #1683FF 0%, #0A5FCC 50%, #084A9E 100%)',
+                  boxShadow:
+                    '0 20px 50px -15px rgba(22,131,255,0.7), inset 0 1px 0 rgba(255,255,255,0.2), inset 0 -1px 0 rgba(0,0,0,0.2)',
+                }}
+              >
+                <span
+                  className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  style={{
+                    background:
+                      'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.25) 50%, transparent 60%)',
+                    backgroundSize: '200% 100%',
+                    animation: 'buttonShine 1.5s linear infinite',
+                  }}
+                />
+                <span
+                  className="absolute top-0 left-0 right-0 h-1/2 rounded-t-xl pointer-events-none"
+                  style={{
+                    background:
+                      'linear-gradient(180deg, rgba(255,255,255,0.15), transparent)',
+                  }}
+                />
+                <span className="relative inline-flex items-center justify-center gap-2">
+                  {loading ? (
+                    <>
+                      <Loader2 size={15} className="animate-spin" />
+                      Authenticating...
+                    </>
+                  ) : (
+                    <>
+                      <Shield size={16} strokeWidth={2.2} />
+                      Sign In to Dashboard
+                      <ChevronRight
+                        size={15}
+                        className="group-hover:translate-x-1 transition-transform"
+                      />
+                    </>
+                  )}
+                </span>
+              </button>
+            </form>
+
+            {/* ============ SECURITY FOOTER ============ */}
+            <div className="mt-8 pt-6 border-t border-white/[0.06]">
+              <div className="flex items-center justify-center gap-4 text-[9px] font-bold tracking-wider text-white/30 uppercase">
+                <span className="flex items-center gap-1.5">
+                  <ShieldCheck size={11} className="text-[#1683FF]/70" />
+                  256-bit SSL
+                </span>
+                <span className="w-px h-3 bg-white/10" />
+                <span className="flex items-center gap-1.5">
+                  <Lock size={10} className="text-[#1683FF]/70" />
+                  Session Only
+                </span>
+                <span className="w-px h-3 bg-white/10" />
+                <span className="flex items-center gap-1.5">
+                  <CheckCircle2 size={10} className="text-[#1683FF]/70" />
+                  Audit Logged
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom accent line */}
+          <div
+            className="absolute bottom-0 left-0 right-0 h-[1px]"
+            style={{
+              background:
+                'linear-gradient(90deg, transparent, rgba(204,171,110,0.6) 50%, transparent)',
+            }}
+          />
         </div>
       </div>
 
+      {/* ============ FOOTER BRANDING ============ */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-center space-y-1">
+        <p
+          className="text-[10px] tracking-[0.4em] uppercase"
+          style={{
+            background:
+              'linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent)',
+            WebkitBackgroundClip: 'text',
+            WebkitTextFillColor: 'transparent',
+            backgroundClip: 'text',
+          }}
+        >
+          CertWinX · Enterprise Edition
+        </p>
+        <p className="text-[8px] text-white/20 tracking-widest uppercase">
+          © {new Date().getFullYear()} · All Rights Reserved
+        </p>
+      </div>
+
+      {/* ============ ANIMATIONS ============ */}
       <style>{`
-        @keyframes loginShimmer {
+        @keyframes shimmerLine {
           0% { background-position: 200% 0; }
           100% { background-position: -200% 0; }
         }
@@ -182,6 +533,44 @@ function Login({ onLogin }) {
           0%, 100% { transform: translateX(0); }
           20%, 60% { transform: translateX(-8px); }
           40%, 80% { transform: translateX(8px); }
+        }
+        @keyframes aurora1 {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(80px, 60px) scale(1.15); }
+        }
+        @keyframes aurora2 {
+          0%, 100% { transform: translate(0, 0) scale(1); }
+          50% { transform: translate(-80px, -60px) scale(1.15); }
+        }
+        @keyframes aurora3 {
+          0%, 100% { transform: translate(-50%, 0) scale(1); }
+          50% { transform: translate(-50%, 40px) scale(0.95); }
+        }
+        @keyframes twinkle {
+          0%, 100% { opacity: 0.2; transform: scale(0.8); }
+          50% { opacity: 1; transform: scale(1.4); }
+        }
+        @keyframes rotateRing {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+        @keyframes buttonShine {
+          0% { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+        @keyframes logoFloat {
+          0%, 100% { transform: translateY(0) scale(1); }
+          50% { transform: translateY(-4px) scale(1.02); }
+        }
+        @keyframes pulseRing {
+          0% {
+            transform: scale(1);
+            opacity: 0.6;
+          }
+          100% {
+            transform: scale(1.4);
+            opacity: 0;
+          }
         }
       `}</style>
     </div>
