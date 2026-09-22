@@ -134,8 +134,10 @@ function AppRoutes() {
 
 /* ============================================================
    APP SHELL — Renders global components conditionally.
-   On /admin, Header, Footer, LeadPopup, Preloader, LiveBanner,
-   MobileStickyNav, CustomCursor, ScrollProgress are ALL hidden.
+   On /admin:
+     - Header, Footer, LeadPopup, Preloader, LiveBanner,
+       MobileStickyNav, CustomCursor, ScrollProgress are HIDDEN.
+     - Body gets `admin-shell` class for CSS cursor overrides.
    ============================================================ */
 function AppShell() {
   const [preloaderDone, setPreloaderDone] = useState(false);
@@ -143,6 +145,70 @@ function AppShell() {
   const { pathname } = useLocation();
   const isAdmin = pathname.startsWith('/admin');
   useSmoothScroll();
+
+  /* Toggle body class based on admin route */
+  useEffect(() => {
+    if (isAdmin) {
+      document.body.classList.add('admin-shell');
+    } else {
+      document.body.classList.remove('admin-shell');
+    }
+    return () => {
+      document.body.classList.remove('admin-shell');
+    };
+  }, [isAdmin]);
+
+  /* Restore cursor when on admin */
+  useEffect(() => {
+    const styleId = 'admin-cursor-fix';
+    if (isAdmin) {
+      if (!document.getElementById(styleId)) {
+        const style = document.createElement('style');
+        style.id = styleId;
+        style.innerHTML = `
+          html.admin-shell,
+          html.admin-shell body,
+          .admin-shell,
+          .admin-shell * {
+            cursor: auto !important;
+          }
+          .admin-shell a,
+          .admin-shell button,
+          .admin-shell [role="button"],
+          .admin-shell select,
+          .admin-shell input[type="checkbox"],
+          .admin-shell input[type="radio"] {
+            cursor: pointer !important;
+          }
+          .admin-shell input,
+          .admin-shell textarea {
+            cursor: text !important;
+          }
+          .admin-shell input[type="submit"],
+          .admin-shell input[type="button"] {
+            cursor: pointer !important;
+          }
+          .admin-shell input:disabled,
+          .admin-shell button:disabled,
+          .admin-shell textarea:disabled,
+          .admin-shell select:disabled {
+            cursor: not-allowed !important;
+          }
+          .admin-shell [data-cursor="hover"] {
+            cursor: pointer !important;
+          }
+        `;
+        document.head.appendChild(style);
+      }
+    } else {
+      const el = document.getElementById(styleId);
+      if (el) el.remove();
+    }
+    return () => {
+      const el = document.getElementById(styleId);
+      if (el) el.remove();
+    };
+  }, [isAdmin]);
 
   return (
     <>
@@ -156,7 +222,7 @@ function AppShell() {
 
       <div
         className={`grain relative min-h-screen text-ink ${
-          isAdmin ? 'bg-[#0A0F1F]' : 'bg-canvas'
+          isAdmin ? 'bg-[#0A0F1F] admin-shell' : 'bg-canvas'
         }`}
       >
         {/* Custom cursor — only on public site */}
@@ -168,9 +234,9 @@ function AppShell() {
         {/* Header — only on public site */}
         {!isAdmin && <Header onMenuToggle={setMobileMenuOpen} />}
 
-        {/* Main content (all routes) */}
+        {/* Main content — all routes */}
         <main className="relative z-10">
-          <Suspense fallback={<LoadingScreen />}>
+          <Suspense fallback={<LoadingScreen isAdmin={isAdmin} />}>
             <AppRoutes />
           </Suspense>
         </main>
@@ -178,7 +244,7 @@ function AppShell() {
         {/* Footer — only on public site */}
         {!isAdmin && <Footer />}
 
-        {/* Live banner (bottom) — only on public site */}
+        {/* Live banner — only on public site */}
         {!isAdmin && <LiveBanner hidden={mobileMenuOpen} />}
 
         {/* Mobile sticky nav — only on public site */}
@@ -199,12 +265,22 @@ export default function App() {
   );
 }
 
-function LoadingScreen() {
+function LoadingScreen({ isAdmin }) {
+  if (isAdmin) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#0A0F1F]">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-10 h-10 rounded-full border-2 border-[#1683FF] border-t-transparent animate-spin" />
+          <span className="text-xs tracking-[0.3em] text-white/40">CERTWINX</span>
+        </div>
+      </div>
+    );
+  }
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#0A0F1F]">
+    <div className="min-h-screen flex items-center justify-center bg-canvas">
       <div className="flex flex-col items-center gap-4">
-        <div className="w-10 h-10 rounded-full border-2 border-[#1683FF] border-t-transparent animate-spin" />
-        <span className="text-xs tracking-[0.3em] text-white/50">CERTWINX</span>
+        <div className="w-10 h-10 rounded-full border-2 border-blue border-t-transparent animate-spin" />
+        <span className="text-xs tracking-[0.3em] text-muted">CERTWINX</span>
       </div>
     </div>
   );
