@@ -329,7 +329,6 @@ function Dashboard({ leads, onNavigate }) {
     [leads]
   );
 
-  /* 7-day trend */
   const trendData = useMemo(() => {
     const days = [];
     for (let i = 6; i >= 0; i--) {
@@ -356,7 +355,6 @@ function Dashboard({ leads, onNavigate }) {
         <p className="text-sm text-white/50">Real-time overview of your lead pipeline.</p>
       </div>
 
-      {/* Stats */}
       <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard label="Total Leads" value={stats.total} icon={Users} color="#1683FF" trend={`+${stats.last24h} today`} />
         <StatCard label="Last 7 Days" value={stats.last7d} icon={TrendingUp} color="#10B981" />
@@ -365,7 +363,6 @@ function Dashboard({ leads, onNavigate }) {
       </div>
 
       <div className="grid lg:grid-cols-3 gap-4">
-        {/* Trend Chart */}
         <div className="lg:col-span-2 rounded-2xl bg-white/[0.03] border border-white/10 p-5">
           <div className="flex items-center justify-between mb-5">
             <h2 className="font-display font-semibold text-white">7-Day Lead Trend</h2>
@@ -384,7 +381,6 @@ function Dashboard({ leads, onNavigate }) {
           </div>
         </div>
 
-        {/* Status Distribution */}
         <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-5">
           <h2 className="font-display font-semibold text-white mb-5">Status Distribution</h2>
           <div className="space-y-2.5">
@@ -410,7 +406,6 @@ function Dashboard({ leads, onNavigate }) {
       </div>
 
       <div className="grid lg:grid-cols-2 gap-4">
-        {/* Recent Leads */}
         <div className="rounded-2xl bg-white/[0.03] border border-white/10 overflow-hidden">
           <div className="flex items-center justify-between p-5 border-b border-white/10">
             <h2 className="font-display font-semibold text-white">Recent Leads</h2>
@@ -441,7 +436,6 @@ function Dashboard({ leads, onNavigate }) {
           </div>
         </div>
 
-        {/* Leads by Source */}
         <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-5">
           <h2 className="font-display font-semibold text-white mb-4">Leads by Source</h2>
           <div className="space-y-3">
@@ -518,7 +512,6 @@ function LeadsList({ leads, onRefresh, onImport }) {
       return true;
     });
 
-    /* Sorting */
     if (sortBy === 'newest') result.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     else if (sortBy === 'oldest') result.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
     else if (sortBy === 'score') result.sort((a, b) => calculateLeadScore(b) - calculateLeadScore(a));
@@ -584,7 +577,6 @@ function LeadsList({ leads, onRefresh, onImport }) {
 
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="font-display text-2xl font-bold text-white mb-1">Leads</h1>
@@ -606,7 +598,6 @@ function LeadsList({ leads, onRefresh, onImport }) {
         </div>
       </div>
 
-      {/* Search + Filter Toggle */}
       <div className="flex flex-wrap gap-3">
         <div className="relative flex-1 min-w-[240px]">
           <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-white/40" />
@@ -631,7 +622,6 @@ function LeadsList({ leads, onRefresh, onImport }) {
         </button>
       </div>
 
-      {/* Advanced Filters */}
       {showFilters && (
         <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div>
@@ -678,7 +668,6 @@ function LeadsList({ leads, onRefresh, onImport }) {
         </div>
       )}
 
-      {/* Bulk Actions Bar */}
       {selectedIds.length > 0 && (
         <div className="p-4 rounded-2xl bg-[#1683FF]/10 border border-[#1683FF]/30 flex flex-wrap items-center gap-3">
           <span className="text-sm text-white font-semibold">{selectedIds.length} leads selected</span>
@@ -701,7 +690,6 @@ function LeadsList({ leads, onRefresh, onImport }) {
         </div>
       )}
 
-      {/* Table */}
       <div className="rounded-2xl bg-white/[0.03] border border-white/10 overflow-hidden">
         {filtered.length === 0 ? (
           <div className="text-center py-16">
@@ -829,7 +817,6 @@ function LeadModal({ lead, onClose, onUpdate }) {
         </div>
 
         <div className="p-6 space-y-5">
-          {/* Score */}
           <div className={`p-4 rounded-xl border ${level.bg} flex items-center gap-3`}>
             <Star size={20} className={level.color} />
             <div className="flex-1">
@@ -854,7 +841,6 @@ function LeadModal({ lead, onClose, onUpdate }) {
             </div>
           )}
 
-          {/* Quick Actions */}
           <div className="grid grid-cols-3 gap-2">
             <a href={`tel:${lead.mobile}`} className="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-white/[0.03] border border-white/10 hover:border-emerald-500/40 transition-all">
               <Phone size={16} className="text-emerald-400" />
@@ -940,7 +926,6 @@ function LeadMigration({ onDone }) {
         }
         const headers = lines[0].split(',').map((h) => h.trim().replace(/^"|"$/g, '').toLowerCase());
         const rows = lines.slice(1).map((line) => {
-          /* Simple CSV parser handling quoted values */
           const values = [];
           let cur = '';
           let inQuote = false;
@@ -956,7 +941,6 @@ function LeadMigration({ onDone }) {
           return obj;
         });
 
-        /* Map to lead shape */
         const mapped = rows.map((r) => ({
           name: r.name || r.full_name || r.customer_name || '',
           mobile: r.mobile || r.phone || r.contact || '',
@@ -988,14 +972,12 @@ function LeadMigration({ onDone }) {
 
     for (const lead of parsed) {
       try {
-        /* Optional — if you have createLead in supabase.js, use it */
         const { createLead } = await import('../../lib/supabase').catch(() => ({}));
         if (createLead) {
           const res = await createLead(lead);
           if (res?.success) success++;
           else failed++;
         } else {
-          /* Fallback: log and count */
           console.log('Import lead:', lead);
           success++;
         }
@@ -1029,7 +1011,6 @@ function LeadMigration({ onDone }) {
         <p className="text-sm text-white/50">Bulk import leads from a CSV file.</p>
       </div>
 
-      {/* Template download */}
       <div className="rounded-2xl bg-[#1683FF]/5 border border-[#1683FF]/20 p-5 flex items-start gap-4">
         <div className="w-10 h-10 rounded-xl bg-[#1683FF]/15 border border-[#1683FF]/30 flex items-center justify-center shrink-0">
           <FileSpreadsheet size={18} className="text-[#1683FF]" />
@@ -1044,7 +1025,6 @@ function LeadMigration({ onDone }) {
         </div>
       </div>
 
-      {/* Upload */}
       <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-8">
         <input
           ref={fileRef}
@@ -1073,7 +1053,6 @@ function LeadMigration({ onDone }) {
         )}
       </div>
 
-      {/* Preview */}
       {parsed.length > 0 && (
         <div className="rounded-2xl bg-white/[0.03] border border-white/10 overflow-hidden">
           <div className="flex items-center justify-between p-5 border-b border-white/10">
@@ -1113,7 +1092,6 @@ function LeadMigration({ onDone }) {
         </div>
       )}
 
-      {/* Result */}
       {result && (
         <div className="rounded-2xl bg-emerald-500/5 border border-emerald-500/20 p-5 flex items-start gap-4">
           <CheckCircle2 size={24} className="text-emerald-400 shrink-0" />
@@ -1278,7 +1256,6 @@ function Analytics({ leads }) {
       </div>
 
       <div className="grid lg:grid-cols-2 gap-4">
-        {/* Monthly Trend */}
         <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-5">
           <h2 className="font-display font-semibold text-white mb-5">6-Month Trend</h2>
           <div className="flex items-end gap-3 h-40">
@@ -1293,7 +1270,6 @@ function Analytics({ leads }) {
           </div>
         </div>
 
-        {/* Top Cities */}
         <div className="rounded-2xl bg-white/[0.03] border border-white/10 p-5">
           <h2 className="font-display font-semibold text-white mb-4">Top Cities</h2>
           <div className="space-y-3">
@@ -1326,8 +1302,8 @@ function Analytics({ leads }) {
   );
 }
 
-/* ==================== SETTINGS ==================== */
-function Settings() {
+/* ==================== SETTINGS PAGE ==================== */
+function SettingsPage() {
   const [brand, setBrand] = useState(() => localStorage.getItem('cw_brand') || 'CertWinX');
   const [supportEmail, setSupportEmail] = useState(() => localStorage.getItem('cw_email') || 'info@certwinx.com');
   const [supportPhone, setSupportPhone] = useState(() => localStorage.getItem('cw_phone') || '+91 81289 31029');
@@ -1504,7 +1480,7 @@ export default function Admin() {
             {tab === 'analytics' && <Analytics leads={leads} />}
             {tab === 'import' && <LeadMigration onDone={loadLeads} />}
             {tab === 'activity' && <ActivityLog leads={leads} />}
-            {tab === 'settings' && <Settings />}
+            {tab === 'settings' && <SettingsPage />}
           </main>
         </div>
       </div>
