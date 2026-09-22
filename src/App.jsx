@@ -132,32 +132,68 @@ function AppRoutes() {
   );
 }
 
-export default function App() {
+/* ============================================================
+   APP SHELL — Renders global components conditionally.
+   On /admin, Header, Footer, LeadPopup, Preloader, LiveBanner,
+   MobileStickyNav, CustomCursor, ScrollProgress are ALL hidden.
+   ============================================================ */
+function AppShell() {
   const [preloaderDone, setPreloaderDone] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { pathname } = useLocation();
+  const isAdmin = pathname.startsWith('/admin');
   useSmoothScroll();
 
+  return (
+    <>
+      {/* Preloader — only on public site */}
+      {!isAdmin && !preloaderDone && (
+        <Preloader onComplete={() => setPreloaderDone(true)} />
+      )}
+
+      {/* Lead Popup — only on public site */}
+      {!isAdmin && preloaderDone && <LeadPopup delay={4000} force={true} />}
+
+      <div
+        className={`grain relative min-h-screen text-ink ${
+          isAdmin ? 'bg-[#0A0F1F]' : 'bg-canvas'
+        }`}
+      >
+        {/* Custom cursor — only on public site */}
+        {!isAdmin && <CustomCursor />}
+
+        {/* Scroll progress bar — only on public site */}
+        {!isAdmin && <ScrollProgress />}
+
+        {/* Header — only on public site */}
+        {!isAdmin && <Header onMenuToggle={setMobileMenuOpen} />}
+
+        {/* Main content (all routes) */}
+        <main className="relative z-10">
+          <Suspense fallback={<LoadingScreen />}>
+            <AppRoutes />
+          </Suspense>
+        </main>
+
+        {/* Footer — only on public site */}
+        {!isAdmin && <Footer />}
+
+        {/* Live banner (bottom) — only on public site */}
+        {!isAdmin && <LiveBanner hidden={mobileMenuOpen} />}
+
+        {/* Mobile sticky nav — only on public site */}
+        {!isAdmin && <MobileStickyNav hidden={mobileMenuOpen} />}
+      </div>
+    </>
+  );
+}
+
+export default function App() {
   return (
     <HelmetProvider>
       <Router>
         <ScrollReset />
-
-        {!preloaderDone && <Preloader onComplete={() => setPreloaderDone(true)} />}
-        {preloaderDone && <LeadPopup delay={4000} force={true} />}
-
-        <div className="grain relative min-h-screen bg-canvas text-ink">
-          <CustomCursor />
-          <ScrollProgress />
-          <Header onMenuToggle={setMobileMenuOpen} />
-          <main className="relative z-10">
-            <Suspense fallback={<LoadingScreen />}>
-              <AppRoutes />
-            </Suspense>
-          </main>
-          <Footer />
-          <LiveBanner hidden={mobileMenuOpen} />
-          <MobileStickyNav hidden={mobileMenuOpen} />
-        </div>
+        <AppShell />
       </Router>
     </HelmetProvider>
   );
@@ -165,10 +201,10 @@ export default function App() {
 
 function LoadingScreen() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-canvas">
+    <div className="min-h-screen flex items-center justify-center bg-[#0A0F1F]">
       <div className="flex flex-col items-center gap-4">
-        <div className="w-10 h-10 rounded-full border-2 border-blue border-t-transparent animate-spin" />
-        <span className="text-xs tracking-[0.3em] text-muted">CERTWINX</span>
+        <div className="w-10 h-10 rounded-full border-2 border-[#1683FF] border-t-transparent animate-spin" />
+        <span className="text-xs tracking-[0.3em] text-white/50">CERTWINX</span>
       </div>
     </div>
   );
