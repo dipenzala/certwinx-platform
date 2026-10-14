@@ -1,102 +1,79 @@
+// ============================================================
+// FastPreloader - Optimized loading screen
+// No artificial delays, completes as soon as possible
+// ============================================================
+
 import { useEffect, useState } from 'react';
-import { gsap } from '../../lib/gsap';
 
 export default function Preloader({ onComplete }) {
   const [progress, setProgress] = useState(0);
   const [hidden, setHidden] = useState(false);
 
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    let current = 0;
+    let finished = false;
+
+    // Fast increment - realistic progress
+    const interval = setInterval(() => {
+      if (finished) return;
+      // Fast at start, slows at end
+      const increment = current < 50 ? 15 : current < 80 ? 6 : 2;
+      current = Math.min(current + increment, 95);
+      setProgress(current);
+    }, 50);
+
+    const finish = () => {
+      if (finished) return;
+      finished = true;
       setProgress(100);
       setTimeout(() => {
         setHidden(true);
-        onComplete?.();
+        setTimeout(() => onComplete?.(), 200);
       }, 150);
-      return;
-    }
-
-    /* ============ FAST LOADING — 0.6s ============ */
-    const duration = 600; // 0.6s (pehle 1800 tha)
-    const startTime = performance.now();
-
-    const tick = (now) => {
-      const elapsed = now - startTime;
-      const pct = Math.min(100, (elapsed / duration) * 100);
-      setProgress(pct);
-
-      if (pct < 100) {
-        requestAnimationFrame(tick);
-      } else {
-        setTimeout(() => {
-          setHidden(true);
-          onComplete?.();
-        }, 150);
-      }
     };
 
-    requestAnimationFrame(tick);
+    // Complete as soon as page loads
+    if (document.readyState === 'complete') {
+      finish();
+    } else {
+      window.addEventListener('load', finish, { once: true });
+    }
+
+    // Hard max: 1.5 seconds (fast!)
+    const fallback = setTimeout(finish, 1500);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(fallback);
+      window.removeEventListener('load', finish);
+    };
   }, [onComplete]);
 
   if (hidden) return null;
 
   return (
     <div
-      className={`fixed inset-0 z-[200] bg-canvas flex items-center justify-center transition-opacity duration-500 ${
-        progress >= 100 ? 'opacity-0' : 'opacity-100'
+      className={`fixed inset-0 z-[9999] flex items-center justify-center bg-gradient-to-br from-white via-blue-50 to-white transition-opacity duration-200 ${
+        progress === 100 ? 'opacity-0' : 'opacity-100'
       }`}
-      aria-hidden="true"
     >
-      {/* Background glow */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-sky/15 blur-[120px]" />
-        <div className="absolute top-1/3 left-1/4 w-[300px] h-[300px] rounded-full bg-blue/10 blur-[80px]" />
-      </div>
-
-      <div className="relative flex flex-col items-center">
-
-        {/* ============ LOGO — BADA ============ */}
-        <div className="mb-8">
-          <img
-            src="/certwinx-logo.png"
-            alt="CertWinX"
-            style={{ height: '96px', width: 'auto' }}
-            className="object-contain"
-            draggable={false}
-          />
-        </div>
-
-        {/* ============ TAGLINE — NAYA ============ */}
-        <p className="text-[13px] font-bold tracking-[0.35em] text-muted uppercase mb-3">
-          Loading Experience
-        </p>
-
-        {/* Nayi tagline — brand line */}
-        <p
-          className="text-[10px] font-bold tracking-[0.3em] uppercase mb-8 whitespace-nowrap"
-          style={{
-            background:
-              'linear-gradient(90deg, #CCAB6E 0%, #F6E9C9 25%, #CCAB6E 50%, #F6E9C9 75%, #CCAB6E 100%)',
-            backgroundSize: '200% 100%',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-          }}
-        >
-          Aapki Tarakki Ka Saathi
-        </p>
-
-        {/* Progress bar */}
-        <div className="w-[280px] h-[3px] bg-line rounded-full overflow-hidden mb-4">
+      <div className="flex flex-col items-center gap-5">
+        <img
+          src="/certwinx-logo.png"
+          alt="CertWinX"
+          className="h-16 sm:h-20 w-auto"
+          loading="eager"
+          fetchPriority="high"
+        />
+        <div className="w-56 h-1 bg-gray-200 rounded-full overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-blue to-gold rounded-full transition-[width] duration-75"
+            className="h-full bg-gradient-to-r from-blue-500 to-blue-700 rounded-full transition-all duration-100 ease-out"
             style={{ width: `${progress}%` }}
           />
         </div>
-
-        {/* Percentage */}
-        <p className="text-sm font-bold text-ink tabular-nums">
-          {String(Math.round(progress)).padStart(3, '0')}%
-        </p>
+        <span className="text-xs font-mono text-gray-400 tabular-nums">
+          {String(progress).padStart(3, '0')}%
+        </span>
       </div>
     </div>
   );

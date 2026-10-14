@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, ArrowRight, Check, ShieldCheck, Clock, TrendingUp } from 'lucide-react';
 import MagneticButton from '../components/motion/MagneticButton';
+import EligibilityLeadForm from '../components/eligibility/EligibilityLeadForm';
 
 const STEPS = [
   {
@@ -45,6 +46,7 @@ export default function Eligibility80IAC() {
   const nav = useNavigate();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState({});
+  const [showForm, setShowForm] = useState(false); // ⭐ NEW: form toggle
 
   const current = STEPS[step];
   const progress = ((step + 1) / STEPS.length) * 100;
@@ -57,17 +59,51 @@ export default function Eligibility80IAC() {
     if (step < STEPS.length - 1) {
       setStep(step + 1);
     } else {
+      // ⭐ CHANGE: Last step pe seedha navigate nahi karna
+      // Pehle answers save karo, phir form dikhao
       sessionStorage.setItem(
         'certwinx_eligibility',
         JSON.stringify({ ...answers, _flow: '80-iac' })
       );
-      nav('/eligibility/results');
+      setShowForm(true); // ← Form open karo
     }
   };
 
   const back = () => {
     if (step > 0) setStep(step - 1);
   };
+
+  // ⭐ NEW: Form success hone pe results pe jao
+  const handleFormSuccess = () => {
+    nav('/eligibility/results');
+  };
+
+  // ⭐ NEW: Form back hone pe last step pe wapas jao
+  const handleFormBack = () => {
+    setShowForm(false);
+  };
+
+  // ⭐ NEW: Agar form dikhana hai toh sirf form render karo
+  if (showForm) {
+    return (
+      <>
+        <Helmet>
+          <title>Get Your Results — CertWinX</title>
+          <meta name="robots" content="noindex" />
+        </Helmet>
+        <EligibilityLeadForm
+          eligibilityData={{
+            type: answers.entityType || 'Startup',
+            age: answers.entityAge || 'Not specified',
+            support: 'Section 80-IAC Tax Benefit',
+            ...answers,
+          }}
+          onSuccess={handleFormSuccess}
+          onBack={handleFormBack}
+        />
+      </>
+    );
+  }
 
   return (
     <>
@@ -86,7 +122,6 @@ export default function Eligibility80IAC() {
         </div>
 
         <div className="relative max-w-3xl mx-auto px-6 lg:px-10">
-
           {/* Badge */}
           <div className="mb-8">
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-line text-[10px] font-bold tracking-[0.2em] text-ink/80 uppercase">

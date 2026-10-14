@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { ArrowLeft, ArrowRight, Check, Briefcase, Clock, Target } from 'lucide-react';
 import MagneticButton from '../components/motion/MagneticButton';
+import EligibilityLeadForm from '../components/eligibility/EligibilityLeadForm';
 
 const STEPS = [
   {
@@ -55,6 +56,7 @@ export default function Eligibility() {
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState({});
   const [multiSelect, setMultiSelect] = useState([]);
+  const [showForm, setShowForm] = useState(false); // ⭐ NEW: form toggle
 
   const current = STEPS[step];
   const progress = ((step + 1) / STEPS.length) * 100;
@@ -78,15 +80,79 @@ export default function Eligibility() {
     if (step < STEPS.length - 1) {
       setStep(step + 1);
     } else {
+      // ⭐ CHANGE: Last step pe seedha navigate nahi karna
+      // Pehle answers save karo, phir form dikhao
       const final = { ...answers, support: multiSelect };
       sessionStorage.setItem('certwinx_eligibility', JSON.stringify(final));
-      nav('/eligibility/results');
+      setShowForm(true); // ← Form open karo
     }
   };
 
   const back = () => {
     if (step > 0) setStep(step - 1);
   };
+
+  // ⭐ NEW: Form success hone pe results pe jao
+  const handleFormSuccess = () => {
+    nav('/eligibility/results');
+  };
+
+  // ⭐ NEW: Form back hone pe last step pe wapas jao
+  const handleFormBack = () => {
+    setShowForm(false);
+  };
+
+  // ⭐ NEW: Agar form dikhana hai toh sirf form render karo
+  if (showForm) {
+    // Convert support array to readable string
+    const supportLabels = {
+      dpiit: 'DPIIT / Startup India',
+      '80-iac': 'Section 80-IAC',
+      funding: 'Government Funding',
+      certification: 'Certifications',
+      registration: 'Business Registration',
+      'not-sure': 'Not sure',
+    };
+    const supportText = Array.isArray(multiSelect) && multiSelect.length > 0
+      ? multiSelect.map((s) => supportLabels[s] || s).join(', ')
+      : 'General Inquiry';
+
+    const typeLabels = {
+      'private-limited': 'Private Limited Company',
+      llp: 'LLP',
+      partnership: 'Partnership Firm',
+      proprietorship: 'Proprietorship',
+      'not-registered': 'Not Registered',
+    };
+
+    const ageLabels = {
+      'not-registered': 'Not started',
+      'less-than-2': 'Less than 2 years',
+      '2-5': '2-5 years',
+      '5-plus': '5+ years',
+    };
+
+    return (
+      <>
+        <Helmet>
+          <title>Get Your Results — CertWinX</title>
+          <meta name="robots" content="noindex" />
+        </Helmet>
+        <EligibilityLeadForm
+          eligibilityData={{
+            type: typeLabels[answers.businessType] || answers.businessType || 'Not specified',
+            age: ageLabels[answers.businessAge] || answers.businessAge || 'Not specified',
+            support: supportText,
+            businessType: answers.businessType,
+            businessAge: answers.businessAge,
+            supportList: multiSelect,
+          }}
+          onSuccess={handleFormSuccess}
+          onBack={handleFormBack}
+        />
+      </>
+    );
+  }
 
   const isSelected = (value) => {
     if (current.multi) return multiSelect.includes(value);

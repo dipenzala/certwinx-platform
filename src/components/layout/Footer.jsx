@@ -210,7 +210,7 @@ export default function Footer() {
     style={{
       height: '100px',
       width: 'auto',
-      filter: 'brightness(0) invert(1)',
+      
     }}
     className="object-contain"
     draggable={false}

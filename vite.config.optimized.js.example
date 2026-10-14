@@ -1,0 +1,45 @@
+// ============================================================
+// Optimized Vite Config
+// Copy relevant parts to your vite.config.js
+// ============================================================
+
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [react()],
+  
+  build: {
+    // Faster builds
+    target: 'esnext',
+    minify: 'esbuild',
+    cssMinify: true,
+    
+    // Chunk splitting for better caching
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'gsap': ['gsap'],
+          'lucide': ['lucide-react'],
+        },
+      },
+    },
+    
+    // Increase warning limit
+    chunkSizeWarningLimit: 1000,
+    
+    // Disable source maps in production (faster)
+    sourcemap: false,
+  },
+  
+  // Faster dependency optimization
+  optimizeDeps: {
+    include: ['react', 'react-dom', 'react-router-dom', 'gsap', 'lucide-react'],
+  },
+  
+  // Dev server speed
+  server: {
+    hmr: true,
+  },
+});

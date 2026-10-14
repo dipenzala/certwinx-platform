@@ -12,22 +12,23 @@
     "@gsap/react": "^2.1.1",
     "@react-three/drei": "9.114.3",
     "@react-three/fiber": "8.17.10",
+    "dotenv": "^16.3.1",
     "framer-motion": "^13.4.0",
     "gsap": "^3.12.5",
     "lenis": "^1.1.14",
     "lucide-react": "^0.344.0",
+    "nodemailer": "^6.9.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-helmet-async": "^2.0.4",
     "react-router-dom": "^6.22.0",
-    "three": "0.169.0",
-    "nodemailer": "^6.9.7",
-    "dotenv": "^16.3.1"
+    "three": "0.169.0"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.17",
     "postcss": "^8.4.35",
+    "sharp": "^0.35.5",
     "tailwindcss": "^3.4.1",
     "vite": "^5.1.0"
   }

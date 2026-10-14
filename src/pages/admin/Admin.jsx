@@ -601,7 +601,7 @@ function Sidebar({ open, onClose, onLogout, activeTab, onTabChange, leadCount })
           <img
             src="/certwinx-logo.png"
             alt="CertWinX"
-            style={{ height: '36px', width: 'auto', filter: 'brightness(0) invert(1)' }}
+            style={{ height: '36px', width: 'auto',  }}
           />
           <button onClick={onClose} className="lg:hidden p-1.5 text-white/60 hover:text-white">
             <X size={18} />
