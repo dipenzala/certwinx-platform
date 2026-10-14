@@ -1,9 +1,10 @@
 // ============================================================
 // Vercel Serverless Function - Contact Form Mail Sender
 // Route: POST /api/contact
+// ES Module version (Vite "type": "module" compatible)
 // ============================================================
 
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
 
 // In-memory rate limiter (per serverless instance)
 const rateLimit = new Map();
@@ -29,7 +30,8 @@ const esc = (s) =>
   );
 const isValidEmail = (e) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
 
-module.exports = async (req, res) => {
+export default async function handler(req, res) {
+  // CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
@@ -70,7 +72,7 @@ module.exports = async (req, res) => {
     }
 
     const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST || 'smtp.gmail.com',
+      host: process.env.SMTP_HOST || 'smtp-relay.brevo.com',
       port: parseInt(process.env.SMTP_PORT || '587', 10),
       secure: parseInt(process.env.SMTP_PORT || '587', 10) === 465,
       auth: {
@@ -112,7 +114,7 @@ module.exports = async (req, res) => {
       `— Sent from website contact form`;
 
     await transporter.sendMail({
-      from: `"CertWinX Website" <${process.env.SMTP_USER}>`,
+      from: `"CertWinX Website" <${process.env.MAIL_FROM || process.env.SMTP_USER}>`,
       to: process.env.MAIL_TO || process.env.SMTP_USER,
       replyTo: `"${name}" <${email}>`,
       subject: `🎯 New Inquiry from ${name}${subject ? ' - ' + subject : ''}`,
@@ -129,4 +131,4 @@ module.exports = async (req, res) => {
       details: process.env.NODE_ENV === 'development' ? err.message : undefined,
     });
   }
-};
+}
