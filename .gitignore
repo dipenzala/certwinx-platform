@@ -80,4 +80,11 @@ temp/
 
 # ==================== SUPABASE (LOCAL) ====================
 supabase/.branches
-supabase/.temp
+supabase/.temp.backup-*
+node_modules
+dist
+.final-backup-*
+.backup-*
+.fix-backup-*
+.diagnose-cache
+.vercel

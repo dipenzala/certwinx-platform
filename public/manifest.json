@@ -1,0 +1,17 @@
+{
+  "name": "CertWinX - Business Registration & Compliance",
+  "short_name": "CertWinX",
+  "description": "Business registration, certifications, startup benefits and funding assistance.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1769FF",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

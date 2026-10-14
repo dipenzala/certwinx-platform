@@ -110,7 +110,6 @@ export default function Header({ onMenuToggle }) {
       });
 
       /* WhatsApp glow pulse — light */
-      gsap.to('[data-wa-glow]', {
         opacity: 0.9,
         scale: 1.15,
         duration: 2.2,

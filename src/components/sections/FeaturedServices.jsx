@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight, HelpCircle } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 import SectionHeading from '../ui/SectionHeading';
 import MagneticButton from '../motion/MagneticButton';
 import { SERVICES } from '../../data/services';
@@ -31,13 +32,37 @@ const COLOR_MAP = {
   teal:   { bg: 'bg-teal-50',   text: 'text-teal-600',   glow: 'rgba(13,148,136,0.25)' },
 };
 
+/* ============ ICON RESOLVER ============ */
+/**
+ * service.icon ko safely resolve karta hai.
+ * - Agar React component hai → wahi return karega
+ * - Agar string hai (jaise "Users") → lucide-react se dhundhega
+ * - Kuch na mile toh HelpCircle fallback
+ */
+function resolveIcon(icon) {
+  if (!icon) return HelpCircle;
+
+  // Case 1: Already a React component (function or forwardRef object)
+  if (typeof icon === 'function') return icon;
+  if (typeof icon === 'object' && icon !== null && icon.$$typeof) return icon;
+
+  // Case 2: String name — lucide-react se dhundho
+  if (typeof icon === 'string') {
+    const found = LucideIcons[icon];
+    if (found) return found;
+    console.warn(`⚠️ Icon "${icon}" not found in lucide-react. Using fallback.`);
+  }
+
+  return HelpCircle;
+}
+
 /* ============ SINGLE CARD ============ */
 function ServiceCard({ service, index }) {
   const cardRef = useRef(null);
   const glowRef = useRef(null);
   const iconRef = useRef(null);
 
-  const Icon = service.icon;
+  const Icon = resolveIcon(service.icon);
   const colors = COLOR_MAP[service.color] || COLOR_MAP.blue;
 
   useEffect(() => {
