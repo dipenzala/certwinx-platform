@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { ArrowLeft, ArrowRight, Check, ShieldCheck, Clock, TrendingUp } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, ShieldCheck, Clock, TrendingUp, Sparkles, Building2 } from 'lucide-react';
 import MagneticButton from '../components/motion/MagneticButton';
 import EligibilityLeadForm from '../components/eligibility/EligibilityLeadForm';
 
@@ -9,35 +9,60 @@ const STEPS = [
   {
     id: 'dpiit',
     icon: ShieldCheck,
-    question: 'Is your startup DPIIT recognised?',
-    subtitle: 'Section 80-IAC requires DPIIT recognition as a prerequisite.',
+    question: 'Is your startup recognized by DPIIT?',
+    subtitle: 'Section 80-IAC statutory tax deduction strictly requires a valid DPIIT Certificate of Recognition.',
     field: 'dpiit',
     options: [
-      { value: 'yes', label: 'Yes, already recognised' },
-      { value: 'no', label: 'No' },
-      { value: 'not-sure', label: 'Not sure' },
+      { value: 'yes', label: 'Yes, actively recognised by DPIIT', desc: 'Hold official DPIIT certificate with DIPP number' },
+      { value: 'in-progress', label: 'Application submitted / In progress', desc: 'Awaiting final scrutiny clearance from Startup India' },
+      { value: 'no', label: 'No, not recognized yet', desc: 'CertWinX assists in securing DPIIT recognition prior to 80-IAC filing' },
+    ],
+  },
+  {
+    id: 'entityType',
+    icon: Building2,
+    question: 'What is your corporate entity structure?',
+    subtitle: 'Under Section 80-IAC of the Income Tax Act, 1961, only specific entity types qualify.',
+    field: 'entityType',
+    options: [
+      { value: 'private-limited', label: 'Private Limited Company (Pvt Ltd)', desc: 'Fully eligible under Section 80-IAC provisions' },
+      { value: 'llp', label: 'Limited Liability Partnership (LLP)', desc: 'Fully eligible under Section 80-IAC provisions' },
+      { value: 'proprietorship-partnership', label: 'Partnership Firm or Sole Proprietorship', desc: 'Statutorily ineligible (must convert to Pvt Ltd/LLP to claim)' },
     ],
   },
   {
     id: 'entityAge',
     icon: Clock,
-    question: 'How old is your entity?',
-    subtitle: 'Incorporation date matters for 80-IAC eligibility.',
+    question: 'When was your entity incorporated?',
+    subtitle: 'Must be incorporated on or after 1st April 2016 and within 10 years of operations.',
     field: 'entityAge',
     options: [
-      { value: 'less-than-10', label: 'Less than 10 years' },
-      { value: 'more-than-10', label: 'More than 10 years' },
+      { value: 'after-2016', label: 'Incorporated on or after 1st April 2016 (Under 10 years)', desc: 'Compliant with statutory incorporation window' },
+      { value: 'before-2016', label: 'Incorporated before 1st April 2016', desc: 'Outside statutory window for Section 80-IAC' },
+      { value: 'older-than-10', label: 'More than 10 years since incorporation', desc: 'Ceases to be a startup under DPIIT gazette notification' },
     ],
   },
   {
     id: 'turnover',
     icon: TrendingUp,
-    question: 'Annual turnover in any financial year?',
-    subtitle: 'The scheme has a turnover threshold of ₹200 crore.',
+    question: 'What is your total annual turnover?',
+    subtitle: 'Aggregate annual turnover must not have exceeded ₹100 Crore in any financial year since incorporation.',
     field: 'turnover',
     options: [
-      { value: 'below-200cr', label: 'Below ₹200 crore' },
-      { value: 'above-200cr', label: 'Above ₹200 crore' },
+      { value: 'below-100cr', label: 'Below ₹100 Crore in all prior financial years', desc: 'Fully compliant with Section 80-IAC statutory ceiling' },
+      { value: 'above-100cr', label: 'Exceeded ₹100 Crore in any financial year', desc: 'Exceeds statutory turnover cap' },
+    ],
+  },
+  {
+    id: 'innovation',
+    icon: Sparkles,
+    question: 'Does your business have demonstrable innovation or scalability?',
+    subtitle: 'The Inter-Ministerial Board (IMB) evaluates whether your product/service has technical differentiation, IP, or employment potential.',
+    field: 'innovation',
+    options: [
+      { value: 'patented-tech', label: 'Patented technology / Proprietary software IP', desc: 'Highest probability of IMB board approval' },
+      { value: 'innovative-process', label: 'Innovative business model with scalable software', desc: 'Requires structured technical justification dossier' },
+      { value: 'traditional', label: 'Standard commercial or trading operations', desc: 'Requires strategic repositioning around technology' },
     ],
   },
 ];
@@ -46,7 +71,7 @@ export default function Eligibility80IAC() {
   const nav = useNavigate();
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [showForm, setShowForm] = useState(false); // ⭐ NEW: form toggle
+  const [showForm, setShowForm] = useState(false);
 
   const current = STEPS[step];
   const progress = ((step + 1) / STEPS.length) * 100;
@@ -59,13 +84,8 @@ export default function Eligibility80IAC() {
     if (step < STEPS.length - 1) {
       setStep(step + 1);
     } else {
-      // ⭐ CHANGE: Last step pe seedha navigate nahi karna
-      // Pehle answers save karo, phir form dikhao
-      sessionStorage.setItem(
-        'certwinx_eligibility',
-        JSON.stringify({ ...answers, _flow: '80-iac' })
-      );
-      setShowForm(true); // ← Form open karo
+      sessionStorage.setItem('certwinx_80iac_answers', JSON.stringify(answers));
+      setShowForm(true);
     }
   };
 
@@ -73,30 +93,29 @@ export default function Eligibility80IAC() {
     if (step > 0) setStep(step - 1);
   };
 
-  // ⭐ NEW: Form success hone pe results pe jao
   const handleFormSuccess = () => {
     nav('/eligibility/results');
   };
 
-  // ⭐ NEW: Form back hone pe last step pe wapas jao
   const handleFormBack = () => {
     setShowForm(false);
   };
 
-  // ⭐ NEW: Agar form dikhana hai toh sirf form render karo
   if (showForm) {
     return (
       <>
         <Helmet>
-          <title>Get Your Results — CertWinX</title>
+          <title>Section 80-IAC Assessment Report — CertWinX</title>
           <meta name="robots" content="noindex" />
         </Helmet>
         <EligibilityLeadForm
           eligibilityData={{
-            type: answers.entityType || 'Startup',
-            age: answers.entityAge || 'Not specified',
-            support: 'Section 80-IAC Tax Benefit',
-            ...answers,
+            type: answers.entityType === 'private-limited' ? 'Private Limited Company' : 'LLP',
+            age: answers.entityAge,
+            support: 'Section 80-IAC 100% Tax Holiday Audit',
+            turnover: answers.turnover,
+            dpiit: answers.dpiit,
+            innovation: answers.innovation,
           }}
           onSuccess={handleFormSuccess}
           onBack={handleFormBack}
@@ -108,54 +127,55 @@ export default function Eligibility80IAC() {
   return (
     <>
       <Helmet>
-        <title>Section 80-IAC Eligibility — CertWinX</title>
+        <title>Section 80-IAC Tax Exemption Audit — CertWinX</title>
         <meta
           name="description"
-          content="Quick 3-step Section 80-IAC eligibility check for DPIIT-recognised startups."
+          content="Assess your startup's eligibility for 3-Year 100% Corporate Income Tax Exemption under Section 80-IAC with CertWinX."
         />
       </Helmet>
 
       <section className="relative min-h-screen pt-32 pb-20 bg-canvas overflow-hidden">
+        {/* Soft enterprise glow */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-[420px] h-[420px] rounded-full bg-gold/15 blur-[120px]" />
-          <div className="absolute bottom-1/4 right-1/4 w-[420px] h-[420px] rounded-full bg-blue/10 blur-[120px]" />
+          <div className="absolute top-1/4 left-1/4 w-[450px] h-[450px] rounded-full bg-blue/5 blur-[120px]" />
+          <div className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] rounded-full bg-sky/20 blur-[120px]" />
         </div>
 
         <div className="relative max-w-3xl mx-auto px-6 lg:px-10">
           {/* Badge */}
           <div className="mb-8">
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-line text-[10px] font-bold tracking-[0.2em] text-ink/80 uppercase">
-              <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
-              Section 80-IAC · Tax Benefit
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-line text-[10px] font-bold tracking-[0.2em] text-blue uppercase">
+              <span className="w-1.5 h-1.5 rounded-full bg-blue animate-pulse" />
+              Statutory Tax Incentive · Section 80-IAC
             </span>
           </div>
 
           {/* Progress */}
           <div className="mb-10">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[11px] font-bold tracking-[0.25em] text-gold-deep uppercase">
+              <span className="text-[11px] font-bold tracking-[0.25em] text-blue uppercase">
                 Step {String(step + 1).padStart(2, '0')} / {String(STEPS.length).padStart(2, '0')}
               </span>
-              <span className="text-[11px] text-muted font-medium">~45 seconds</span>
+              <span className="text-[11px] text-muted font-medium">~60 seconds audit</span>
             </div>
             <div className="h-1.5 rounded-full bg-line overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-gold to-[#B8974F] rounded-full transition-all duration-700"
+                className="h-full bg-gradient-to-r from-blue to-deepblue rounded-full transition-all duration-700 ease-[cubic-bezier(0.19,1,0.22,1)]"
                 style={{ width: `${progress}%` }}
               />
             </div>
           </div>
 
           {/* Icon + Question */}
-          <div key={step} className="animate-[fadeUp_0.6s_cubic-bezier(0.19,1,0.22,1)]">
-            <div className="w-14 h-14 rounded-2xl bg-gold/15 border border-gold/25 flex items-center justify-center mb-6">
-              <current.icon size={22} className="text-gold-deep" />
+          <div key={step} className="animate-[fadeUp_0.5s_cubic-bezier(0.19,1,0.22,1)]">
+            <div className="w-14 h-14 rounded-2xl bg-blue/10 border border-blue/20 flex items-center justify-center mb-6">
+              <current.icon size={22} className="text-blue" />
             </div>
 
             <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink leading-[1.1] mb-3">
               {current.question}
             </h1>
-            <p className="text-base text-graphite mb-10">{current.subtitle}</p>
+            <p className="text-base text-graphite mb-8">{current.subtitle}</p>
 
             {/* Options */}
             <div className="space-y-3">
@@ -165,19 +185,26 @@ export default function Eligibility80IAC() {
                   <button
                     key={opt.value}
                     onClick={() => handleSelect(opt.value)}
-                    className={`w-full text-left px-5 py-4 rounded-2xl border text-[15px] font-semibold min-h-[60px] transition-all duration-300 flex items-center justify-between gap-4 group ${
+                    className={`w-full text-left p-5 rounded-2xl border transition-all duration-300 flex items-center justify-between gap-4 group ${
                       selected
-                        ? 'border-gold bg-gradient-to-r from-gold to-[#B8974F] text-ink shadow-[0_15px_30px_-12px_rgba(215,173,99,0.5)]'
-                        : 'border-line bg-white text-ink hover:border-gold/40 hover:bg-gold/5'
+                        ? 'border-blue bg-blue text-white shadow-[0_15px_30px_-12px_rgba(28,131,243,0.4)]'
+                        : 'border-line bg-white text-ink hover:border-blue/40 hover:bg-blue/5'
                     }`}
                   >
-                    <span>{opt.label}</span>
+                    <div className="pr-2">
+                      <div className="font-semibold text-[15px] leading-tight mb-1">{opt.label}</div>
+                      {opt.desc && (
+                        <div className={`text-xs ${selected ? 'text-white/80' : 'text-graphite'}`}>
+                          {opt.desc}
+                        </div>
+                      )}
+                    </div>
                     <span
                       className={`shrink-0 w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
-                        selected ? 'border-ink bg-ink' : 'border-line group-hover:border-gold/40'
+                        selected ? 'border-white bg-white text-blue' : 'border-line group-hover:border-blue/40'
                       }`}
                     >
-                      {selected && <Check size={14} className="text-gold" strokeWidth={3} />}
+                      {selected && <Check size={14} className="text-blue" strokeWidth={3} />}
                     </span>
                   </button>
                 );
@@ -185,15 +212,13 @@ export default function Eligibility80IAC() {
             </div>
           </div>
 
-          {/* Nav buttons */}
+          {/* Navigation */}
           <div className="mt-10 flex items-center justify-between gap-4">
             <button
               onClick={back}
               disabled={step === 0}
               className={`inline-flex items-center gap-2 px-5 py-3 rounded-full text-sm font-semibold transition-all ${
-                step === 0
-                  ? 'text-muted cursor-not-allowed'
-                  : 'text-graphite hover:text-ink hover:bg-ink/5'
+                step === 0 ? 'text-muted cursor-not-allowed opacity-50' : 'text-graphite hover:text-ink hover:bg-ink/5'
               }`}
             >
               <ArrowLeft size={15} /> Back
@@ -201,28 +226,22 @@ export default function Eligibility80IAC() {
 
             <MagneticButton
               onClick={next}
-              variant="gold"
+              variant="primary"
               size="lg"
               disabled={!canProceed()}
               className={!canProceed() ? 'opacity-40 pointer-events-none' : ''}
             >
-              {step === STEPS.length - 1 ? 'See Results' : 'Next'}
+              {step === STEPS.length - 1 ? 'Unlock Tax Audit Results' : 'Next Step'}
               <ArrowRight size={15} />
             </MagneticButton>
           </div>
-
-          {/* Disclaimer */}
-          <p className="mt-10 text-xs text-muted leading-relaxed text-center max-w-lg mx-auto">
-            Approval for 80-IAC is subject to Inter-Ministerial Board review. CertWinX
-            provides professional assistance only.
-          </p>
         </div>
       </section>
 
       <style>{`
         @keyframes fadeUp {
-          from { opacity: 0; transform: translateY(20px); filter: blur(4px); }
-          to { opacity: 1; transform: translateY(0); filter: blur(0); }
+          from { opacity: 0; transform: translateY(16px); }
+          to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
     </>

@@ -30,12 +30,12 @@ const CATEGORY_ICONS = {
   Compliance: FileCheck,
 };
 
-/* ============ HERO STATS ============ */
+/* ============ AUTHENTIC OPERATIONAL METRICS ============ */
 const HERO_STATS = [
-  { value: '250+', label: 'Services' },
-  { value: '160+', label: 'Schemes' },
-  { value: '8,927+', label: 'Clients' },
-  { value: '99%', label: 'Success' },
+  { value: '25+', label: 'Service Verticals' },
+  { value: '100+', label: 'Statutory Procedures' },
+  { value: '100%', label: 'Procedural Transparency' },
+  { value: '24h', label: 'Inquiry Response SLA' },
 ];
 
 export default function Services() {
@@ -59,60 +59,6 @@ export default function Services() {
     });
   }, [query, category]);
 
-  // GSAP animations
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const root = rootRef.current;
-    if (!root) return;
-
-    const ctx = gsap.context(() => {
-      // Background glow drift
-      gsap.utils.toArray('[data-glow]').forEach((el, i) => {
-        gsap.to(el, {
-          x: i % 2 === 0 ? '+=40' : '-=40',
-          y: i % 2 === 0 ? '-=30' : '+=30',
-          duration: 12 + i * 2,
-          ease: 'sine.inOut',
-          yoyo: true,
-          repeat: -1,
-        });
-      });
-
-      // Grid shimmer
-      gsap.to('[data-grid-shimmer]', {
-        backgroundPosition: '200% 0',
-        duration: 10,
-        ease: 'none',
-        repeat: -1,
-      });
-
-      // Live pulse
-      gsap.to('[data-live-dot]', {
-        scale: 1.6,
-        opacity: 0.4,
-        duration: 1.5,
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1,
-      });
-
-      // Floating particles
-      gsap.utils.toArray('[data-particle]').forEach((p, i) => {
-        gsap.to(p, {
-          y: () => gsap.utils.random(-25, 25),
-          x: () => gsap.utils.random(-20, 20),
-          opacity: () => gsap.utils.random(0.2, 0.6),
-          duration: 6 + i * 0.5,
-          ease: 'sine.inOut',
-          yoyo: true,
-          repeat: -1,
-        });
-      });
-    }, root);
-
-    return () => ctx.revert();
-  }, []);
-
   // Animate card grid on filter change
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -121,13 +67,13 @@ export default function Services() {
 
     gsap.fromTo(
       grid.children,
-      { y: 20, opacity: 0 },
+      { y: 16, opacity: 0 },
       {
         y: 0,
         opacity: 1,
-        duration: 0.5,
-        stagger: 0.04,
-        ease: 'expo.out',
+        duration: 0.4,
+        stagger: 0.03,
+        ease: 'power2.out',
       }
     );
   }, [query, category]);
@@ -135,354 +81,230 @@ export default function Services() {
   return (
     <>
       <Helmet>
-        <title>Services — CertWinX</title>
+        <title>Advisory & Compliance Services Directory — CertWinX</title>
         <meta
           name="description"
-          content="Explore CertWinX services across business registration, government registration, startup, certification, funding and compliance."
+          content="Comprehensive business services directory covering business registration, DPIIT recognition, ISO & ZED certifications, government funding, and corporate compliance."
         />
       </Helmet>
 
-      {/* ============ HERO ============ */}
+      {/* ============ HERO SECTION (Enterprise Light-Blue) ============ */}
       <section
         ref={rootRef}
-        className="relative pt-36 lg:pt-44 pb-16 lg:pb-20 bg-[#0A0F1F] text-white overflow-hidden"
+        className="relative pt-36 lg:pt-44 pb-16 bg-canvas overflow-hidden border-b border-line"
       >
-        {/* Grid shimmer */}
-        <div
-          data-grid-shimmer
-          className="absolute inset-0 opacity-[0.06] pointer-events-none"
-          style={{
-            backgroundImage: `linear-gradient(90deg, transparent 0%, rgba(22,131,255,0.3) 50%, transparent 100%), linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)`,
-            backgroundSize: '200% 100%, 64px 64px, 64px 64px',
-          }}
-        />
-
-        {/* Glow blobs */}
-        <div
-          data-glow
-          className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-blue/15 blur-[120px] pointer-events-none"
-        />
-        <div
-          data-glow
-          className="absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full bg-blue/10 blur-[100px] pointer-events-none"
-        />
-
-        {/* Particles */}
-        {[
-          { top: '20%', left: '8%', size: 3 },
-          { top: '35%', left: '92%', size: 2 },
-          { top: '60%', left: '5%', size: 2 },
-          { top: '80%', left: '88%', size: 3 },
-          { top: '25%', left: '50%', size: 2 },
-        ].map((p, i) => (
-          <span
-            key={i}
-            data-particle
-            className="absolute rounded-full bg-blue pointer-events-none"
-            style={{
-              top: p.top,
-              left: p.left,
-              width: p.size,
-              height: p.size,
-              boxShadow: `0 0 ${p.size * 4}px rgba(22,131,255,0.6)`,
-            }}
-          />
-        ))}
+        {/* Ambient atmospheric glows */}
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-blue/5 blur-[120px]" />
+          <div className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] rounded-full bg-sky/20 blur-[120px]" />
+        </div>
 
         <div className="relative max-w-[1440px] mx-auto px-6 lg:px-10">
           <div className="max-w-3xl mx-auto text-center">
 
-            {/* Badge */}
+            {/* Service Directory Badge */}
             <RevealOnScroll>
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue/10 border border-blue/30 text-[10px] font-bold tracking-[0.2em] text-white uppercase mb-6">
-                <span className="relative flex items-center justify-center w-2.5 h-2.5">
-                  <span data-live-dot className="absolute inset-0 rounded-full bg-green-400/60" />
-                  <span className="relative w-1.5 h-1.5 rounded-full bg-green-400" />
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue/10 border border-blue/20 text-[10px] font-bold tracking-[0.2em] text-blue uppercase mb-6">
+                <span className="relative flex items-center justify-center w-2 h-2">
+                  <span className="absolute inset-0 rounded-full bg-blue animate-ping" />
+                  <span className="relative w-1.5 h-1.5 rounded-full bg-blue" />
                 </span>
-                Complete Service Directory
+                Corporate Advisory & Compliance Services
               </span>
             </RevealOnScroll>
 
             {/* Heading */}
             <RevealOnScroll delay={0.1}>
-              <h1 className="font-display text-[2.25rem] sm:text-[3rem] lg:text-[3.75rem] font-bold leading-[1.05] tracking-[-0.03em] text-white text-balance mb-6">
-                A directory of <span className="text-blue">assistance.</span>
+              <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.08] tracking-tight text-ink mb-6 text-balance">
+                Specialized execution for registrations, certifications & growth.
               </h1>
             </RevealOnScroll>
 
             {/* Subtext */}
             <RevealOnScroll delay={0.2}>
-              <p className="text-base lg:text-lg text-white/70 leading-relaxed max-w-2xl mx-auto mb-10">
-                Registrations, certifications, startup benefits, funding and compliance — structured
-                for clarity across every stage of your business.
+              <p className="text-base sm:text-lg text-graphite leading-relaxed max-w-2xl mx-auto mb-10">
+                From company incorporation and DPIIT startup recognition to ISO standards, MSME ZED certifications, and corporate compliance — delivered with institutional precision.
               </p>
             </RevealOnScroll>
 
-            {/* Hero stats strip */}
+            {/* Operational Stats Strip */}
             <RevealOnScroll delay={0.3}>
-              <div className="inline-flex flex-wrap items-center justify-center gap-x-8 gap-y-3 px-6 py-4 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm">
+              <div className="inline-flex flex-wrap items-center justify-center gap-x-8 gap-y-3 px-6 py-4 rounded-2xl bg-white border border-line shadow-sm">
                 {HERO_STATS.map((s, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <span className="font-display text-2xl font-bold text-white tabular">
+                  <div key={i} className="flex items-center gap-2.5">
+                    <span className="font-display text-xl font-bold text-ink tabular">
                       {s.value}
                     </span>
-                    <span className="text-[10px] font-bold tracking-[0.15em] text-white/50 uppercase">
+                    <span className="text-[10px] font-bold tracking-[0.15em] text-muted uppercase">
                       {s.label}
                     </span>
                     {i < HERO_STATS.length - 1 && (
-                      <span className="w-px h-5 bg-white/15 ml-4 hidden sm:block" />
+                      <span className="w-px h-4 bg-line ml-3 hidden sm:block" />
                     )}
                   </div>
                 ))}
               </div>
             </RevealOnScroll>
+
           </div>
         </div>
       </section>
 
-      {/* ============ SEARCH & FILTERS ============ */}
-      <section className="relative py-10 lg:py-14 bg-[#0A0F1F] border-t border-blue/15">
+      {/* ============ SEARCH & FILTERS SECTION ============ */}
+      <section className="py-8 bg-paper border-b border-line">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
 
           {/* Search bar */}
-          <RevealOnScroll>
-            <div className="relative max-w-2xl mx-auto">
-              <Search
-                size={18}
-                className="absolute left-5 top-1/2 -translate-y-1/2 text-blue/60 pointer-events-none"
-              />
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search services, categories or keywords..."
-                className="w-full pl-14 pr-12 py-4 rounded-2xl bg-white/5 border border-white/15 text-white placeholder-white/40 focus:outline-none focus:border-blue focus:bg-white/8 transition-all text-sm backdrop-blur-sm"
-              />
-              {query && (
-                <button
-                  onClick={() => setQuery('')}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/70 hover:text-white transition-colors"
-                  aria-label="Clear search"
-                >
-                  <X size={12} />
-                </button>
-              )}
-            </div>
-          </RevealOnScroll>
+          <div className="relative max-w-2xl mx-auto mb-6">
+            <Search
+              size={18}
+              className="absolute left-5 top-1/2 -translate-y-1/2 text-muted pointer-events-none"
+            />
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search services by keyword, category, or requirement..."
+              className="w-full pl-12 pr-12 py-3.5 rounded-2xl bg-white border border-line text-ink placeholder-muted focus:outline-none focus:border-blue focus:ring-2 focus:ring-blue/10 transition-all text-sm shadow-sm"
+            />
+            {query && (
+              <button
+                onClick={() => setQuery('')}
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-canvas hover:bg-line flex items-center justify-center text-graphite hover:text-ink transition-colors"
+                aria-label="Clear search"
+              >
+                <X size={12} />
+              </button>
+            )}
+          </div>
 
-          {/* Filter chips */}
-          <RevealOnScroll delay={0.1}>
-            <div className="mt-7 flex flex-wrap items-center justify-center gap-2">
-              {SERVICE_CATEGORIES.map((cat) => {
-                const active = category === cat;
-                const Icon = CATEGORY_ICONS[cat] || FileCheck;
-                return (
-                  <button
-                    key={cat}
-                    onClick={() => setCategory(cat)}
-                    className={`group inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-[12px] font-bold tracking-wide uppercase transition-all duration-300 ${
-                      active
-                        ? 'bg-blue text-white border border-blue shadow-[0_10px_25px_-8px_rgba(22,131,255,0.6)]'
-                        : 'bg-white/5 border border-white/15 text-white/70 hover:bg-white/10 hover:text-white hover:border-blue/40'
-                    }`}
-                  >
-                    <Icon size={12} strokeWidth={2.5} />
-                    {cat}
-                  </button>
-                );
-              })}
-            </div>
-          </RevealOnScroll>
+          {/* Category filter chips */}
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            {SERVICE_CATEGORIES.map((cat) => {
+              const active = category === cat;
+              const Icon = CATEGORY_ICONS[cat] || FileCheck;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setCategory(cat)}
+                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold tracking-wide uppercase transition-all ${
+                    active
+                      ? 'bg-blue text-white shadow-sm'
+                      : 'bg-white border border-line text-graphite hover:border-blue/40 hover:text-ink'
+                  }`}
+                >
+                  <Icon size={13} />
+                  {cat}
+                </button>
+              );
+            })}
+          </div>
 
           {/* Results count */}
-          <RevealOnScroll delay={0.2}>
-            <div className="mt-6 text-center">
-              <p className="text-xs text-white/50">
-                Showing{' '}
-                <span className="text-white font-bold">
-                  {filtered.length}
-                </span>{' '}
-                {filtered.length === 1 ? 'service' : 'services'}
-                {category !== 'All' && (
-                  <>
-                    {' '}
-                    in <span className="text-blue font-bold">{category}</span>
-                  </>
-                )}
-              </p>
-            </div>
-          </RevealOnScroll>
+          <div className="mt-4 text-center">
+            <p className="text-xs text-muted">
+              Displaying <span className="text-ink font-bold">{filtered.length}</span> services
+              {category !== 'All' && <span> in <strong className="text-blue">{category}</strong></span>}
+            </p>
+          </div>
+
         </div>
       </section>
 
       {/* ============ SERVICES GRID ============ */}
-      <section className="relative py-16 lg:py-20 bg-canvas overflow-hidden">
+      <section className="py-16 lg:py-24 bg-canvas">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
 
-        {/* Background glows */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-blue/5 blur-[120px]" />
-          <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-blue/4 blur-[100px]" />
-        </div>
-
-        <div className="relative max-w-[1440px] mx-auto px-6 lg:px-10">
           {filtered.length > 0 ? (
             <div
               data-services-grid
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
             >
               {filtered.map((s, i) => (
                 <ServiceCard key={s.slug} service={s} index={i} />
               ))}
             </div>
           ) : (
-            /* Empty state */
-            <div className="text-center py-20">
-              <div className="w-16 h-16 rounded-2xl bg-blue/10 border border-blue/20 flex items-center justify-center mx-auto mb-5">
-                <Search size={24} className="text-blue" />
-              </div>
-              <h3 className="font-display text-xl font-bold text-ink mb-2">
-                No services found
-              </h3>
-              <p className="text-sm text-graphite mb-6 max-w-md mx-auto">
-                Try a different search term or clear the filters.
+            <div className="text-center py-20 bg-white rounded-3xl border border-line max-w-lg mx-auto">
+              <Search size={32} className="text-muted mx-auto mb-4" />
+              <h3 className="font-display text-lg font-bold text-ink mb-2">No services found</h3>
+              <p className="text-xs text-graphite mb-6 px-6">
+                Try searching with different terms or reset your filters.
               </p>
               <button
-                onClick={() => {
-                  setQuery('');
-                  setCategory('All');
-                }}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-ink text-canvas text-sm font-semibold hover:bg-graphite transition-colors"
+                onClick={() => { setQuery(''); setCategory('All'); }}
+                className="px-5 py-2.5 rounded-full bg-blue text-white text-xs font-bold hover:bg-deepblue transition-colors"
               >
-                Clear Filters
+                Reset Filters
               </button>
             </div>
           )}
-        </div>
-      </section>
 
-      {/* ============ CTA STRIP ============ */}
-      <section className="relative py-16 lg:py-20 bg-canvas border-t border-line">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
-          <RevealOnScroll>
-            <div className="bg-white border border-line rounded-3xl p-8 lg:p-12 text-center relative overflow-hidden">
-              <div className="absolute -top-32 -right-32 w-64 h-64 rounded-full bg-blue/10 blur-[80px]" />
-              <div className="absolute -bottom-32 -left-32 w-64 h-64 rounded-full bg-blue/8 blur-[80px]" />
-
-              <div className="relative">
-                <Sparkles size={22} className="text-blue mx-auto mb-5" />
-                <h3 className="font-display text-2xl lg:text-3xl font-bold text-ink mb-3">
-                  Not sure which service you need?
-                </h3>
-                <p className="text-base text-graphite mb-7 max-w-xl mx-auto">
-                  Take a 60-second eligibility check and get personalised recommendations.
-                </p>
-                <div className="flex flex-wrap gap-3 justify-center">
-                  <MagneticButton to="/eligibility" variant="primary" size="lg">
-                    Check My Eligibility <ArrowUpRight size={15} />
-                  </MagneticButton>
-                  <MagneticButton href={getWhatsAppLink()} variant="outline" size="lg">
-                    WhatsApp Us
-                  </MagneticButton>
-                </div>
-              </div>
+          {/* Bottom Advisory Callout */}
+          <div className="mt-16 bg-white border border-line rounded-3xl p-8 lg:p-12 text-center max-w-4xl mx-auto shadow-sm">
+            <h3 className="font-display text-2xl font-bold text-ink mb-3">
+              Need assistance identifying the right compliance roadmap?
+            </h3>
+            <p className="text-sm text-graphite max-w-xl mx-auto mb-8">
+              Speak directly with our Ahmedabad regulatory advisory team to assess your startup or MSME requirements.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-3">
+              <MagneticButton to="/eligibility" variant="primary" size="lg">
+                Check Scheme Eligibility <ArrowUpRight size={15} />
+              </MagneticButton>
+              <MagneticButton href={getWhatsAppLink('services guidance')} variant="outline" size="lg">
+                WhatsApp Advisory Desk
+              </MagneticButton>
             </div>
-          </RevealOnScroll>
+          </div>
+
         </div>
       </section>
     </>
   );
 }
 
-/* ============ SERVICE CARD ============ */
+/* ============ SERVICE CARD COMPONENT ============ */
 function ServiceCard({ service, index }) {
-  const cardRef = useRef(null);
-
-  useEffect(() => {
-    const card = cardRef.current;
-    if (!card) return;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if (window.matchMedia('(pointer: coarse)').matches) return;
-
-    const setRotX = gsap.quickTo(card, 'rotateX', { duration: 0.6, ease: 'power3.out' });
-    const setRotY = gsap.quickTo(card, 'rotateY', { duration: 0.6, ease: 'power3.out' });
-
-    gsap.set(card, { transformPerspective: 1000 });
-
-    const onMove = (e) => {
-      const rect = card.getBoundingClientRect();
-      const px = (e.clientX - rect.left) / rect.width - 0.5;
-      const py = (e.clientY - rect.top) / rect.height - 0.5;
-      setRotY(px * 6);
-      setRotX(-py * 5);
-    };
-
-    const onLeave = () => {
-      setRotX(0);
-      setRotY(0);
-    };
-
-    card.addEventListener('mousemove', onMove);
-    card.addEventListener('mouseleave', onLeave);
-    return () => {
-      card.removeEventListener('mousemove', onMove);
-      card.removeEventListener('mouseleave', onLeave);
-    };
-  }, []);
-
   return (
     <Link
       to={`/services/${service.slug}`}
-      className="group block h-full will-change-transform"
+      className="group block h-full bg-white border border-line rounded-3xl p-7 hover:border-blue/40 hover:shadow-[0_25px_50px_-20px_rgba(28,131,243,0.18)] transition-all duration-300 flex flex-col justify-between"
     >
-      <div
-        ref={cardRef}
-        className="relative h-full bg-white border border-line rounded-3xl p-7 overflow-hidden transition-all duration-500 hover:border-blue/40 hover:shadow-[0_30px_60px_-25px_rgba(23,105,255,0.35)]"
-        style={{ transformStyle: 'preserve-3d' }}
-      >
-        {/* Top gradient on hover */}
-        <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-blue/0 to-blue/0 group-hover:from-blue/8 transition-colors duration-500 pointer-events-none" />
-
-        <div className="relative">
-
-          {/* Top row — index + arrow */}
-          <div className="flex items-start justify-between mb-8">
-            <span className="text-[10px] font-bold tracking-[0.2em] text-muted uppercase tabular">
-              {String(index + 1).padStart(2, '0')} / {String(SERVICES.length).padStart(2, '0')}
-            </span>
-            <span className="shrink-0 w-10 h-10 rounded-full border border-line flex items-center justify-center text-muted group-hover:border-blue group-hover:bg-blue group-hover:text-white transition-all duration-500 group-hover:rotate-45">
-              <ArrowUpRight size={16} strokeWidth={2.2} />
-            </span>
-          </div>
-
-          {/* Category badge */}
-          <span className="inline-block px-3 py-1.5 rounded-full bg-blue/8 border border-blue/20 text-[10px] font-bold tracking-[0.15em] text-blue uppercase mb-4">
-            {service.category}
+      <div>
+        {/* Top row: index + arrow */}
+        <div className="flex items-start justify-between mb-6">
+          <span className="text-[10px] font-bold tracking-[0.2em] text-muted uppercase tabular">
+            {String(index + 1).padStart(2, '0')} / {String(SERVICES.length).padStart(2, '0')}
           </span>
-
-          {/* Title */}
-          <h3 className="font-display text-xl font-bold text-ink leading-tight mb-3 group-hover:text-blue transition-colors duration-500">
-            {service.name}
-          </h3>
-
-          {/* Description */}
-          <p className="text-sm text-graphite leading-relaxed line-clamp-3 mb-6">
-            {service.short}
-          </p>
-
-          {/* Bottom hint */}
-          <div className="pt-5 border-t border-line flex items-center justify-between">
-            <span className="text-[11px] font-bold tracking-[0.15em] text-muted uppercase group-hover:text-blue transition-colors">
-              View Details
-            </span>
-            <ArrowUpRight
-              size={14}
-              className="text-muted group-hover:text-blue transition-all duration-500 group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-            />
-          </div>
+          <span className="shrink-0 w-8 h-8 rounded-full border border-line flex items-center justify-center text-muted group-hover:border-blue group-hover:bg-blue group-hover:text-white transition-all duration-300">
+            <ArrowUpRight size={14} />
+          </span>
         </div>
 
-        {/* Bottom accent line */}
-        <span className="absolute bottom-0 left-0 right-0 h-[3px] bg-gradient-to-r from-blue to-blue/40 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-700" />
+        {/* Category badge */}
+        <span className="inline-block px-2.5 py-1 rounded-full bg-blue/10 border border-blue/20 text-[10px] font-bold tracking-wider text-blue uppercase mb-3">
+          {service.category}
+        </span>
+
+        {/* Title */}
+        <h3 className="font-display text-lg font-bold text-ink leading-snug mb-2 group-hover:text-blue transition-colors">
+          {service.name}
+        </h3>
+
+        {/* Description */}
+        <p className="text-xs text-graphite leading-relaxed line-clamp-3 mb-6">
+          {service.short}
+        </p>
+      </div>
+
+      {/* Card Footer */}
+      <div className="pt-4 border-t border-line/60 flex items-center justify-between text-xs font-bold text-blue">
+        <span>View Full Service Scope</span>
+        <ArrowUpRight
+          size={14}
+          className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
+        />
       </div>
     </Link>
   );

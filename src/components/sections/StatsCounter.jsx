@@ -5,33 +5,32 @@ import RevealOnScroll from '../motion/RevealOnScroll';
 
 const STATS = [
   {
-    to: 250,
+    to: 16,
     suffix: '+',
-    label: 'Services Offered',
-    desc: 'From registration to funding',
-    tone: 'ink',
-  },
-  {
-    to: 160,
-    suffix: '+',
-    label: 'Schemes Mapped',
-    desc: 'Central & state schemes',
+    label: 'Priority Schemes Mapped',
+    desc: 'Central & State funding & incentive programs',
     tone: 'blue',
   },
   {
-    to: 8927,
+    to: 28,
     suffix: '+',
-    label: 'Clients Served',
-    desc: 'Trusted across India',
+    label: 'States & UTs Covered',
+    desc: 'Pan-India startup advisory footprint',
     tone: 'ink',
-    separator: true,
   },
   {
-    to: 99,
+    to: 100,
     suffix: '%',
-    label: 'Success Ratio',
-    desc: 'Consistent outcomes',
+    label: 'Procedural Transparency',
+    desc: 'Direct portal submission & clear documentation',
     tone: 'blue',
+  },
+  {
+    to: 24,
+    suffix: ' hrs',
+    label: 'Initial Advisory Response',
+    desc: 'Fast preliminary eligibility assessment',
+    tone: 'ink',
   },
 ];
 
@@ -44,18 +43,9 @@ export default function StatsCounter() {
     if (!root) return;
 
     const ctx = gsap.context(() => {
-      gsap.to('[data-live-dot]', {
-        scale: 1.5,
-        opacity: 0.3,
-        duration: 1.8,
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1,
-      });
-
       gsap.from('[data-divider]', {
         scaleX: 0,
-        duration: 1.4,
+        duration: 1.2,
         ease: 'expo.out',
         stagger: 0.08,
         scrollTrigger: {
@@ -72,47 +62,43 @@ export default function StatsCounter() {
   return (
     <section
       ref={rootRef}
-      className="relative py-20 lg:py-28 bg-white border-y border-line overflow-hidden"
+      className="relative py-20 lg:py-24 bg-white border-y border-line overflow-hidden"
     >
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/2 left-1/4 w-[400px] h-[400px] rounded-full bg-blue/5 blur-[100px]" />
-        <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] rounded-full bg-blue/5 blur-[100px]" />
+        <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] rounded-full bg-sky/10 blur-[100px]" />
       </div>
 
-      <div className="relative max-w-[1440px] mx-auto px-6 lg:px-10">
-
+      <div className="relative max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10">
         <RevealOnScroll>
-          <div className="text-center mb-16 lg:mb-20">
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-line text-[10px] font-bold tracking-[0.25em] text-ink/70 uppercase mb-5">
-              <span className="relative flex items-center justify-center w-2 h-2">
-                <span data-live-dot className="absolute inset-0 rounded-full bg-green-500/40" />
-                <span className="relative w-1.5 h-1.5 rounded-full bg-green-500" />
-              </span>
-              By the Numbers
+          <div className="text-center mb-14 lg:mb-16">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-soft border border-blue/20 text-[11px] font-semibold tracking-wider text-blue uppercase mb-4">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              Verified Execution Metrics
             </span>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink leading-[1.1] tracking-tight">
               Built on <span className="text-blue">structure</span>. Trusted for{' '}
-              <span className="text-blue">results</span>.
+              <span className="text-blue">rigor</span>.
             </h2>
           </div>
         </RevealOnScroll>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-12 gap-x-6 lg:gap-x-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-10 gap-x-6 lg:gap-x-8">
           {STATS.map((s, i) => (
             <RevealOnScroll
               key={i}
-              delay={i * 0.1}
+              delay={i * 0.08}
               className="relative text-center lg:text-left"
             >
               {i > 0 && (
                 <span
                   data-divider
-                  className="hidden lg:block absolute left-0 top-2 bottom-2 w-px bg-gradient-to-b from-transparent via-line to-transparent origin-top"
+                  className="hidden lg:block absolute left-0 top-2 bottom-2 w-px bg-line origin-top"
                 />
               )}
 
               <p
-                className={`font-display text-[3.5rem] sm:text-[4.5rem] lg:text-[5.5rem] font-bold tabular leading-none tracking-tight mb-4 ${
+                className={`font-display text-[3rem] sm:text-[4rem] lg:text-[4.75rem] font-bold tabular leading-none tracking-tight mb-3 ${
                   s.tone === 'blue' ? 'text-blue' : 'text-ink'
                 }`}
               >
@@ -123,11 +109,11 @@ export default function StatsCounter() {
                 />
               </p>
 
-              <p className="text-[11px] lg:text-[12px] font-bold tracking-[0.2em] text-ink uppercase mb-2">
+              <p className="text-xs font-bold tracking-wider text-ink uppercase mb-1.5">
                 {s.label}
               </p>
 
-              <p className="text-xs lg:text-sm text-muted leading-relaxed">
+              <p className="text-xs text-graphite leading-relaxed">
                 {s.desc}
               </p>
             </RevealOnScroll>

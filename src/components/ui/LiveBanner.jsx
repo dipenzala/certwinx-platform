@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import { Rocket, TrendingUp, ShieldCheck, ArrowRight, X } from 'lucide-react';
 
 const BANNERS = [
-  { id: 1, icon: Rocket, label: 'STARTUP INDIA', title: 'DPIIT + Tax Exemption', path: '/startup', tone: 'blue' },
-  { id: 2, icon: ShieldCheck, label: 'SECTION 80-IAC', title: '3-Year Tax Holiday', path: '/eligibility/80-iac', tone: 'gold' },
-  { id: 3, icon: TrendingUp, label: 'SEED FUND', title: 'Up to ₹50L Funding', path: '/funding', tone: 'blue' },
+  { id: 1, icon: Rocket, label: 'STARTUP INDIA', title: 'DPIIT Recognition & Benefits', path: '/startup', tone: 'blue' },
+  { id: 2, icon: ShieldCheck, label: 'SECTION 80-IAC', title: '3-Year 100% Tax Holiday', path: '/services/section-80-iac', tone: 'sky' },
+  { id: 3, icon: TrendingUp, label: 'SEED FUND SCHEME', title: 'Up to ₹50L Financial Grant', path: '/funding', tone: 'blue' },
 ];
 
 export default function LiveBanner({ hidden = false }) {
@@ -16,14 +16,14 @@ export default function LiveBanner({ hidden = false }) {
   const timerRef = useRef(null);
   const lastScrollRef = useRef(0);
 
-  /* SCROLL DETECTION — hide on scroll down, show on scroll up */
+  /* SCROLL DETECTION */
   useEffect(() => {
     const onScroll = () => {
       const currentY = window.scrollY;
-      const goingDown = currentY > lastScrollRef.current + 5;
-      const goingUp = currentY < lastScrollRef.current - 5;
+      const goingDown = currentY > lastScrollRef.current + 8;
+      const goingUp = currentY < lastScrollRef.current - 8;
 
-      if (currentY < 100) {
+      if (currentY < 120) {
         setScrolledDown(false);
       } else if (goingDown) {
         setScrolledDown(true);
@@ -50,9 +50,9 @@ export default function LiveBanner({ hidden = false }) {
       setTimeout(() => {
         setIndex((i) => (i + 1) % BANNERS.length);
         setVisible(true);
-      }, 400);
+      }, 350);
     };
-    timerRef.current = setInterval(cycle, 5000);
+    timerRef.current = setInterval(cycle, 6000);
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
@@ -71,44 +71,44 @@ export default function LiveBanner({ hidden = false }) {
   const tones = {
     blue: {
       dot: 'bg-blue',
-      glow: 'shadow-[0_0_16px_rgba(45,156,255,0.6)]',
-      label: 'bg-blue/10 text-blue border-blue/20',
-      arrow: 'bg-blue/10 text-blue group-hover:bg-blue group-hover:text-white',
+      glow: 'shadow-[0_0_12px_rgba(28,131,243,0.5)]',
+      label: 'bg-blue-soft text-blue border-blue/20',
+      arrow: 'bg-blue-soft text-blue group-hover:bg-blue group-hover:text-white',
     },
-    gold: {
-      dot: 'bg-gold',
-      glow: 'shadow-[0_0_16px_rgba(204,171,110,0.6)]',
-      label: 'bg-gold/15 text-gold-deep border-gold/25',
-      arrow: 'bg-gold/15 text-gold-deep group-hover:bg-gold group-hover:text-ink',
+    sky: {
+      dot: 'bg-sky-deep',
+      glow: 'shadow-[0_0_12px_rgba(92,157,216,0.5)]',
+      label: 'bg-sky/20 text-blue-deep border-sky/30',
+      arrow: 'bg-sky/20 text-blue-deep group-hover:bg-deepblue group-hover:text-white',
     },
   };
-  const t = tones[banner.tone];
+  const t = tones[banner.tone] || tones.blue;
 
   return (
-    <div
-      className={`fixed bottom-20 lg:bottom-6 left-3 lg:left-6 z-[60] max-w-[calc(100vw-24px)] sm:max-w-[300px] lg:max-w-[340px] transition-all duration-500 ease-[cubic-bezier(0.19,1,0.22,1)] ${
+    <aside
+      className={`fixed bottom-20 lg:bottom-6 left-3 lg:left-6 z-[60] max-w-[calc(100vw-24px)] sm:max-w-[320px] transition-all duration-400 ease-[cubic-bezier(0.19,1,0.22,1)] ${
         visible && !scrolledDown
           ? 'opacity-100 translate-y-0'
           : 'opacity-0 translate-y-4 pointer-events-none'
       }`}
       role="status"
-      aria-live="polite"
+      aria-label="Live advisory update"
     >
       <Link
         to={banner.path}
-        className="group relative flex items-center gap-2.5 bg-white rounded-full border border-line shadow-[0_16px_40px_-16px_rgba(23,105,255,0.35)] pl-3 pr-2 py-2 hover:shadow-[0_20px_50px_-16px_rgba(23,105,255,0.5)] hover:border-blue/30 transition-all duration-500"
+        className="group relative flex items-center gap-2.5 bg-white rounded-full border border-line shadow-[0_12px_32px_-12px_rgba(22,58,138,0.2)] pl-3.5 pr-2 py-2 hover:shadow-[0_16px_40px_-12px_rgba(28,131,243,0.3)] hover:border-blue/30 transition-all duration-300"
       >
-        {/* Live dot */}
+        {/* Pulsing live dot */}
         <span className="relative shrink-0 flex items-center justify-center">
           <span className={`absolute w-2.5 h-2.5 rounded-full ${t.dot} opacity-40 animate-ping`} />
-          <span className={`relative w-1.5 h-1.5 rounded-full ${t.dot} ${t.glow}`} />
+          <span className={`relative w-2 h-2 rounded-full ${t.dot} ${t.glow}`} />
         </span>
 
         {/* Content */}
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 pr-1">
           <div className="flex items-center gap-1.5 mb-0.5">
             <span className={`inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full border text-[8px] font-bold tracking-[0.15em] uppercase ${t.label}`}>
-              <banner.icon size={8} strokeWidth={2.5} />
+              <banner.icon size={9} />
               {banner.label}
             </span>
           </div>
@@ -127,12 +127,12 @@ export default function LiveBanner({ hidden = false }) {
         {/* Dismiss */}
         <button
           onClick={handleDismiss}
-          aria-label="Dismiss"
+          aria-label="Dismiss banner"
           className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-white border border-line flex items-center justify-center text-graphite hover:text-ink shadow-sm"
         >
           <X size={10} strokeWidth={2.5} />
         </button>
       </Link>
-    </div>
+    </aside>
   );
 }

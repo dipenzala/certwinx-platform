@@ -8,35 +8,38 @@ export default function MobileStickyNav({ hidden = false }) {
   if (location.pathname.startsWith('/admin')) return null;
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-[65] lg:hidden glass-strong border-t border-white/10 pb-[env(safe-area-inset-bottom)]">
-      <div className="grid grid-cols-3 divide-x divide-white/10">
+    <aside
+      className="fixed bottom-0 left-0 right-0 z-[65] lg:hidden bg-white/95 backdrop-blur-md border-t border-line shadow-[0_-4px_20px_-2px_rgba(22,58,138,0.08)] pb-[env(safe-area-inset-bottom)]"
+      aria-label="Quick Action Bar"
+    >
+      <div className="grid grid-cols-3 divide-x divide-line">
         <a
           href={`tel:${SITE.phone}`}
-          className="flex flex-col items-center justify-center gap-0.5 py-2 min-h-[52px] text-graphite active:bg-white/5 transition-colors"
-          aria-label="Call CertWinX"
+          className="flex flex-col items-center justify-center gap-1 py-2.5 min-h-[52px] text-graphite hover:text-ink active:bg-canvas transition-colors"
+          aria-label="Call CertWinX Advisory"
         >
-          <Phone size={16} />
-          <span className="text-[9px] font-medium tracking-wide">CALL</span>
+          <Phone size={16} className="text-blue" />
+          <span className="text-[10px] font-semibold tracking-wider uppercase">Call</span>
         </a>
         <a
           href={getWhatsAppLink()}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex flex-col items-center justify-center gap-0.5 py-2 min-h-[52px] text-[#25D366] active:bg-white/5 transition-colors"
-          aria-label="WhatsApp CertWinX"
+          className="flex flex-col items-center justify-center gap-1 py-2.5 min-h-[52px] text-emerald-700 hover:text-emerald-800 active:bg-canvas transition-colors"
+          aria-label="WhatsApp Advisory Support"
         >
-          <MessageCircle size={16} />
-          <span className="text-[9px] font-medium tracking-wide">WHATSAPP</span>
+          <MessageCircle size={16} className="text-emerald-600" />
+          <span className="text-[10px] font-semibold tracking-wider uppercase">WhatsApp</span>
         </a>
         <Link
           to="/eligibility"
-          className="flex flex-col items-center justify-center gap-0.5 py-2 min-h-[52px] text-blue active:bg-white/5 transition-colors"
-          aria-label="Check eligibility"
+          className="flex flex-col items-center justify-center gap-1 py-2.5 min-h-[52px] text-blue hover:text-blue-hover active:bg-canvas transition-colors"
+          aria-label="Check Scheme Eligibility"
         >
-          <CheckCircle size={16} />
-          <span className="text-[9px] font-medium tracking-wide">ELIGIBILITY</span>
+          <CheckCircle size={16} className="text-blue" />
+          <span className="text-[10px] font-semibold tracking-wider uppercase">Eligibility</span>
         </Link>
       </div>
-    </div>
+    </aside>
   );
 }

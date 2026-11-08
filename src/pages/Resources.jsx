@@ -1,43 +1,66 @@
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { TrendingUp, Shield, Landmark, Award, Receipt, FileText, ClipboardCheck, ArrowUpRight } from 'lucide-react';
+import { TrendingUp, Shield, Landmark, Award, Receipt, FileText, ClipboardCheck, ArrowUpRight, BookOpen } from 'lucide-react';
 import SectionHeading from '../components/ui/SectionHeading';
 import RevealOnScroll from '../components/motion/RevealOnScroll';
 
 const CATS = [
-  { icon: TrendingUp, label: 'Startup', desc: 'DPIIT, 80-IAC, seed fund and startup schemes.' },
-  { icon: Shield, label: 'MSME', desc: 'Udyam, MSME schemes and support programs.' },
-  { icon: Landmark, label: 'Government Schemes', desc: 'Central and state scheme discovery.' },
-  { icon: TrendingUp, label: 'Funding', desc: 'Grants, loans, subsidies, credit guarantee.' },
-  { icon: Award, label: 'Certification', desc: 'ISO, ZED, NSIC and other certifications.' },
-  { icon: Receipt, label: 'Tax', desc: 'Tax benefits and compliance.' },
-  { icon: FileText, label: 'Business Registration', desc: 'Company, LLP and other registrations.' },
-  { icon: ClipboardCheck, label: 'Compliance', desc: 'Ongoing compliance and filings.' },
+  { icon: TrendingUp, label: 'Startup India & DPIIT', desc: 'DPIIT criteria, Section 80-IAC tax holiday, SISFS seed funding, and IPR rebates.', href: '/startup' },
+  { icon: Shield, label: 'MSME Programs & Subsidies', desc: 'Udyam registration, PMEGP capital subsidies, and CGTMSE credit guarantee.', href: '/msme' },
+  { icon: Landmark, label: 'Government Schemes Directory', desc: 'Searchable central and state scheme intelligence across 18+ priority programs.', href: '/schemes' },
+  { icon: TrendingUp, label: 'Grants & Funding Schemes', desc: 'Non-dilutive prototype grants, debt guarantees up to ₹10 Crore, and SIDBI FFS.', href: '/funding' },
+  { icon: Award, label: 'Quality & Tendering Certifications', desc: 'ISO 9001/27001, MSME ZED Bronze/Silver/Gold, NSIC, and GeM onboarding.', href: '/certifications' },
+  { icon: Receipt, label: 'Section 80-IAC Tax Exemption', desc: '100% deduction on operational profits for 3 consecutive years via IMB board.', href: '/eligibility/80-iac' },
+  { icon: FileText, label: 'Entity Incorporation', desc: 'Private Limited Company, LLP, and partnership registration frameworks.', href: '/services' },
+  { icon: ClipboardCheck, label: 'Corporate Statutory Compliance', desc: 'ROC filings, annual Director KYC, GST returns, and corporate secretarial calendars.', href: '/services' },
 ];
 
 export default function Resources() {
   return (
     <>
-      <Helmet><title>Resources — CertWinX</title></Helmet>
-      <section className="pt-40 pb-16 bg-canvas">
+      <Helmet>
+        <title>Regulatory Resources & Advisory Frameworks — CertWinX</title>
+        <meta
+          name="description"
+          content="Central directory of government scheme frameworks, startup recognition guides, certification roadmaps, and compliance resources."
+        />
+      </Helmet>
+
+      <section className="pt-36 lg:pt-44 pb-14 bg-canvas border-b border-line">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
-          <SectionHeading eyebrow="Resources" title="Guides, articles and resources." subtitle="Information to help you understand schemes, services and business requirements." align="center" />
+          <SectionHeading
+            eyebrow="Resource Directory"
+            title="Regulatory frameworks & guides."
+            subtitle="Centralized access to intelligence dossiers, statutory checklists, and scheme pathways for Indian enterprises."
+            align="center"
+          />
         </div>
       </section>
-      <section className="pb-section bg-canvas">
+
+      <section className="py-16 lg:py-24 bg-canvas">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {CATS.map((c, i) => (
               <RevealOnScroll key={c.label} delay={i * 0.04}>
-                <Link to="/blog" className="block h-full group bg-paper border border-line rounded-3xl p-7 hover:border-ink/25 transition-colors">
-                  <div className="w-11 h-11 rounded-2xl bg-canvas border border-line flex items-center justify-center mb-6">
-                    <c.icon size={17} className="text-ink" />
+                <Link
+                  to={c.href}
+                  className="block h-full group bg-white border border-line rounded-3xl p-7 hover:border-blue/40 hover:shadow-[0_20px_40px_-15px_rgba(28,131,243,0.15)] transition-all duration-300 flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="w-12 h-12 rounded-2xl bg-blue/10 border border-blue/20 flex items-center justify-center mb-6 group-hover:bg-blue group-hover:text-white transition-colors duration-300">
+                      <c.icon size={20} className="text-blue group-hover:text-white transition-colors" />
+                    </div>
+                    <h3 className="font-display text-base font-bold text-ink mb-2 group-hover:text-blue transition-colors">
+                      {c.label}
+                    </h3>
+                    <p className="text-xs text-graphite leading-relaxed mb-6">
+                      {c.desc}
+                    </p>
                   </div>
-                  <h3 className="font-display text-base font-semibold text-ink mb-2">{c.label}</h3>
-                  <p className="text-xs text-graphite leading-relaxed mb-4">{c.desc}</p>
-                  <span className="inline-flex items-center gap-1.5 text-[11px] font-medium text-graphite group-hover:text-ink transition-colors">
-                    Browse <ArrowUpRight size={12} />
-                  </span>
+                  <div className="pt-4 border-t border-line/60 flex items-center justify-between text-xs font-bold text-blue">
+                    <span>Explore Resource Path</span>
+                    <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </div>
                 </Link>
               </RevealOnScroll>
             ))}

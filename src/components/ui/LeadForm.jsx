@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { Send, CheckCircle2, Loader2, AlertCircle } from 'lucide-react';
 import { submitLead } from '../../lib/supabase';
 
-export default function LeadForm({ context = '', compact = false }) {
+export default function LeadForm({ context = '', compact = false, dark = false }) {
   const [form, setForm] = useState({
     name: '',
     mobile: '',
@@ -73,50 +72,81 @@ export default function LeadForm({ context = '', compact = false }) {
 
   if (status === 'success') {
     return (
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="glass rounded-2xl p-8 text-center"
+      <div
+        className={`rounded-2xl p-8 text-center transition-all duration-500 animate-fade-up ${
+          dark
+            ? 'bg-white/5 border border-white/10 text-white'
+            : 'bg-paper border border-line shadow-sm text-ink'
+        }`}
       >
-        <motion.div
-          initial={{ scale: 0 }}
-          animate={{ scale: 1 }}
-          transition={{ delay: 0.2, type: 'spring', stiffness: 200 }}
-          className="w-16 h-16 rounded-full bg-green-500/20 border border-green-500/30 flex items-center justify-center mx-auto mb-5"
-        >
-          <CheckCircle2 size={32} className="text-green-400" />
-        </motion.div>
-        <h3 className="font-display text-xl font-semibold text-white mb-2">
-          YOUR ENQUIRY HAS BEEN RECEIVED
+        <div className="w-16 h-16 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center mx-auto mb-5 text-emerald-600">
+          <CheckCircle2 size={32} />
+        </div>
+        <h3 className="font-display text-xl font-bold tracking-tight mb-2">
+          Your Enquiry Has Been Received
         </h3>
-        <p className="text-sm text-[#AAB4C3] max-w-md mx-auto">
-          Our team will review the information provided and contact you regarding your requirement.
+        <p className={`text-sm max-w-md mx-auto leading-relaxed ${dark ? 'text-white/70' : 'text-graphite'}`}>
+          Our startup and compliance advisory team will review your requirements and reach out within 24 business hours.
         </p>
-      </motion.div>
+        <button
+          onClick={() => {
+            setStatus('idle');
+            setForm({
+              name: '',
+              mobile: '',
+              email: '',
+              company: '',
+              businessType: '',
+              industry: '',
+              city: '',
+              message: '',
+              consent: false,
+            });
+          }}
+          className="mt-6 text-xs font-semibold text-blue hover:underline"
+        >
+          Submit another inquiry
+        </button>
+      </div>
     );
   }
 
-  const inputClass = (field) =>
-    `w-full px-4 py-3 rounded-xl bg-white/5 border ${
-      errors[field] ? 'border-red-500/50' : 'border-white/10'
-    } text-white placeholder-[#6B7685] focus:outline-none focus:border-electric/50 focus:ring-1 focus:ring-electric/20 transition-all text-sm`;
+  const inputClass = (field) => {
+    if (dark) {
+      return `w-full px-4 py-3 rounded-xl bg-white/5 border ${
+        errors[field] ? 'border-red-500/60' : 'border-white/15'
+      } text-white placeholder-white/40 focus:outline-none focus:border-blue focus:ring-1 focus:ring-blue/30 transition-all text-sm`;
+    }
+    return `w-full px-4 py-3 rounded-xl bg-canvas border ${
+      errors[field] ? 'border-red-500/70 focus:border-red-500' : 'border-line focus:border-blue'
+    } text-ink placeholder-muted/80 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue/15 transition-all text-sm`;
+  };
+
+  const labelClass = `block text-xs font-medium mb-1.5 ${dark ? 'text-white/80' : 'text-graphite'}`;
 
   return (
-    <form onSubmit={handleSubmit} className={`glass rounded-2xl p-6 lg:p-8 ${compact ? '' : 'max-w-2xl'}`}>
+    <form
+      onSubmit={handleSubmit}
+      className={`rounded-2xl p-6 lg:p-8 transition-all ${
+        dark
+          ? 'bg-white/5 border border-white/10'
+          : 'bg-paper border border-line shadow-sm'
+      } ${compact ? '' : 'max-w-2xl'}`}
+    >
       {!compact && (
         <div className="mb-6">
-          <h3 className="font-display text-xl font-semibold text-white mb-1">
+          <h3 className={`font-display text-xl font-bold tracking-tight mb-1 ${dark ? 'text-white' : 'text-ink'}`}>
             Request Expert Review
           </h3>
-          <p className="text-sm text-[#AAB4C3]">
-            Share your details and our team will get back to you.
+          <p className={`text-sm ${dark ? 'text-white/70' : 'text-graphite'}`}>
+            Share your startup or business details for structured guidance from our specialists.
           </p>
         </div>
       )}
 
       <div className={`grid gap-4 ${compact ? '' : 'sm:grid-cols-2'}`}>
         <div>
-          <label htmlFor="lead-name" className="block text-xs font-medium text-[#AAB4C3] mb-1.5">
+          <label htmlFor="lead-name" className={labelClass}>
             Full Name *
           </label>
           <input
@@ -127,12 +157,12 @@ export default function LeadForm({ context = '', compact = false }) {
             placeholder="Your full name"
             className={inputClass('name')}
           />
-          {errors.name && <p className="text-xs text-red-400 mt-1">{errors.name}</p>}
+          {errors.name && <p className="text-xs text-red-500 mt-1">{errors.name}</p>}
         </div>
 
         <div>
-          <label htmlFor="lead-mobile" className="block text-xs font-medium text-[#AAB4C3] mb-1.5">
-            Mobile *
+          <label htmlFor="lead-mobile" className={labelClass}>
+            Mobile Number *
           </label>
           <input
             id="lead-mobile"
@@ -142,12 +172,12 @@ export default function LeadForm({ context = '', compact = false }) {
             placeholder="10-digit mobile"
             className={inputClass('mobile')}
           />
-          {errors.mobile && <p className="text-xs text-red-400 mt-1">{errors.mobile}</p>}
+          {errors.mobile && <p className="text-xs text-red-500 mt-1">{errors.mobile}</p>}
         </div>
 
         <div>
-          <label htmlFor="lead-email" className="block text-xs font-medium text-[#AAB4C3] mb-1.5">
-            Email
+          <label htmlFor="lead-email" className={labelClass}>
+            Email Address
           </label>
           <input
             id="lead-email"
@@ -157,19 +187,19 @@ export default function LeadForm({ context = '', compact = false }) {
             placeholder="you@company.com"
             className={inputClass('email')}
           />
-          {errors.email && <p className="text-xs text-red-400 mt-1">{errors.email}</p>}
+          {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email}</p>}
         </div>
 
         <div>
-          <label htmlFor="lead-company" className="block text-xs font-medium text-[#AAB4C3] mb-1.5">
-            Company Name
+          <label htmlFor="lead-company" className={labelClass}>
+            Company / Entity Name
           </label>
           <input
             id="lead-company"
             type="text"
             value={form.company}
             onChange={(e) => setForm({ ...form, company: e.target.value })}
-            placeholder="Your company"
+            placeholder="Your enterprise or venture"
             className={inputClass('company')}
           />
         </div>
@@ -177,7 +207,7 @@ export default function LeadForm({ context = '', compact = false }) {
         {!compact && (
           <>
             <div>
-              <label htmlFor="lead-type" className="block text-xs font-medium text-[#AAB4C3] mb-1.5">
+              <label htmlFor="lead-type" className={labelClass}>
                 Business Type
               </label>
               <select
@@ -186,18 +216,19 @@ export default function LeadForm({ context = '', compact = false }) {
                 onChange={(e) => setForm({ ...form, businessType: e.target.value })}
                 className={inputClass('businessType')}
               >
-                <option value="">Select</option>
-                <option>Private Limited</option>
-                <option>LLP</option>
-                <option>Partnership</option>
+                <option value="">Select entity structure</option>
+                <option>Private Limited Company</option>
+                <option>Limited Liability Partnership (LLP)</option>
+                <option>One Person Company (OPC)</option>
+                <option>Partnership Firm</option>
                 <option>Proprietorship</option>
-                <option>Other</option>
+                <option>Not Registered Yet</option>
               </select>
             </div>
 
             <div>
-              <label htmlFor="lead-industry" className="block text-xs font-medium text-[#AAB4C3] mb-1.5">
-                Industry
+              <label htmlFor="lead-industry" className={labelClass}>
+                Industry / Sector
               </label>
               <select
                 id="lead-industry"
@@ -205,45 +236,45 @@ export default function LeadForm({ context = '', compact = false }) {
                 onChange={(e) => setForm({ ...form, industry: e.target.value })}
                 className={inputClass('industry')}
               >
-                <option value="">Select</option>
-                <option>Technology</option>
-                <option>Manufacturing</option>
-                <option>Agriculture</option>
-                <option>Healthcare</option>
-                <option>Education</option>
-                <option>EV / Clean Energy</option>
-                <option>Food</option>
-                <option>FinTech</option>
-                <option>Retail</option>
-                <option>Services</option>
+                <option value="">Select primary sector</option>
+                <option>Technology & Software</option>
+                <option>Fintech & Financial Services</option>
+                <option>Healthcare & Biotech</option>
+                <option>CleanTech & EV</option>
+                <option>Manufacturing & Engineering</option>
+                <option>Agriculture & AgriTech</option>
+                <option>Food Processing & F&B</option>
+                <option>Education & EdTech</option>
+                <option>Retail & E-commerce</option>
+                <option>Professional Services</option>
                 <option>Other</option>
               </select>
             </div>
 
             <div>
-              <label htmlFor="lead-city" className="block text-xs font-medium text-[#AAB4C3] mb-1.5">
-                City
+              <label htmlFor="lead-city" className={labelClass}>
+                City / State
               </label>
               <input
                 id="lead-city"
                 type="text"
                 value={form.city}
                 onChange={(e) => setForm({ ...form, city: e.target.value })}
-                placeholder="Your city"
+                placeholder="e.g. Ahmedabad, Mumbai, Bengaluru"
                 className={inputClass('city')}
               />
             </div>
 
             <div className="sm:col-span-2">
-              <label htmlFor="lead-message" className="block text-xs font-medium text-[#AAB4C3] mb-1.5">
-                Message
+              <label htmlFor="lead-message" className={labelClass}>
+                Requirements / Queries
               </label>
               <textarea
                 id="lead-message"
                 value={form.message}
                 onChange={(e) => setForm({ ...form, message: e.target.value })}
                 rows={3}
-                placeholder="Tell us about your requirement"
+                placeholder="Describe your current status, target scheme, or service requirement..."
                 className={inputClass('message') + ' resize-none'}
               />
             </div>
@@ -257,18 +288,18 @@ export default function LeadForm({ context = '', compact = false }) {
           type="checkbox"
           checked={form.consent}
           onChange={(e) => setForm({ ...form, consent: e.target.checked })}
-          className="mt-1 w-4 h-4 rounded border-white/20 bg-white/5 text-electric focus:ring-electric/30"
+          className="mt-1 w-4 h-4 rounded border-line text-blue focus:ring-blue/30 cursor-pointer"
         />
-        <label htmlFor="lead-consent" className="text-xs text-[#AAB4C3] leading-relaxed">
-          I consent to being contacted by CertWinX regarding my enquiry.
+        <label htmlFor="lead-consent" className={`text-xs leading-relaxed cursor-pointer ${dark ? 'text-white/70' : 'text-graphite'}`}>
+          I authorize CertWinX advisors to contact me regarding my enquiry. We treat your information with strict confidentiality.
         </label>
       </div>
-      {errors.consent && <p className="text-xs text-red-400 mt-1">{errors.consent}</p>}
+      {errors.consent && <p className="text-xs text-red-500 mt-1">{errors.consent}</p>}
 
       {errors.submit && (
         <div className="mt-4 flex items-start gap-2 p-3 rounded-xl bg-red-500/10 border border-red-500/20">
-          <AlertCircle size={16} className="text-red-400 mt-0.5 shrink-0" />
-          <p className="text-xs text-red-400 leading-relaxed">{errors.submit}</p>
+          <AlertCircle size={16} className="text-red-500 mt-0.5 shrink-0" />
+          <p className="text-xs text-red-600 leading-relaxed">{errors.submit}</p>
         </div>
       )}
 
@@ -276,12 +307,16 @@ export default function LeadForm({ context = '', compact = false }) {
         <button
           type="submit"
           disabled={status === 'submitting'}
-          className="w-full inline-flex items-center justify-center gap-2 py-3.5 rounded-xl bg-gradient-to-r from-blue to-deepblue text-white font-semibold text-sm shadow-[0_15px_30px_-10px_rgba(23,105,255,0.5)] hover:shadow-[0_20px_40px_-10px_rgba(23,105,255,0.7)] transition-all disabled:opacity-60"
+          className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-xl bg-blue hover:bg-blue-hover text-white font-semibold text-sm shadow-[0_10px_25px_-5px_rgba(28,131,243,0.4)] hover:shadow-[0_15px_30px_-5px_rgba(28,131,243,0.5)] transition-all duration-300 disabled:opacity-60 cursor-pointer"
         >
           {status === 'submitting' ? (
-            <><Loader2 size={15} className="animate-spin" /> Submitting...</>
+            <>
+              <Loader2 size={16} className="animate-spin" /> Submitting Inquiry...
+            </>
           ) : (
-            <><Send size={15} /> Submit Enquiry</>
+            <>
+              <Send size={15} /> Submit Advisory Inquiry
+            </>
           )}
         </button>
       </div>

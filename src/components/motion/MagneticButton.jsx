@@ -1,7 +1,6 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { gsap } from '../../lib/gsap';
-import { useEffect } from 'react';
 
 export default function MagneticButton({
   children,
@@ -20,9 +19,10 @@ export default function MagneticButton({
     const el = ref.current;
     if (!el) return;
     if (window.matchMedia('(pointer: coarse)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    const setX = gsap.quickTo(el, 'x', { duration: 0.5, ease: 'elastic.out(1, 0.4)' });
-    const setY = gsap.quickTo(el, 'y', { duration: 0.5, ease: 'elastic.out(1, 0.4)' });
+    const setX = gsap.quickTo(el, 'x', { duration: 0.4, ease: 'power2.out' });
+    const setY = gsap.quickTo(el, 'y', { duration: 0.4, ease: 'power2.out' });
 
     const onMove = (e) => {
       const rect = el.getBoundingClientRect();
@@ -43,27 +43,25 @@ export default function MagneticButton({
   }, [strength]);
 
   const variants = {
-    primary: 'bg-ink text-canvas hover:bg-graphite',
-    outline: 'bg-transparent border border-ink/15 text-ink hover:border-ink/40',
-    gold: 'bg-gold text-ink hover:bg-gold-deep hover:text-canvas',
-    blue: 'bg-blue text-white hover:bg-blue-deep',
-    whatsapp: 'bg-[#25D366] text-white hover:bg-[#1FB855]',
-    ghost: 'text-ink hover:bg-ink/5',
+    primary: 'bg-blue text-white hover:bg-deepblue shadow-[0_10px_25px_-8px_rgba(28,131,243,0.5)]',
+    outline: 'bg-white border border-line text-ink hover:border-blue hover:text-blue shadow-sm',
+    blue: 'bg-blue text-white hover:bg-deepblue shadow-[0_10px_25px_-8px_rgba(28,131,243,0.5)]',
+    gold: 'bg-blue text-white hover:bg-deepblue shadow-[0_10px_25px_-8px_rgba(28,131,243,0.5)]', // fallback to blue
+    whatsapp: 'bg-[#25D366] text-white hover:bg-[#1FB855] shadow-[0_10px_25px_-8px_rgba(37,211,102,0.4)]',
+    ghost: 'text-ink hover:bg-blue/5 hover:text-blue',
   };
 
   const sizes = {
-    sm: 'px-4 py-2 text-xs tracking-wide',
-    md: 'px-6 py-3 text-sm tracking-wide',
-    lg: 'px-8 py-4 text-sm tracking-wide',
+    sm: 'px-4 py-2 text-xs font-semibold tracking-wide',
+    md: 'px-6 py-3 text-sm font-semibold tracking-wide',
+    lg: 'px-8 py-3.5 text-sm font-bold tracking-wide',
   };
 
-  const base = `group relative inline-flex items-center justify-center gap-2 font-medium rounded-full transition-colors duration-500 will-change-transform ${variants[variant]} ${sizes[size]} ${className}`;
+  const base = `group relative inline-flex items-center justify-center gap-2 rounded-full transition-all duration-300 will-change-transform ${variants[variant] || variants.primary} ${sizes[size] || sizes.md} ${className}`;
 
   const inner = (
     <>
       <span className="relative z-10 inline-flex items-center gap-2">{children}</span>
-      <span className="pointer-events-none absolute inset-0 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        style={{ boxShadow: '0 20px 40px -20px rgba(15,15,16,0.35)' }} />
     </>
   );
 

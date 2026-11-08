@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { ArrowUpRight, MessageCircle, ShieldCheck, Zap, Sparkles } from 'lucide-react';
+import { ArrowUpRight, MessageCircle, ShieldCheck, Sparkles, Compass, CheckCircle2 } from 'lucide-react';
 import { gsap, SplitText } from '../../lib/gsap';
 import { getWhatsAppLink } from '../../lib/constants';
 import MagneticButton from '../motion/MagneticButton';
@@ -18,7 +18,7 @@ export default function Hero() {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: 'expo.out' }, delay: 0.15 });
 
-      tl.from('[data-hero="badge"]', { y: 20, opacity: 0, duration: 0.9 });
+      tl.from('[data-hero="badge"]', { y: 20, opacity: 0, duration: 0.8 });
 
       const headline = root.querySelector('[data-hero="headline"]');
       if (headline && document.fonts?.ready) {
@@ -27,18 +27,18 @@ export default function Hero() {
           gsap.set(split.lines, { yPercent: 110 });
           gsap.to(split.lines, {
             yPercent: 0,
-            duration: 1.3,
+            duration: 1.2,
             stagger: 0.08,
             ease: 'expo.out',
-            delay: 0.35,
+            delay: 0.25,
           });
         });
       }
 
-      tl.from('[data-hero="sub"]', { y: 24, opacity: 0, duration: 1 }, 0.9);
-      tl.from('[data-hero="cta"]', { y: 24, opacity: 0, duration: 1, stagger: 0.08 }, 1.05);
-      tl.from('[data-hero="visual"]', { scale: 0.94, opacity: 0, duration: 1.4 }, 0.5);
-      tl.from('[data-hero="trust"]', { y: 20, opacity: 0, duration: 0.9 }, 1.3);
+      tl.from('[data-hero="sub"]', { y: 20, opacity: 0, duration: 0.9 }, 0.8);
+      tl.from('[data-hero="cta"]', { y: 20, opacity: 0, duration: 0.9, stagger: 0.08 }, 0.95);
+      tl.from('[data-hero="visual"]', { scale: 0.96, opacity: 0, duration: 1.2 }, 0.4);
+      tl.from('[data-hero="trust"]', { y: 16, opacity: 0, duration: 0.8 }, 1.15);
     }, root);
 
     return () => {
@@ -50,74 +50,82 @@ export default function Hero() {
   return (
     <section
       ref={rootRef}
-      className="relative pt-28 lg:pt-32 pb-12 overflow-hidden"
+      className="relative pt-28 sm:pt-32 lg:pt-36 pb-12 sm:pb-16 overflow-hidden bg-canvas"
     >
       <LiveBackground />
 
-      <div className="relative max-w-[1440px] mx-auto px-6 lg:px-10">
-        <div className="grid lg:grid-cols-12 gap-8 lg:gap-6 items-center">
+      <div className="relative max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10">
+        <div className="grid lg:grid-cols-12 gap-10 lg:gap-8 items-center">
 
-          {/* LEFT */}
-          <div className="lg:col-span-6 relative z-10">
-            <div data-hero="badge" className="mb-5">
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 backdrop-blur-sm border border-line text-[10px] font-semibold tracking-[0.2em] text-ink/80 uppercase">
-                <Sparkles size={11} className="text-blue" />
-                Business · Startup · Government Services
+          {/* LEFT: ENTERPRISE COPY & CTAs */}
+          <div className="lg:col-span-7 relative z-10">
+            {/* Tagline Badge */}
+            <div data-hero="badge" className="mb-6">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/90 backdrop-blur-sm border border-line shadow-sm text-[11px] font-semibold tracking-wider text-blue uppercase">
+                <Sparkles size={12} className="text-blue" />
+                AAPKI TARAKKI KA SAATHI · BHAROSHA APKA, JIMMEDARI HUMARI
               </span>
             </div>
 
+            {/* Official Headline */}
             <h1
               data-hero="headline"
-              className="font-display text-[2rem] sm:text-[2.5rem] lg:text-[3.25rem] xl:text-[3.75rem] font-bold leading-[1.05] tracking-[-0.03em] text-ink text-balance"
+              className="font-display text-[2.25rem] sm:text-[3rem] lg:text-[3.75rem] font-bold leading-[1.08] tracking-[-0.03em] text-ink text-balance"
             >
-              Grow Your Business
+              Unlock Government Opportunities.
               <br />
-              <span className="text-blue">With Government Support.</span>
+              <span className="text-blue">Accelerate Business Growth.</span>
             </h1>
 
+            {/* Official Supporting Text */}
             <p
               data-hero="sub"
-              className="mt-5 text-[15px] lg:text-base text-graphite leading-relaxed max-w-lg"
+              className="mt-6 text-base sm:text-lg text-graphite leading-relaxed max-w-2xl font-normal"
             >
-              DPIIT recognition, Section 80-IAC, Udyam / MSME registration, government schemes and
-              funding — <span className="text-ink font-semibold">one partner, end-to-end.</span>
+              Discover startup recognition, tax incentives, government funding, certifications and business compliance solutions with CertWinX.
             </p>
 
-            <div className="mt-7 flex flex-wrap items-center gap-3">
+            {/* Primary & Secondary CTAs */}
+            <div className="mt-8 flex flex-wrap items-center gap-3.5">
               <span data-hero="cta">
-                <MagneticButton to="/eligibility" variant="primary" size="lg">
-                  Check My Eligibility <ArrowUpRight size={15} />
+                <MagneticButton to="/schemes" variant="primary" size="lg">
+                  <Compass size={16} /> Explore Government Schemes
                 </MagneticButton>
               </span>
               <span data-hero="cta">
-                <MagneticButton to="/consultation" variant="outline" size="lg">
-                  Talk to an Expert
+                <MagneticButton to="/eligibility" variant="outline" size="lg">
+                  Check Eligibility <ArrowUpRight size={15} />
                 </MagneticButton>
               </span>
               <span data-hero="cta">
                 <MagneticButton href={getWhatsAppLink()} variant="whatsapp" size="lg">
-                  <MessageCircle size={15} /> WhatsApp
+                  <MessageCircle size={15} /> WhatsApp Advisory
                 </MagneticButton>
               </span>
             </div>
 
-            <div data-hero="trust" className="mt-6 flex flex-wrap items-center gap-x-6 gap-y-3">
+            {/* Genuine Trust Anchors */}
+            <div data-hero="trust" className="mt-8 pt-6 border-t border-line/80 flex flex-wrap items-center gap-x-8 gap-y-3">
               <div className="flex items-center gap-2">
-                <ShieldCheck size={13} className="text-blue shrink-0" />
-                <p className="text-xs text-graphite">Transparent process</p>
+                <CheckCircle2 size={15} className="text-emerald-600 shrink-0" />
+                <p className="text-xs font-medium text-graphite">Official Portal Submission Support</p>
               </div>
               <div className="flex items-center gap-2">
-                <Zap size={13} className="text-blue shrink-0" />
-                <p className="text-xs text-graphite">No advance professional fees*</p>
+                <ShieldCheck size={15} className="text-blue shrink-0" />
+                <p className="text-xs font-medium text-graphite">Transparent, Structured Advisory</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <Sparkles size={14} className="text-sky-deep shrink-0" />
+                <p className="text-xs font-medium text-graphite">Pan-India Entrepreneur Assistance</p>
               </div>
             </div>
           </div>
 
-          {/* RIGHT — Character visual */}
-          <div data-hero="visual" className="lg:col-span-6 relative">
-            <div className="absolute inset-0 -m-8 pointer-events-none">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[420px] h-[420px] rounded-full bg-sky/15 blur-[110px]" />
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] rounded-full bg-blue/8 blur-[80px]" />
+          {/* RIGHT: INTERACTIVE ADVISORY VISUAL */}
+          <div data-hero="visual" className="lg:col-span-5 relative">
+            <div className="absolute inset-0 -m-6 pointer-events-none">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[380px] h-[380px] rounded-full bg-blue/10 blur-[100px]" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[260px] h-[260px] rounded-full bg-sky/20 blur-[80px]" />
             </div>
             <HeroOrbit3D />
           </div>

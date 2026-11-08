@@ -9,7 +9,7 @@ export default function LegalShell({ title, children }) {
           <h1 className="mt-5 font-display text-display-md font-semibold text-ink mb-3">
             {title}
           </h1>
-          <p className="text-xs text-muted mb-12">Last updated: [Date to be inserted]</p>
+          <p className="text-xs text-muted mb-12">Last updated: January 2025</p>
         </RevealOnScroll>
         <div className="space-y-6 text-sm text-graphite leading-relaxed [&_h2]:font-display [&_h2]:text-lg [&_h2]:font-semibold [&_h2]:text-ink [&_h2]:pt-4">
           {children}

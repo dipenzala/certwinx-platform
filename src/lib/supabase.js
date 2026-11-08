@@ -148,7 +148,7 @@ export async function deleteContact(id) {
 export async function signIn(email, password) {
   console.log('🔐 Sign in attempt:', email);
 
-  const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || 'admin@shayconsultancy.in';
+  const ADMIN_EMAIL = import.meta.env.VITE_ADMIN_EMAIL || 'admin@certwinx.com';
   const ADMIN_PASS  = import.meta.env.VITE_ADMIN_PASS  || 'admin123';
 
   if (email === ADMIN_EMAIL && password === ADMIN_PASS) {

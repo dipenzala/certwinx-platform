@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
-import { Award, TrendingUp, CheckCircle2 } from 'lucide-react';
+import { Award, CheckCircle2, FileCheck } from 'lucide-react';
 import { gsap } from '../../lib/gsap';
 
-/* ============ REAL COMPANIES THAT GOT 80-IAC ============ */
+/* ============ REAL VERIFIED INDIAN STARTUPS THAT RECEIVED 80-IAC GAZETTE APPROVAL ============ */
 const COMPANIES = [
   'ASCEND BIZCAP PRIVATE LIMITED',
   '40 MINUS30 PRIVATE LIMITED',
@@ -118,27 +118,14 @@ export default function CertificateTicker() {
     if (!root) return;
 
     const ctx = gsap.context(() => {
-      if (track1Ref.current) {
-        gsap.to(track1Ref.current, {
-          x: '-50%',
-          duration: 1200,
-          ease: 'none',
-          repeat: -1,
-        });
-      }
+      const track1 = track1Ref.current;
+      if (!track1) return;
 
-      gsap.to('[data-cert-dot]', {
-        scale: 1.4,
-        opacity: 0.4,
-        duration: 2,
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1,
-      });
+      const singleWidth = track1.scrollWidth / 2;
 
-      gsap.to('[data-ticker-shimmer]', {
-        backgroundPosition: '-200% 0',
-        duration: 20,
+      gsap.to(track1, {
+        x: -singleWidth,
+        duration: 90,
         ease: 'none',
         repeat: -1,
       });
@@ -148,23 +135,22 @@ export default function CertificateTicker() {
   }, []);
 
   const renderRow = (items) => (
-    <div className="flex items-center gap-4 sm:gap-6 lg:gap-10 shrink-0 pr-4 sm:pr-6 lg:pr-10">
+    <div className="flex items-center gap-6 lg:gap-10 shrink-0 pr-6 lg:pr-10">
       {items.map((company, i) => (
         <div key={i} className="flex items-center gap-2 sm:gap-3 shrink-0">
-          <span className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-gold/15 border border-gold/40 flex items-center justify-center shrink-0">
-            <CheckCircle2 size={8} className="sm:hidden text-gold" strokeWidth={2.5} />
-            <CheckCircle2 size={10} className="hidden sm:block text-gold" strokeWidth={2.5} />
+          <span className="w-4 h-4 rounded-full bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center shrink-0">
+            <CheckCircle2 size={10} className="text-emerald-400" strokeWidth={2.5} />
           </span>
 
-          <span className="text-[10px] sm:text-[12px] lg:text-[13px] font-semibold tracking-wide text-white/85 whitespace-nowrap uppercase">
+          <span className="text-[11px] sm:text-[12px] font-semibold tracking-wide text-white/90 whitespace-nowrap uppercase">
             {company}
           </span>
 
-          <span className="text-[7px] sm:text-[9px] lg:text-[10px] font-medium tracking-[0.15em] text-blue/80 whitespace-nowrap uppercase ml-0.5 sm:ml-1">
-            GOT 80-IAC CERTIFICATE FROM IMB COMMITTEE
+          <span className="text-[9px] font-medium tracking-wider text-sky whitespace-nowrap uppercase bg-white/10 px-2 py-0.5 rounded">
+            Section 80-IAC Certificate Approved
           </span>
 
-          <span className="w-1 h-1 rounded-full bg-gold/60 shrink-0 ml-2 sm:ml-3" />
+          <span className="w-1.5 h-1.5 rounded-full bg-white/30 shrink-0 ml-2" />
         </div>
       ))}
     </div>
@@ -175,147 +161,30 @@ export default function CertificateTicker() {
   return (
     <section
       ref={rootRef}
-      className="relative bg-[#0A0F1F] border-y border-blue/15 overflow-hidden py-2 sm:py-2.5 lg:py-3.5"
-      aria-label="Certified companies ticker"
+      className="relative bg-deepblue border-y border-white/10 overflow-hidden py-3"
+      aria-label="Public Gazette Ecosystem Startups"
     >
-      {/* Shimmer top line */}
-      <div
-        data-ticker-shimmer
-        className="absolute top-0 left-0 right-0 h-[1px]"
-        style={{
-          background:
-            'linear-gradient(90deg, transparent 0%, rgba(45,156,255,0.7) 30%, rgba(204,171,110,0.9) 50%, rgba(45,156,255,0.7) 70%, transparent 100%)',
-          backgroundSize: '200% 100%',
-        }}
-      />
-
-      {/* Bottom line */}
-      <div
-        className="absolute bottom-0 left-0 right-0 h-[1px]"
-        style={{
-          background:
-            'linear-gradient(90deg, transparent 0%, rgba(45,156,255,0.2) 50%, transparent 100%)',
-        }}
-      />
-
-      {/* Background radial glow */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            'radial-gradient(ellipse 60% 100% at 50% 50%, rgba(45,156,255,0.08), transparent 70%)',
-        }}
-      />
-
-      {/* ============ EK ROW: Badge left, Ticker right ============ */}
-      <div className="relative flex items-center gap-1.5 sm:gap-2 lg:gap-4">
-
-        {/* ============ LEFT BADGE — 2 LINES ============ */}
-        <div className="shrink-0 pl-2 sm:pl-3 lg:pl-6 z-10">
-          <div className="relative">
-            {/* Outer glow */}
-            <div
-              className="absolute -inset-0.5 sm:-inset-1 rounded-lg opacity-60 pointer-events-none"
-              style={{
-                background:
-                  'radial-gradient(ellipse at center, rgba(204,171,110,0.35), transparent 70%)',
-                filter: 'blur(8px)',
-              }}
-              aria-hidden="true"
-            />
-
-            {/* Main badge — 2 LINES */}
-            <div
-              className="relative flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md overflow-hidden"
-              style={{
-                background:
-                  'linear-gradient(135deg, rgba(204,171,110,0.15) 0%, rgba(10,15,31,0.9) 50%, rgba(45,156,255,0.12) 100%)',
-                border: '1px solid rgba(204,171,110,0.35)',
-                boxShadow:
-                  'inset 0 0 12px rgba(204,171,110,0.08), 0 0 12px rgba(45,156,255,0.1)',
-              }}
-            >
-              {/* Shimmer sweep */}
-              <div
-                className="absolute inset-0 opacity-60 pointer-events-none"
-                style={{
-                  background:
-                    'linear-gradient(120deg, transparent 30%, rgba(204,171,110,0.15) 50%, transparent 70%)',
-                  backgroundSize: '200% 100%',
-                  animation: 'badgeShimmer 4s ease-in-out infinite',
-                }}
-                aria-hidden="true"
-              />
-
-              {/* Gold left accent bar */}
-              <span
-                className="relative w-[1px] sm:w-[1.5px] h-5 sm:h-6 rounded-full shrink-0"
-                style={{
-                  background:
-                    'linear-gradient(180deg, transparent, #CCAB6E 30%, #CCAB6E 70%, transparent)',
-                }}
-                aria-hidden="true"
-              />
-
-              {/* Text block — 2 LINES */}
-              <div className="relative flex flex-col leading-none">
-                {/* Line 1: CERTIFIED + green dot */}
-                <div className="flex items-center gap-0.5 sm:gap-1 mb-0.5 sm:mb-1">
-                  <span className="text-[5px] sm:text-[6px] font-bold tracking-[0.15em] text-gold/90 uppercase whitespace-nowrap">
-                    Certified
-                  </span>
-                  <span className="relative flex items-center justify-center w-1 h-1 shrink-0">
-                    <span
-                      data-cert-dot
-                      className="absolute inset-0 rounded-full bg-green-400"
-                    />
-                    <span className="relative w-0.5 h-0.5 rounded-full bg-green-400" />
-                  </span>
-                </div>
-
-                {/* Line 2: 80-IAC Recognised */}
-                <span
-                  className="font-display text-[8px] sm:text-[9px] lg:text-[10px] font-bold tracking-tight whitespace-nowrap"
-                  style={{
-                    background:
-                      'linear-gradient(90deg, #FFFFFF 0%, #F6E9C9 50%, #FFFFFF 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                  }}
-                >
-                  80-IAC Recognised
-                </span>
-              </div>
-
-              {/* Checkmark circle — right side */}
-              <div className="relative shrink-0 self-center">
-                <span
-                  className="flex items-center justify-center w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full"
-                  style={{
-                    background:
-                      'linear-gradient(135deg, rgba(204,171,110,0.3), rgba(45,156,255,0.2))',
-                    border: '1px solid rgba(204,171,110,0.5)',
-                  }}
-                >
-                  <CheckCircle2
-                    size={6}
-                    className="text-gold"
-                    strokeWidth={2.5}
-                  />
-                </span>
-              </div>
-            </div>
+      <div className="relative flex items-center gap-3 lg:gap-5 px-3 sm:px-6">
+        {/* Left Badge */}
+        <div className="shrink-0 z-10 flex items-center gap-2 px-3 py-1 rounded-lg bg-white/10 border border-white/20">
+          <FileCheck size={14} className="text-sky" />
+          <div className="flex flex-col">
+            <span className="text-[9px] font-bold text-sky uppercase tracking-wider">
+              Ecosystem Gazette
+            </span>
+            <span className="text-[10px] font-bold text-white whitespace-nowrap">
+              80-IAC IMB Approved
+            </span>
           </div>
         </div>
 
-        {/* Vertical divider */}
-        <div className="w-px h-5 sm:h-6 lg:h-8 bg-gradient-to-b from-transparent via-blue/30 to-transparent shrink-0" />
+        {/* Divider */}
+        <div className="w-px h-6 bg-white/20 shrink-0" />
 
-        {/* ============ MARQUEE TICKER ============ */}
+        {/* Marquee Track */}
         <div className="flex-1 relative overflow-hidden min-w-0">
-          <div className="absolute left-0 top-0 bottom-0 w-6 sm:w-10 lg:w-20 z-10 pointer-events-none bg-gradient-to-r from-[#0A0F1F] to-transparent" />
-          <div className="absolute right-0 top-0 bottom-0 w-6 sm:w-10 lg:w-20 z-10 pointer-events-none bg-gradient-to-l from-[#0A0F1F] to-transparent" />
+          <div className="absolute left-0 top-0 bottom-0 w-8 z-10 pointer-events-none bg-gradient-to-r from-deepblue to-transparent" />
+          <div className="absolute right-0 top-0 bottom-0 w-8 z-10 pointer-events-none bg-gradient-to-l from-deepblue to-transparent" />
 
           <div
             ref={track1Ref}
@@ -324,22 +193,6 @@ export default function CertificateTicker() {
           >
             {renderRow(loopItems)}
           </div>
-        </div>
-
-        {/* Vertical divider */}
-        <div className="w-px h-5 sm:h-6 lg:h-8 bg-gradient-to-b from-transparent via-blue/30 to-transparent shrink-0" />
-
-        {/* ============ RIGHT LIVE COUNTER (sirf desktop) ============ */}
-        <div className="hidden lg:flex shrink-0 pr-6 lg:pr-10 items-center gap-2 z-10">
-          <div className="flex items-center gap-1.5">
-            <TrendingUp size={12} className="text-green-400" strokeWidth={2.5} />
-            <span className="text-[11px] font-bold tracking-wide text-white tabular">
-              150+
-            </span>
-          </div>
-          <span className="text-[10px] font-medium tracking-[0.15em] text-white/50 uppercase whitespace-nowrap">
-            Startups Recognised
-          </span>
         </div>
       </div>
     </section>

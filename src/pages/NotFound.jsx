@@ -14,7 +14,7 @@ export default function NotFound() {
             Page not found.
           </SplitTextReveal>
           <p className="text-sm text-graphite mb-8">The page you're looking for doesn't exist or has been moved.</p>
-          <Link to="/" className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-ink text-canvas text-sm font-medium hover:bg-graphite transition-colors">
+          <Link to="/" className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-blue text-white text-sm font-semibold hover:bg-deepblue transition-all shadow-[0_10px_25px_-8px_rgba(28,131,243,0.5)]">
             <ArrowLeft size={15} /> Go Home
           </Link>
         </div>

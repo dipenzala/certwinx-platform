@@ -2,21 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ========================
-   ULTRA-PREMIUM BASE
-   ======================== */
+/* ============================================================
+   CERTWINX ENTERPRISE DESIGN SYSTEM
+   Official Palette: Light-Blue Primary, Deep Blue & Neutral Slate
+   Tagline: AAPKI TARAKKI KA SAATHI, BHAROSHA APKA, JIMMEDARI HUMARI
+   ============================================================ */
 
 :root {
-  --canvas: #FAFAF8;
+  --canvas: #F2F3F4;
   --paper: #FFFFFF;
-  --ink: #0F0F10;
-  --graphite: #3A3A3D;
-  --muted: #76767A;
-  --line: #E8E6E1;
-  --blue: #1683FF;
-  --blue-soft: #E8F1FF;
-  --gold: #CCAB6E;
-  --gold-soft: #F5EFE2;
+  --ink: #0F172A;
+  --graphite: #334155;
+  --muted: #64748B;
+  --line: #E2E8F0;
+  --blue: #1C83F3;
+  --blue-soft: #E8F3FD;
+  --blue-deep: #163A8A;
+  --sky: #A9D2F1;
+  --sky-soft: #F4F9FD;
+  --emerald: #10B981;
+  --amber: #F59E0B;
 }
 
 * {
@@ -26,7 +31,8 @@
 }
 
 html {
-  scroll-behavior: auto; /* Lenis handles scroll */
+  scroll-behavior: auto; /* Managed by Lenis */
+  background-color: var(--canvas);
 }
 
 html.lenis,
@@ -50,39 +56,60 @@ body {
   margin: 0;
   background: var(--canvas);
   color: var(--ink);
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   overflow-x: hidden;
-  cursor: none; /* Custom cursor */
+  cursor: none; /* Custom interactive cursor */
 }
 
 @media (max-width: 1024px) {
-  body { cursor: auto; }
+  body {
+    cursor: auto !important;
+  }
 }
 
-h1, h2, h3, h4, h5 {
-  font-family: 'Sora', system-ui, sans-serif;
-  letter-spacing: -0.03em;
-  font-weight: 600;
+/* Ensure inputs, buttons, and content elements remain fully interactive */
+input, textarea, select, option {
+  cursor: text !important;
+}
+button, a, label, [role="button"], select {
+  cursor: pointer !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Sora', system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+  color: var(--ink);
 }
 
 /* Selection */
 ::selection {
-  background: var(--ink);
-  color: var(--canvas);
+  background: var(--blue-deep);
+  color: #FFFFFF;
 }
 
 /* Focus */
 :focus-visible {
   outline: 2px solid var(--blue);
-  outline-offset: 3px;
-  border-radius: 2px;
+  outline-offset: 2px;
+  border-radius: 4px;
 }
 
 /* Scrollbar */
-::-webkit-scrollbar { width: 8px; height: 8px; }
-::-webkit-scrollbar-track { background: var(--canvas); }
-::-webkit-scrollbar-thumb { background: var(--line); border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--canvas);
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
 
 /* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
@@ -93,11 +120,13 @@ h1, h2, h3, h4, h5 {
   }
 }
 
-/* ========================
-   UTILITIES
-   ======================== */
+/* ============================================================
+   ENTERPRISE UI UTILITIES & MICRO-GRADIENTS
+   ============================================================ */
 
-.text-balance { text-wrap: balance; }
+.text-balance {
+  text-wrap: balance;
+}
 
 .mask-reveal {
   clip-path: inset(0 0 100% 0);
@@ -114,7 +143,6 @@ h1, h2, h3, h4, h5 {
   will-change: transform;
 }
 
-/* Split text helper — GSAP SplitText uses this */
 .split-line {
   overflow: hidden;
   display: block;
@@ -125,30 +153,39 @@ h1, h2, h3, h4, h5 {
   will-change: transform;
 }
 
-/* Hairline border */
 .hairline {
   border: 1px solid var(--line);
 }
 
-/* Subtle gradient */
+/* Subtle enterprise blue gradient (Zero gold) */
 .gradient-hero {
   background:
-    radial-gradient(ellipse 60% 50% at 70% 20%, rgba(22, 131, 255, 0.06), transparent 60%),
-    radial-gradient(ellipse 50% 40% at 20% 80%, rgba(204, 171, 110, 0.05), transparent 60%),
+    radial-gradient(ellipse 65% 50% at 75% 20%, rgba(28, 131, 243, 0.08), transparent 65%),
+    radial-gradient(ellipse 55% 45% at 20% 80%, rgba(169, 210, 241, 0.12), transparent 60%),
     var(--canvas);
 }
 
-/* Noise overlay */
+.gradient-card {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F8FAFC 100%);
+}
+
+.gradient-blue-card {
+  background: linear-gradient(135deg, rgba(28, 131, 243, 0.05) 0%, rgba(169, 210, 241, 0.08) 100%);
+}
+
+/* Subtle micro-texture grain (imperceptible luxury) */
 .grain::after {
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 9999;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.018;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   mix-blend-mode: multiply;
 }
 
-/* Numbers */
-.tabular { font-variant-numeric: tabular-nums; }
+/* Number tabular alignment */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}

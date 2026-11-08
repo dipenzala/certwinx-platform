@@ -25,7 +25,7 @@ const COLOR_MAP = {
   blue:   { bg: 'bg-blue-50',   text: 'text-blue-600',   glow: 'rgba(37,99,235,0.25)' },
   purple: { bg: 'bg-purple-50', text: 'text-purple-600', glow: 'rgba(147,51,234,0.25)' },
   green:  { bg: 'bg-green-50',  text: 'text-green-600',  glow: 'rgba(22,163,74,0.25)' },
-  gold:   { bg: 'bg-amber-50',  text: 'text-amber-600',  glow: 'rgba(217,119,6,0.25)' },
+  sky:    { bg: 'bg-sky-50',   text: 'text-blue-700',   glow: 'rgba(28,131,243,0.25)' },
   orange: { bg: 'bg-orange-50', text: 'text-orange-600', glow: 'rgba(234,88,12,0.25)' },
   indigo: { bg: 'bg-indigo-50', text: 'text-indigo-600', glow: 'rgba(79,70,229,0.25)' },
   red:    { bg: 'bg-red-50',    text: 'text-red-600',    glow: 'rgba(220,38,38,0.25)' },
@@ -141,7 +141,7 @@ function ServiceCard({ service, index }) {
         />
 
         {/* Gradient overlay */}
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue/0 via-blue/0 to-gold/0 group-hover:from-blue/5 group-hover:to-gold/5 transition-all duration-700 rounded-2xl" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-blue/0 via-blue/0 to-sky/0 group-hover:from-blue/5 group-hover:to-sky/10 transition-all duration-700 rounded-2xl" />
 
         {/* Content */}
         <div className="relative z-10 flex flex-col h-full">

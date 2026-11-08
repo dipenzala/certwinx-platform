@@ -1,32 +1,24 @@
 import { useEffect, useRef } from 'react';
-import { ArrowUpRight, CheckCircle2, ShieldCheck, FileCheck, Zap, Award } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { ArrowUpRight, CheckCircle2, ShieldCheck, FileCheck, Zap, Award, Sparkles, Building2, Calendar, Percent } from 'lucide-react';
 import { gsap } from '../../lib/gsap';
 import MagneticButton from '../motion/MagneticButton';
 import RevealOnScroll from '../motion/RevealOnScroll';
 
 const POINTS = [
-  'What is Section 80-IAC?',
-  'Who may be eligible?',
-  'DPIIT relationship',
-  'Documentation requirements',
-  'Application preparation',
-  'IMB process coordination',
-  'Query assistance and follow-up',
+  'DPIIT Recognition as strict mandatory prerequisite',
+  'Private Limited or LLP incorporated after 1 April 2016',
+  'Turnover under ₹100 Cr in any preceding financial year',
+  'Innovative product/service with scalable employment or wealth creation',
+  'Preparation of scalability memorandum & pitch dossier',
+  'Representation & query resolution before Inter-Ministerial Board (IMB)',
 ];
 
 const ROWS = [
-  { label: 'DPIIT Recognition', value: 'Prerequisite' },
-  { label: 'Entity Type', value: 'Company / LLP' },
-  { label: 'Tax Holiday', value: 'Up to 3 years' },
-  { label: 'Application Route', value: 'IMB Process' },
-];
-
-const GUARANTEES = [
-  { icon: ShieldCheck, label: '100% Professional Assistance' },
-  { icon: FileCheck, label: '100% Documentation Support' },
-  { icon: Award, label: '100% Transparent Process' },
-  { icon: Zap, label: '100% Application Prepared' },
+  { label: 'DPIIT Recognition', value: 'Prerequisite (Mandatory)', icon: ShieldCheck },
+  { label: 'Eligible Entity', value: 'Private Ltd / LLP', icon: Building2 },
+  { label: 'Tax Holiday Quantum', value: '100% Tax Exemption for 3 Consecutive Years', icon: Percent },
+  { label: 'Claim Window', value: 'Any 3 out of first 10 years from incorporation', icon: Calendar },
+  { label: 'Sanctioning Body', value: 'Inter-Ministerial Board (IMB - DPIIT & CBDT)', icon: Award },
 ];
 
 export default function Section80IAC() {
@@ -38,28 +30,7 @@ export default function Section80IAC() {
     if (!root) return;
 
     const ctx = gsap.context(() => {
-      // Reveal rows
       gsap.from('[data-iac="row"]', {
-        y: 20,
-        opacity: 0,
-        duration: 0.9,
-        stagger: 0.08,
-        ease: 'expo.out',
-        scrollTrigger: { trigger: root, start: 'top 70%', once: true },
-      });
-
-      // Reveal points
-      gsap.from('[data-iac="point"]', {
-        x: -12,
-        opacity: 0,
-        duration: 0.7,
-        stagger: 0.05,
-        ease: 'expo.out',
-        scrollTrigger: { trigger: root, start: 'top 70%', once: true },
-      });
-
-      // Reveal guarantee badges
-      gsap.from('[data-iac="guarantee"]', {
         y: 16,
         opacity: 0,
         duration: 0.8,
@@ -68,22 +39,13 @@ export default function Section80IAC() {
         scrollTrigger: { trigger: root, start: 'top 75%', once: true },
       });
 
-      // Live pulse on the guarantee badge
-      gsap.to('[data-guarantee-dot]', {
-        scale: 1.6,
-        opacity: 0.4,
-        duration: 1.5,
-        ease: 'sine.inOut',
-        yoyo: true,
-        repeat: -1,
-      });
-
-      // Animated grid pattern shimmer
-      gsap.to('[data-grid-shimmer]', {
-        backgroundPosition: '200% 0',
-        duration: 8,
-        ease: 'none',
-        repeat: -1,
+      gsap.from('[data-iac="point"]', {
+        x: -10,
+        opacity: 0,
+        duration: 0.6,
+        stagger: 0.05,
+        ease: 'expo.out',
+        scrollTrigger: { trigger: root, start: 'top 75%', once: true },
       });
     }, root);
 
@@ -93,164 +55,119 @@ export default function Section80IAC() {
   return (
     <section
       ref={rootRef}
-      className="relative py-20 lg:py-28 bg-[#0A0F1F] text-white overflow-hidden"
+      className="relative py-20 lg:py-28 bg-canvas border-b border-line overflow-hidden"
     >
-      {/* ============ BACKGROUND ============ */}
-      {/* Grid pattern with shimmer */}
-      <div
-        data-grid-shimmer
-        className="absolute inset-0 opacity-[0.06]"
-        style={{
-          backgroundImage: `linear-gradient(90deg, transparent 0%, rgba(22,131,255,0.3) 50%, transparent 100%), linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)`,
-          backgroundSize: '200% 100%, 64px 64px, 64px 64px',
-        }}
-      />
-
-      {/* Blue glow blob (top-right) */}
-      <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-blue/15 blur-[120px] pointer-events-none" />
-
-      {/* Blue glow blob (bottom-left) */}
-      <div className="absolute -bottom-40 -left-40 w-[500px] h-[500px] rounded-full bg-blue/10 blur-[100px] pointer-events-none" />
-
-      {/* Floating blue particles */}
-      {[
-        { top: '20%', left: '15%', size: 3 },
-        { top: '40%', left: '85%', size: 2 },
-        { top: '65%', left: '10%', size: 2 },
-        { top: '80%', left: '90%', size: 3 },
-        { top: '30%', left: '50%', size: 2 },
-      ].map((p, i) => (
-        <span
-          key={i}
-          className="absolute rounded-full bg-blue pointer-events-none"
-          style={{
-            top: p.top,
-            left: p.left,
-            width: p.size,
-            height: p.size,
-            boxShadow: `0 0 ${p.size * 4}px rgba(22,131,255,0.6)`,
-          }}
-        />
-      ))}
-
-      <div className="relative max-w-[1440px] mx-auto px-6 lg:px-10">
+      <div className="relative max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-start">
 
-          {/* LEFT COLUMN */}
+          {/* LEFT COLUMN: INTEL & STRATEGY */}
           <div className="lg:col-span-7">
-
             {/* Eyebrow */}
             <RevealOnScroll>
-              <span className="inline-flex items-center gap-2 text-[10px] tracking-[0.25em] text-blue uppercase mb-6 font-bold">
-                <span className="w-8 h-px bg-blue" />
-                Tax Benefit Assistance
-              </span>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-soft border border-blue/20 text-blue font-semibold text-[11px] tracking-wider uppercase mb-5">
+                <Sparkles size={12} className="text-blue" />
+                Startup Taxation Intelligence
+              </div>
             </RevealOnScroll>
 
             {/* Heading */}
             <RevealOnScroll delay={0.1}>
-              <h2 className="font-display text-[2rem] sm:text-[2.75rem] lg:text-[3.5rem] font-bold text-white leading-[1.02] tracking-[-0.02em] text-balance mb-8">
-                Section 80-IAC assistance,{' '}
+              <h2 className="font-display text-[2rem] sm:text-[2.75rem] lg:text-[3.25rem] font-bold text-ink leading-[1.08] tracking-[-0.03em] text-balance mb-6">
+                Section 80-IAC tax exemption,{' '}
                 <span className="text-blue">handled with precision.</span>
               </h2>
             </RevealOnScroll>
 
             {/* Subtext */}
             <RevealOnScroll delay={0.2}>
-              <p className="text-base lg:text-lg text-white/70 leading-relaxed max-w-2xl mb-10">
-                Section 80-IAC of the Income Tax Act provides a tax holiday to eligible
-                DPIIT-recognised startups. CertWinX assists with documentation, application
-                preparation and coordination through the process.
+              <p className="text-base sm:text-lg text-graphite leading-relaxed max-w-2xl mb-8">
+                Section 80-IAC of the Income Tax Act provides eligible DPIIT-recognised startups with a 100% tax holiday on business profits for three consecutive assessment years. CertWinX coordinates your application dossier from initial eligibility through IMB committee presentation.
               </p>
             </RevealOnScroll>
 
-            {/* Guarantee banner */}
-            <RevealOnScroll delay={0.3}>
-              <div className="mb-10 flex flex-wrap items-center gap-3">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue/10 border border-blue/30">
-                  <span className="relative flex items-center justify-center w-3 h-3">
-                    <span data-guarantee-dot className="absolute inset-0 rounded-full bg-blue/60" />
-                    <span className="relative w-1.5 h-1.5 rounded-full bg-blue" />
-                  </span>
-                  <span className="text-sm font-bold text-white">
-                    100% Professional Assistance
-                  </span>
+            {/* Credibility strip */}
+            <RevealOnScroll delay={0.25}>
+              <div className="mb-8 p-4 rounded-2xl bg-paper border border-line shadow-sm flex items-start sm:items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center shrink-0">
+                  <CheckCircle2 size={16} className="text-emerald-600" />
                 </div>
-                <span className="text-[11px] text-white/50 italic">
-                  *Approval subject to IMB decision
-                </span>
+                <div className="text-xs text-graphite leading-relaxed">
+                  <span className="font-bold text-ink">Comprehensive IMB Dossier Preparation:</span> We structure your pitch deck, innovation scalability write-up, audited financials, and direct patent/IP links to satisfy the Inter-Ministerial Board criteria.
+                </div>
               </div>
             </RevealOnScroll>
 
-            {/* Points grid */}
+            {/* Key Evaluation Parameters */}
+            <h3 className="font-display text-sm font-bold text-ink uppercase tracking-wider mb-4">
+              Key Statutory Prerequisites & Advisory Scope:
+            </h3>
             <ul className="grid sm:grid-cols-2 gap-3 mb-10">
               {POINTS.map((p, i) => (
                 <li
                   key={i}
                   data-iac="point"
-                  className="flex items-start gap-3 text-sm text-white/80"
+                  className="flex items-start gap-2.5 text-xs sm:text-sm text-graphite bg-paper border border-line rounded-xl p-3"
                 >
                   <CheckCircle2 size={15} className="text-blue mt-0.5 shrink-0" />
-                  <span>{p}</span>
+                  <span className="leading-snug">{p}</span>
                 </li>
               ))}
             </ul>
 
             {/* CTA */}
-            <RevealOnScroll delay={0.4}>
-              <div className="flex flex-wrap gap-3">
-                <MagneticButton to="/eligibility/80-iac" variant="gold" size="lg">
+            <RevealOnScroll delay={0.35}>
+              <div className="flex flex-wrap items-center gap-4">
+                <MagneticButton to="/eligibility/80-iac" variant="primary" size="lg">
                   Check 80-IAC Eligibility <ArrowUpRight size={15} />
                 </MagneticButton>
+                <MagneticButton to="/services/section-80-iac" variant="outline" size="lg">
+                  Read Full 80-IAC Guide
+                </MagneticButton>
               </div>
-              <p className="mt-4 text-xs text-white/50 max-w-lg leading-relaxed">
-                Note: Approval is subject to Inter-Ministerial Board review and decision.
-                CertWinX does not guarantee approval.
+              <p className="mt-4 text-xs text-muted max-w-lg leading-relaxed">
+                *Statutory note: Approval under Section 80-IAC is granted at the sole discretion of the Inter-Ministerial Board (IMB). CertWinX provides advisory, document structuring and filing assistance.
               </p>
             </RevealOnScroll>
           </div>
 
-          {/* RIGHT COLUMN */}
+          {/* RIGHT COLUMN: TAX BENEFIT MATRIX CARD */}
           <div className="lg:col-span-5">
-            <RevealOnScroll delay={0.3}>
-              <div className="bg-white/5 border border-white/10 rounded-3xl p-8 lg:p-10 backdrop-blur-sm">
+            <RevealOnScroll delay={0.2}>
+              <div className="bg-paper border border-line rounded-3xl p-6 sm:p-8 lg:p-9 shadow-card">
+                
+                <div className="flex items-center justify-between pb-5 border-b border-line mb-6">
+                  <div>
+                    <span className="text-[10px] font-bold tracking-widest text-blue uppercase">Statutory Matrix</span>
+                    <h4 className="font-display text-lg font-bold text-ink">Section 80-IAC Snapshot</h4>
+                  </div>
+                  <span className="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-[10px] font-bold uppercase">
+                    Active Scheme
+                  </span>
+                </div>
 
-                {/* Table */}
+                {/* Rows */}
                 <div className="space-y-4 mb-8">
                   {ROWS.map((r) => (
                     <div
                       key={r.label}
                       data-iac="row"
-                      className="flex items-center justify-between py-3 border-b border-white/10 last:border-0"
+                      className="p-3.5 rounded-xl bg-canvas border border-line/80 flex items-start gap-3"
                     >
-                      <span className="text-sm text-white/60">{r.label}</span>
-                      <span className="text-sm font-bold text-blue">{r.value}</span>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Guarantee badges */}
-                <div className="space-y-3 pt-6 border-t border-white/10">
-                  {GUARANTEES.map((g, i) => (
-                    <div
-                      key={i}
-                      data-iac="guarantee"
-                      className="flex items-center gap-3 text-sm text-white/85"
-                    >
-                      <div className="w-7 h-7 rounded-lg bg-blue/15 border border-blue/25 flex items-center justify-center shrink-0">
-                        <g.icon size={13} className="text-blue" />
+                      <div className="w-8 h-8 rounded-lg bg-blue-soft text-blue flex items-center justify-center shrink-0 mt-0.5">
+                        <r.icon size={15} />
                       </div>
-                      <span className="font-medium">{g.label}</span>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[11px] font-medium text-muted uppercase tracking-wider">{r.label}</p>
+                        <p className="text-xs sm:text-sm font-bold text-ink leading-snug mt-0.5">{r.value}</p>
+                      </div>
                     </div>
                   ))}
                 </div>
 
-                {/* Bottom disclaimer */}
-                <div className="mt-8 p-4 rounded-2xl bg-blue/8 border border-blue/20">
-                  <p className="text-xs text-white/70 leading-relaxed">
-                    <strong className="text-blue font-semibold">Important:</strong>{' '}
-                    CertWinX provides professional assistance only. Approval is at the sole
-                    discretion of the Inter-Ministerial Board and relevant authorities.
+                {/* Statutory Guarantee note */}
+                <div className="p-4 rounded-2xl bg-blue-soft/50 border border-blue/20">
+                  <p className="text-xs text-graphite leading-relaxed">
+                    <strong className="text-blue-deep font-semibold">100% Tax Relief:</strong> Unlike ordinary deductions, Section 80-IAC exempts eligible startups from 100% of income tax on profits, creating substantial non-dilutive liquidity to reinvest in hiring, R&D, and expansion.
                   </p>
                 </div>
               </div>
