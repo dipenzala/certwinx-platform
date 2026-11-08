@@ -9,6 +9,7 @@ import ScrollProgress from './components/motion/ScrollProgress';
 import Preloader from './components/ui/Preloader';
 import LeadPopup from './components/ui/LeadPopup';
 import LiveBanner from './components/ui/LiveBanner';
+import FloatingAssistant from './components/ui/FloatingAssistant';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
 import { ScrollTrigger } from './lib/gsap';
 
@@ -246,6 +247,9 @@ function AppShell() {
 
         {/* Footer — only on public site */}
         {!isAdmin && <Footer />}
+
+        {/* Guided Statutory Assistant — only on public site */}
+        {!isAdmin && <FloatingAssistant />}
 
         {/* Live banner — only on public site */}
         {!isAdmin && <LiveBanner hidden={mobileMenuOpen} />}

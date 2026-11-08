@@ -6,6 +6,7 @@ export default function CustomCursor() {
   const ringRef = useRef(null);
   const [enabled, setEnabled] = useState(false);
   const [cursorColor, setCursorColor] = useState('#1C83F3');
+  const [hasMoved, setHasMoved] = useState(false);
 
   useEffect(() => {
     if (window.matchMedia('(pointer: coarse)').matches) return;
@@ -19,10 +20,10 @@ export default function CustomCursor() {
     const ring = ringRef.current;
     if (!dot || !ring) return;
 
-    gsap.set([dot, ring], { xPercent: -50, yPercent: -50 });
+    gsap.set([dot, ring], { xPercent: -50, yPercent: -50, opacity: 0 });
 
-    const xTo = gsap.quickTo([dot, ring], 'x', { duration: 0.2, ease: 'power3.out' });
-    const yTo = gsap.quickTo([dot, ring], 'y', { duration: 0.2, ease: 'power3.out' });
+    const xTo = gsap.quickTo([dot, ring], 'x', { duration: 0.18, ease: 'power3.out' });
+    const yTo = gsap.quickTo([dot, ring], 'y', { duration: 0.18, ease: 'power3.out' });
 
     let lastDetect = 0;
     const detectBackground = (x, y) => {
@@ -60,10 +61,26 @@ export default function CustomCursor() {
       }
     };
 
+    let firstMove = true;
     const onMove = (e) => {
+      if (firstMove) {
+        firstMove = false;
+        setHasMoved(true);
+        gsap.to([dot, ring], { opacity: 1, duration: 0.25 });
+      }
       xTo(e.clientX);
       yTo(e.clientY);
       detectBackground(e.clientX, e.clientY);
+    };
+
+    const onMouseLeaveDoc = () => {
+      gsap.to([dot, ring], { opacity: 0, duration: 0.2 });
+    };
+
+    const onMouseEnterDoc = () => {
+      if (!firstMove) {
+        gsap.to([dot, ring], { opacity: 1, duration: 0.2 });
+      }
     };
 
     const onEnterInteractive = () => {
@@ -81,6 +98,8 @@ export default function CustomCursor() {
     };
 
     window.addEventListener('mousemove', onMove, { passive: true });
+    document.addEventListener('mouseleave', onMouseLeaveDoc);
+    document.addEventListener('mouseenter', onMouseEnterDoc);
 
     const bindInteractive = () => {
       document.querySelectorAll('a, button, [data-cursor="hover"]').forEach((el) => {
@@ -95,6 +114,8 @@ export default function CustomCursor() {
 
     return () => {
       window.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseleave', onMouseLeaveDoc);
+      document.removeEventListener('mouseenter', onMouseEnterDoc);
       observer.disconnect();
     };
   }, [enabled]);
@@ -106,7 +127,9 @@ export default function CustomCursor() {
       {/* Outer Ring */}
       <div
         ref={ringRef}
-        className="pointer-events-none fixed top-0 left-0 z-[9998] w-8 h-8 rounded-full transition-colors duration-200"
+        className={`pointer-events-none fixed top-0 left-0 z-[9998] w-8 h-8 rounded-full transition-colors duration-200 ${
+          hasMoved ? 'visible' : 'invisible'
+        }`}
         style={{
           border: `1.5px solid ${cursorColor}`,
           boxShadow: `0 0 10px ${cursorColor}44`,
@@ -116,7 +139,9 @@ export default function CustomCursor() {
       {/* Center Dot */}
       <div
         ref={dotRef}
-        className="pointer-events-none fixed top-0 left-0 z-[9999] w-1.5 h-1.5 rounded-full transition-colors duration-200"
+        className={`pointer-events-none fixed top-0 left-0 z-[9999] w-1.5 h-1.5 rounded-full transition-colors duration-200 ${
+          hasMoved ? 'visible' : 'invisible'
+        }`}
         style={{
           backgroundColor: cursorColor,
           boxShadow: `0 0 6px ${cursorColor}77`,

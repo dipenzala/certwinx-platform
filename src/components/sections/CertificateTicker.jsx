@@ -69,7 +69,7 @@ export default function CertificateTicker() {
     >
       <div className="relative flex items-center gap-4 sm:gap-6 px-4 sm:px-8">
         {/* Left Badge */}
-        <div className="shrink-0 z-10 flex items-center gap-2.5 px-3 py-1.5 rounded-xl bg-white/10 border border-white/20 backdrop-blur-sm">
+        <div className="shrink-0 z-20 flex items-center gap-2.5 px-3.5 py-1.5 rounded-xl bg-[#0d2860] border border-white/20 shadow-sm backdrop-blur-md">
           <ShieldCheck size={16} className="text-sky shrink-0" />
           <div className="flex flex-col">
             <span className="text-[9px] font-bold text-sky uppercase tracking-wider">
@@ -82,12 +82,12 @@ export default function CertificateTicker() {
         </div>
 
         {/* Vertical divider */}
-        <div className="w-px h-6 bg-white/20 shrink-0 hidden sm:block" />
+        <div className="w-px h-6 bg-white/20 shrink-0 hidden sm:block z-20" />
 
         {/* Marquee Track with gradient edge masks */}
-        <div className="flex-1 relative overflow-hidden min-w-0">
-          <div className="absolute left-0 top-0 bottom-0 w-12 z-10 pointer-events-none bg-gradient-to-r from-deepblue to-transparent" />
-          <div className="absolute right-0 top-0 bottom-0 w-12 z-10 pointer-events-none bg-gradient-to-l from-deepblue to-transparent" />
+        <div className="flex-1 relative overflow-hidden min-w-0 pl-4">
+          <div className="absolute left-0 top-0 bottom-0 w-16 z-10 pointer-events-none bg-gradient-to-r from-deepblue via-deepblue/80 to-transparent" />
+          <div className="absolute right-0 top-0 bottom-0 w-16 z-10 pointer-events-none bg-gradient-to-l from-deepblue via-deepblue/80 to-transparent" />
 
           <div
             ref={trackRef}
