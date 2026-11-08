@@ -15,6 +15,7 @@ const EXPLORE_LINKS = [
   { label: 'Startup India Advisory', path: '/startup' },
   { label: 'Section 80-IAC Exemption', path: '/services/section-80-iac' },
   { label: 'Funding & Seed Grants', path: '/funding' },
+  { label: 'Founder Tools & Calculators', path: '/tools' },
   { label: 'MSME & Udyam Services', path: '/msme' },
   { label: 'Business Certifications', path: '/certifications' },
 ];

@@ -27,7 +27,7 @@ const CONTACT_METHODS = [
   {
     icon: MessageCircle,
     label: 'WhatsApp Advisory Desk',
-    value: '+91 88496 54137',
+    value: SITE.phone,
     href: getWhatsAppLink('direct contact enquiry'),
     description: 'Fastest response · Connect directly with advisors',
     tone: 'green',

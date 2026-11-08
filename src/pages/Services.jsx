@@ -12,6 +12,9 @@ import {
   Award,
   Landmark,
   FileCheck,
+  Receipt,
+  ShieldCheck,
+  Scale,
 } from 'lucide-react';
 import { gsap } from '../lib/gsap';
 import RevealOnScroll from '../components/motion/RevealOnScroll';
@@ -23,8 +26,11 @@ import { getWhatsAppLink } from '../lib/constants';
 const CATEGORY_ICONS = {
   All: SlidersHorizontal,
   Registration: Building2,
-  'Government Registration': FileCheck,
+  Tax: Receipt,
   Startup: Rocket,
+  Licensing: ShieldCheck,
+  IP: Scale,
+  'Government Registration': FileCheck,
   Certification: Award,
   Funding: Landmark,
   Compliance: FileCheck,
