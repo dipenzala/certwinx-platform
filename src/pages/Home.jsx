@@ -9,6 +9,7 @@ import WhyCertWinX from '../components/sections/WhyCertWinX';
 import Section80IAC from '../components/sections/Section80IAC';
 import ProcessPinned from '../components/sections/ProcessPinned';
 import StatsCounter from '../components/sections/StatsCounter';
+import ClientExperience from '../components/sections/ClientExperience';
 import FinalCTA from '../components/sections/FinalCTA';
 
 export default function Home() {
@@ -33,6 +34,7 @@ export default function Home() {
       <Section80IAC />
       <ProcessPinned />
       <StatsCounter />
+      <ClientExperience />
       <FinalCTA />
     </>
   );

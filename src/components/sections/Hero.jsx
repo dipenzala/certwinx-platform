@@ -72,9 +72,9 @@ export default function Hero() {
               data-hero="headline"
               className="font-display text-[2.25rem] sm:text-[3rem] lg:text-[3.75rem] font-bold leading-[1.08] tracking-[-0.03em] text-ink text-balance"
             >
-              Unlock Government Opportunities.
+              Build Your Business.
               <br />
-              <span className="text-blue">Accelerate Business Growth.</span>
+              <span className="text-blue">Unlock India's Growth Opportunities.</span>
             </h1>
 
             {/* Official Supporting Text */}
@@ -82,7 +82,7 @@ export default function Hero() {
               data-hero="sub"
               className="mt-6 text-base sm:text-lg text-graphite leading-relaxed max-w-2xl font-normal"
             >
-              Discover startup recognition, tax incentives, government funding, certifications and business compliance solutions with CertWinX.
+              From business registration and DPIIT recognition to government incentives, funding opportunities and statutory compliance — CertWinX helps businesses navigate every stage of growth.
             </p>
 
             {/* Primary & Secondary CTAs */}
@@ -93,13 +93,13 @@ export default function Hero() {
                 </MagneticButton>
               </span>
               <span data-hero="cta">
-                <MagneticButton to="/eligibility" variant="outline" size="lg">
-                  Check Eligibility <ArrowUpRight size={15} />
+                <MagneticButton href={getWhatsAppLink('startup advisory')} variant="whatsapp" size="lg">
+                  <MessageCircle size={15} /> Talk to an Advisor
                 </MagneticButton>
               </span>
               <span data-hero="cta">
-                <MagneticButton href={getWhatsAppLink()} variant="whatsapp" size="lg">
-                  <MessageCircle size={15} /> WhatsApp Advisory
+                <MagneticButton to="/eligibility" variant="outline" size="lg">
+                  Check Eligibility <ArrowUpRight size={15} />
                 </MagneticButton>
               </span>
             </div>

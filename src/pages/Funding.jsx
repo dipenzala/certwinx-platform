@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import RevealOnScroll from '../components/motion/RevealOnScroll';
 import MagneticButton from '../components/motion/MagneticButton';
+import FundingEcosystem from '../components/sections/FundingEcosystem';
 import { SCHEMES } from '../data/schemes';
 import { getWhatsAppLink } from '../lib/constants';
 
@@ -157,6 +158,9 @@ export default function Funding() {
           </div>
         </div>
       </section>
+
+      {/* ============ CAPITAL INSTRUMENTS ECOSYSTEM ARCHITECTURE ============ */}
+      <FundingEcosystem />
 
       {/* ============ SEARCH & FILTERS SECTION ============ */}
       <section className="py-8 bg-paper border-b border-line">
