@@ -18,6 +18,8 @@ import {
 import { gsap } from '../lib/gsap';
 import RevealOnScroll from '../components/motion/RevealOnScroll';
 import MagneticButton from '../components/motion/MagneticButton';
+import IndiaMapExplorer from '../components/sections/IndiaMapExplorer';
+import SchemeComparisonTable from '../components/sections/SchemeComparisonTable';
 import { SCHEMES } from '../data/schemes';
 import { getWhatsAppLink } from '../lib/constants';
 
@@ -105,7 +107,6 @@ export default function Schemes() {
         ref={rootRef}
         className="relative pt-36 lg:pt-44 pb-16 bg-canvas overflow-hidden border-b border-line"
       >
-        {/* Soft atmospheric glow */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-blue/5 blur-[120px]" />
           <div className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] rounded-full bg-sky/20 blur-[120px]" />
@@ -114,7 +115,6 @@ export default function Schemes() {
         <div className="relative max-w-[1440px] mx-auto px-6 lg:px-10">
           <div className="max-w-3xl mx-auto text-center">
 
-            {/* Live verified badge */}
             <RevealOnScroll>
               <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue/10 border border-blue/20 text-[10px] font-bold tracking-[0.2em] text-blue uppercase mb-6">
                 <span className="relative flex items-center justify-center w-2 h-2">
@@ -125,21 +125,18 @@ export default function Schemes() {
               </span>
             </RevealOnScroll>
 
-            {/* Heading */}
             <RevealOnScroll delay={0.1}>
               <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.08] tracking-tight text-ink mb-6 text-balance">
                 Verified intelligence on grants, incentives & funding.
               </h1>
             </RevealOnScroll>
 
-            {/* Subtext */}
             <RevealOnScroll delay={0.2}>
               <p className="text-base sm:text-lg text-graphite leading-relaxed max-w-2xl mx-auto mb-10">
                 Explore sovereign grants, Section 80-IAC tax exemptions, collateral-free credit guarantees, and state startup subsidies indexed directly from official statutory gazettes.
               </p>
             </RevealOnScroll>
 
-            {/* Operational Metrics Strip */}
             <RevealOnScroll delay={0.3}>
               <div className="inline-flex flex-wrap items-center justify-center gap-x-8 gap-y-3 px-6 py-4 rounded-2xl bg-white border border-line shadow-sm">
                 {HERO_STATS.map((s, i) => (
@@ -162,9 +159,22 @@ export default function Schemes() {
         </div>
       </section>
 
+      {/* ============ INTERACTIVE INDIA MAP & ECOSYSTEM HUBS ============ */}
+      <IndiaMapExplorer />
+
+      {/* ============ SIDE-BY-SIDE SCHEME COMPARISON MATRIX ============ */}
+      <SchemeComparisonTable />
+
       {/* ============ SEARCH & FILTERS SECTION ============ */}
-      <section className="py-8 bg-paper border-b border-line">
+      <section className="py-16 bg-paper border-b border-line">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
+
+          <div className="text-center max-w-2xl mx-auto mb-8">
+            <span className="text-[10px] font-bold text-blue uppercase tracking-wider block mb-1">Central & State Directory</span>
+            <h2 className="font-display text-2xl sm:text-3xl font-bold text-ink">
+              Browse All Verified Government Schemes ({filtered.length})
+            </h2>
+          </div>
 
           {/* Search bar */}
           <div className="relative max-w-2xl mx-auto mb-6">
@@ -191,14 +201,14 @@ export default function Schemes() {
           </div>
 
           {/* Filter Pills */}
-          <div className="flex flex-wrap items-center justify-center gap-2">
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
             {SUPPORT_TYPES.map((t) => {
               const active = supportType === t.value;
               return (
                 <button
                   key={t.value}
                   onClick={() => setSupportType(t.value)}
-                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold tracking-wide uppercase transition-all ${
+                  className={`px-4 py-2 rounded-full text-xs font-bold tracking-wide transition-all ${
                     active
                       ? 'bg-blue text-white shadow-sm'
                       : 'bg-white border border-line text-graphite hover:border-blue/40 hover:text-ink'
@@ -210,36 +220,21 @@ export default function Schemes() {
             })}
           </div>
 
-          {/* Results count */}
-          <div className="mt-4 text-center">
-            <p className="text-xs text-muted">
-              Displaying <span className="text-ink font-bold">{filtered.length}</span> verified schemes
-              {supportType !== 'All' && <span> under <strong className="text-blue">{supportType}</strong></span>}
-            </p>
-          </div>
-
-        </div>
-      </section>
-
-      {/* ============ SCHEMES DIRECTORY GRID ============ */}
-      <section className="py-16 lg:py-24 bg-canvas">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-10">
-
+          {/* Grid */}
           {filtered.length > 0 ? (
             <div
               data-schemes-grid
               className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
             >
-              {filtered.map((s, i) => (
+              {filtered.map((s) => (
                 <Link
                   key={s.slug}
                   to={`/schemes/${s.slug}`}
                   className="group block h-full bg-white border border-line rounded-3xl p-7 hover:border-blue/40 hover:shadow-[0_25px_50px_-20px_rgba(28,131,243,0.18)] transition-all duration-300 flex flex-col justify-between"
                 >
                   <div>
-                    {/* Top Row: Category + Support Type */}
-                    <div className="flex items-center justify-between gap-2 mb-4">
-                      <span className="px-2.5 py-1 rounded-full bg-blue/10 text-blue border border-blue/20 text-[10px] font-bold tracking-wide uppercase">
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="px-2.5 py-1 rounded-full bg-blue/10 text-blue border border-blue/20 text-[10px] font-bold uppercase">
                         {s.category}
                       </span>
                       <span className="px-2.5 py-1 rounded-full bg-canvas text-graphite border border-line text-[10px] font-semibold uppercase">
@@ -247,35 +242,30 @@ export default function Schemes() {
                       </span>
                     </div>
 
-                    {/* Ministry */}
                     <p className="text-[11px] font-semibold text-muted uppercase tracking-wider mb-2 flex items-center gap-1.5">
                       <Landmark size={12} className="text-blue" />
                       {s.ministry}
                     </p>
 
-                    {/* Name */}
                     <h3 className="font-display text-lg font-bold text-ink mb-2 leading-snug group-hover:text-blue transition-colors">
                       {s.name}
                     </h3>
 
-                    {/* Quantum Pill */}
                     {s.quantum && (
                       <div className="inline-block px-3 py-1 rounded-xl bg-sky/30 border border-sky/40 text-[11px] font-bold text-deepblue mb-3">
                         {s.quantum}
                       </div>
                     )}
 
-                    {/* Description */}
                     <p className="text-xs text-graphite line-clamp-3 leading-relaxed mb-6">
                       {s.description}
                     </p>
                   </div>
 
-                  {/* Card Footer */}
                   <div className="pt-4 border-t border-line/60 flex items-center justify-between text-xs font-bold text-blue">
-                    <span>Inspect Full Criteria & Process</span>
+                    <span>Inspect Policy Dossier</span>
                     <ArrowUpRight
-                      size={15}
+                      size={14}
                       className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
                     />
                   </div>

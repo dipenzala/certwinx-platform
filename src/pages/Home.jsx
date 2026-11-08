@@ -4,7 +4,8 @@ import TrustStrip from '../components/sections/TrustStrip';
 import CertificateTicker from '../components/sections/CertificateTicker';
 import BusinessNeeds from '../components/sections/BusinessNeeds';
 import FeaturedServices from '../components/sections/FeaturedServices';
-import SchemeFinder from '../components/sections/SchemeFinder';
+import IndiaMapExplorer from '../components/sections/IndiaMapExplorer';
+import SchemeComparisonTable from '../components/sections/SchemeComparisonTable';
 import WhyCertWinX from '../components/sections/WhyCertWinX';
 import Section80IAC from '../components/sections/Section80IAC';
 import ProcessPinned from '../components/sections/ProcessPinned';
@@ -16,7 +17,7 @@ export default function Home() {
   return (
     <>
       <Helmet>
-        <title>CertWinX — Build Your Business. Unlock Government Benefits.</title>
+        <title>CertWinX — Build Your Business. Unlock India's Growth Opportunities.</title>
         <meta
           name="description"
           content="CertWinX provides professional assistance for business registration, DPIIT, Section 80-IAC, Udyam/MSME, GST, FSSAI, ISO, IEC, GeM, government schemes, funding and business compliance."
@@ -29,7 +30,8 @@ export default function Home() {
       <TrustStrip />
       <BusinessNeeds />
       <FeaturedServices />
-      <SchemeFinder />
+      <IndiaMapExplorer />
+      <SchemeComparisonTable />
       <WhyCertWinX />
       <Section80IAC />
       <ProcessPinned />

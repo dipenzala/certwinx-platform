@@ -26,6 +26,7 @@ const Eligibility = lazy(() => import('./pages/Eligibility'));
 const Eligibility80IAC = lazy(() => import('./pages/Eligibility80IAC'));
 const EligibilityResults = lazy(() => import('./pages/EligibilityResults'));
 const Consultation = lazy(() => import('./pages/Consultation'));
+const Tools = lazy(() => import('./pages/Tools'));
 const Resources = lazy(() => import('./pages/Resources'));
 const Blog = lazy(() => import('./pages/Blog'));
 const CaseStudies = lazy(() => import('./pages/CaseStudies'));
@@ -116,6 +117,8 @@ function AppRoutes() {
         <Route path="/eligibility/results" element={<EligibilityResults />} />
         <Route path="/eligibility" element={<Eligibility />} />
         <Route path="/consultation" element={<Consultation />} />
+        <Route path="/tools" element={<Tools />} />
+        <Route path="/tools/:toolId" element={<Tools />} />
         <Route path="/resources" element={<Resources />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/case-studies" element={<CaseStudies />} />

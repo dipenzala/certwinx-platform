@@ -2,136 +2,222 @@ import { useEffect, useRef, useState } from 'react';
 import Logo from '../ui/Logo';
 import { Link, useLocation } from 'react-router-dom';
 import {
-  Menu, X, MessageCircle, ArrowUpRight,
-  ChevronDown, Sparkles, Building2, Rocket, Award, Landmark, ShieldCheck, FileCheck
+  Menu,
+  X,
+  MessageCircle,
+  ArrowUpRight,
+  ChevronDown,
+  Sparkles,
+  Building2,
+  Rocket,
+  Award,
+  Landmark,
+  ShieldCheck,
+  FileCheck,
+  Search,
+  Scale,
+  Percent,
+  Receipt,
+  FileText,
+  Coins,
+  Globe,
+  Leaf,
+  Phone,
+  Wrench,
+  BookOpen,
+  ChevronRight,
 } from 'lucide-react';
 import { gsap } from '../../lib/gsap';
-import { getWhatsAppLink } from '../../lib/constants';
+import { getWhatsAppLink, PHONE_NUMBER } from '../../lib/constants';
+import GlobalSearchModal from './GlobalSearchModal';
 
-/* ============ SERVICE MENU ITEMS ============ */
-const SERVICES_MENU = [
-  {
-    title: 'Startup India & DPIIT Recognition',
-    desc: 'Official sovereign recognition unlocking priority government schemes and IPR rebates.',
-    href: '/startup',
-    icon: Rocket,
-  },
-  {
-    title: 'Section 80-IAC Tax Exemption',
-    desc: '100% tax holiday on corporate profits for 3 consecutive years via IMB board.',
-    href: '/eligibility/80-iac',
-    icon: Landmark,
-  },
-  {
-    title: 'Startup India Seed Fund (SISFS)',
-    desc: 'Grants up to ₹20 Lakhs for prototype validation and ₹50 Lakhs for market scaling.',
-    href: '/schemes/startup-india-seed-fund',
-    icon: Sparkles,
-  },
-  {
-    title: 'MSME ZED & ISO Certifications',
-    desc: 'Quality accreditations with up to 80% government subsidy and lower loan interest.',
-    href: '/certifications',
-    icon: Award,
-  },
-  {
-    title: 'Company & LLP Incorporation',
-    desc: 'Fast-track MCA incorporation, DIN, PAN, GST, and statutory bank setup.',
-    href: '/services',
-    icon: Building2,
-  },
-  {
-    title: 'Credit Guarantees (CGSS / CGTMSE)',
-    desc: 'Collateral-free debt facilities up to ₹10 Crore with sovereign risk coverage.',
-    href: '/funding',
-    icon: ShieldCheck,
-  },
+/* ============================================================
+   MEGA-MENU DATA STRUCTURES (CorporateMart & Benchmark Depth)
+   ============================================================ */
+
+/* 1. BUSINESS REGISTRATION MEGA-MENU */
+const BUSINESS_REG_MENU = {
+  title: 'Business Registration',
+  badge: 'Entity Setup',
+  sections: [
+    {
+      heading: 'Company Incorporation',
+      items: [
+        { title: 'Private Limited Company', desc: 'India\'s gold standard venture corporate structure', href: '/services/private-limited-company', icon: Building2 },
+        { title: 'Limited Liability Partnership', desc: 'Limited liability with lower annual ROC compliance', href: '/services/llp-registration', icon: Users },
+        { title: 'One Person Company (OPC)', desc: '100% control for solo innovators & consultants', href: '/services/one-person-company', icon: Building2 },
+        { title: 'Section 8 Non-Profit Company', desc: 'High-credibility corporate structure for NGOs & CSR', href: '/services/section-8-company', icon: Award },
+      ],
+    },
+    {
+      heading: 'NGO & Philanthropy',
+      items: [
+        { title: 'NGO DARPAN Registration', desc: 'NITI Aayog portal onboarding for central ministry grants', href: '/services/ngo-darpan', icon: Landmark },
+        { title: '12A & 80G Tax Exemption', desc: 'Tax exemption on surplus & 50% deduction for donors', href: '/services/12a-80g-registration', icon: Percent },
+        { title: 'Trust & Society Advisory', desc: 'State registrar registration for non-profit entities', href: '/services/trust-society-registration', icon: FileCheck },
+      ],
+    },
+    {
+      heading: 'Founder Agreements',
+      items: [
+        { title: 'Entity Structure Comparison', desc: 'Compare Pvt Ltd vs LLP vs OPC vs Proprietorship', href: '/tools/structure-comparison', icon: Scale },
+        { title: 'Startup Incorporation Package', desc: 'End-to-end COI, PAN, TAN, GST, PF, ESIC & Bank setup', href: '/services/private-limited-company', icon: Rocket },
+      ],
+    },
+  ],
+};
+
+/* 2. TAX & COMPLIANCE MEGA-MENU */
+const TAX_COMPLIANCE_MENU = {
+  title: 'Tax & Compliance',
+  badge: 'Statutory Rigor',
+  sections: [
+    {
+      heading: 'Goods & Services Tax (GST)',
+      items: [
+        { title: 'GST Registration', desc: 'Fast-track GSTIN allotment with ARN generation', href: '/services/gst-registration', icon: Receipt },
+        { title: 'GST Return Filing (GSTR-1, 3B, 9)', desc: 'Monthly ITC reconciliation and statutory filing', href: '/services/gst-filing', icon: ReceiptText },
+      ],
+    },
+    {
+      heading: 'Direct Tax & Income Tax',
+      items: [
+        { title: 'Corporate ITR Filing (ITR-6)', desc: 'Direct corporate tax filing with tax audit alignment', href: '/services/corporate-itr', icon: Landmark },
+        { title: 'Section 80-IAC Tax Exemption', desc: '100% tax holiday on corporate profits for 3 years', href: '/services/section-80-iac', icon: Percent },
+      ],
+    },
+    {
+      heading: 'Corporate Secretarial (ROC)',
+      items: [
+        { title: 'Pvt Ltd Annual Compliance', desc: 'Filing AOC-4, MGT-7, ADT-1, and AGM resolutions', href: '/services/pvt-ltd-annual-compliance', icon: ClipboardCheck },
+        { title: 'Director KYC (DIR-3 KYC)', desc: 'Annual DIN reactivation preventing MCA disqualification', href: '/services/director-kyc', icon: ShieldCheck },
+      ],
+    },
+  ],
+};
+
+/* 3. STARTUP INDIA DROPDOWN */
+const STARTUP_INDIA_MENU = [
+  { title: 'DPIIT Recognition Certificate', desc: 'Official sovereign recognition unlocking priority schemes & IPR rebates', href: '/services/dpiit-recognition', icon: Rocket },
+  { title: 'Section 80-IAC Tax Exemption', desc: '100% tax holiday for 3 consecutive years out of 10 via IMB Board', href: '/services/section-80-iac', icon: Percent },
+  { title: 'Startup India Seed Fund (SISFS)', desc: 'Non-dilutive grants up to ₹20 Lakhs and debt up to ₹50 Lakhs', href: '/schemes/startup-india-seed-fund', icon: Sparkles },
+  { title: 'Credit Guarantee Scheme (CGSS)', desc: 'Collateral-free loans up to ₹10 Crore with sovereign risk coverage', href: '/schemes/cgss', icon: ShieldCheck },
 ];
 
-/* ============ SCHEMES MENU ITEMS ============ */
+/* 4. GOVERNMENT SCHEMES DROPDOWN */
 const SCHEMES_MENU = [
-  {
-    title: 'Startup India Seed Fund Scheme',
-    desc: 'Early-stage prototype validation and commercialization grant.',
-    href: '/schemes/startup-india-seed-fund',
-    tag: 'DPIIT Grant',
-  },
-  {
-    title: 'Section 80-IAC Corporate Tax Exemption',
-    desc: '3 consecutive years 100% deduction on operational profits.',
-    href: '/schemes/section-80-iac',
-    tag: 'Tax Holiday',
-  },
-  {
-    title: 'Credit Guarantee Scheme for Startups (CGSS)',
-    desc: 'Collateral-free loans up to ₹10 Crore from scheduled banks.',
-    href: '/schemes/cgss',
-    tag: 'Debt Facility',
-  },
-  {
-    title: 'PMEGP MSME Capital Subsidy',
-    desc: 'Up to 35% margin money subsidy on project costs up to ₹50 Lakhs.',
-    href: '/schemes/pmegp',
-    tag: 'MSME Subsidy',
-  },
-  {
-    title: 'BIRAC Biotechnology Ignition Grant (BIG)',
-    desc: 'Up to ₹50 Lakhs non-dilutive grant for bio-innovators and MedTech.',
-    href: '/schemes/birac-big',
-    tag: 'Biotech Grant',
-  },
-  {
-    title: 'Gujarat State Startup Scheme (i-Hub)',
-    desc: 'Up to ₹30 Lakhs seed support + monthly founder sustenance allowance.',
-    href: '/schemes/gujarat-startup-policy',
-    tag: 'State Policy',
-  },
+  { title: 'Startup India Seed Fund (SISFS)', desc: 'Early-stage prototype validation and commercialization grant', href: '/schemes/startup-india-seed-fund', tag: 'DPIIT Grant' },
+  { title: 'Section 80-IAC Corporate Tax Exemption', desc: '3 consecutive years 100% deduction on operational profits', href: '/schemes/section-80-iac', tag: 'Tax Holiday' },
+  { title: 'Credit Guarantee Scheme for Startups (CGSS)', desc: 'Collateral-free loans up to ₹10 Crore from scheduled commercial banks', href: '/schemes/cgss', tag: 'Debt Facility' },
+  { title: 'PMEGP MSME Capital Subsidy', desc: 'Up to 35% margin money subsidy on project costs up to ₹50 Lakhs', href: '/schemes/pmegp', tag: 'MSME Subsidy' },
+  { title: 'BIRAC Biotechnology Ignition Grant (BIG)', desc: 'Up to ₹50 Lakhs non-dilutive grant for bio-innovators and MedTech', href: '/schemes/birac-big', tag: 'Biotech Grant' },
+  { title: 'Gujarat State Startup Scheme (i-Hub)', desc: 'Up to ₹30 Lakhs seed support + monthly founder sustenance allowance', href: '/schemes/gujarat-startup-policy', tag: 'State Policy' },
+  { title: 'Explore All 18+ Central & State Schemes', desc: 'Interactive state directory, comparison matrix, and filters', href: '/schemes', tag: 'Directory' },
+];
+
+/* 5. FUNDING & CAPITAL DROPDOWN */
+const FUNDING_MENU = [
+  { title: 'Non-Dilutive Capital Grants', desc: 'SISFS, DST NIDHI PRAYAS, BIRAC BIG with 0% equity dilution', href: '/funding', icon: Coins },
+  { title: 'Collateral-Free Credit Guarantees', desc: 'CGSS up to ₹10 Cr and CGTMSE up to ₹5 Cr without personal security', href: '/funding', icon: ShieldCheck },
+  { title: 'Capital & Margin Subsidies', desc: 'PMEGP 15%–35% margin money & ZED certification fee reimbursements', href: '/funding', icon: Award },
+  { title: 'Institutional Term Loans & MUDRA', desc: 'Concessionary bank debt up to ₹20 Lakhs under MUDRA Tarun Plus', href: '/funding', icon: Landmark },
+];
+
+/* 6. CERTIFICATIONS & LICENSES MEGA-MENU */
+const CERTIFICATIONS_MENU = {
+  title: 'Certifications & Licenses',
+  badge: 'Accreditation',
+  sections: [
+    {
+      heading: 'MSME Accreditations',
+      items: [
+        { title: 'Udyam Registration', desc: 'Permanent MSME certificate unlocking CGTMSE & priority lending', href: '/services/udyam-registration', icon: Award },
+        { title: 'MSME ZED Certification', desc: 'Up to 80% government subsidy on Bronze, Silver, Gold audits', href: '/services/msme-zed', icon: Leaf },
+      ],
+    },
+    {
+      heading: 'Quality & Security Standards',
+      items: [
+        { title: 'ISO 9001:2015 (QMS)', desc: 'Quality Management System required for government procurement', href: '/services/iso-9001', icon: ShieldCheck },
+        { title: 'ISO 27001 (ISMS)', desc: 'Information Security Management System for tech & SaaS', href: '/services/iso-9001', icon: Shield },
+      ],
+    },
+    {
+      heading: 'Trade & Regulatory Licenses',
+      items: [
+        { title: 'FSSAI Food Business License', desc: 'Mandatory 14-digit license for cloud kitchens, F&B & packaged food', href: '/services/fssai-license', icon: ShieldCheck },
+        { title: 'Import Export Code (IEC)', desc: '10-digit DGFT trade identifier for cross-border shipments', href: '/services/iec-code', icon: Globe },
+      ],
+    },
+  ],
+};
+
+/* 7. INTELLECTUAL PROPERTY (IP) DROPDOWN */
+const IP_MENU = [
+  { title: 'Trademark Registration', desc: 'Pan-India brand name & logo protection with 50% MSME/DPIIT rebate', href: '/services/trademark-registration', icon: Shield },
+  { title: 'Trademark Objection Reply', desc: 'Legal rejoinders to overcome Section 9 and Section 11 examiner reports', href: '/services/trademark-objection', icon: Scale },
+  { title: 'Copyright Registration', desc: 'Statutory protection for software source code, literary & UI/UX designs', href: '/services/copyright-registration', icon: BookOpen },
+  { title: 'Patent Application Guidance', desc: 'Prior-art patent search and fast-track examination support', href: '/services/trademark-registration', icon: Sparkles },
+];
+
+/* 8. FOUNDER TOOLS DROPDOWN */
+const TOOLS_MENU = [
+  { title: 'Entity Structure Comparison', desc: 'Compare Pvt Ltd, LLP, OPC, and Proprietorship side by side', href: '/tools/structure-comparison', icon: Scale },
+  { title: 'MSME Classification Checker', desc: 'Evaluate investment and turnover to determine Micro, Small, Medium tier', href: '/tools/msme-checker', icon: Award },
+  { title: 'Startup Eligibility Calculator', desc: 'Evaluate DPIIT recognition and Section 80-IAC criteria in 60 seconds', href: '/eligibility', icon: Sparkles },
+  { title: 'Startup Runway Calculator', desc: 'Calculate exact survival runway from cash in bank and monthly burn', href: '/tools/runway-calculator', icon: Coins },
+  { title: 'Funding Requirement Planner', desc: 'Structure non-dilutive grants, debt, and equity allocation', href: '/tools/funding-planner', icon: Landmark },
+  { title: 'Document Checklist Generator', desc: 'Generate customized service-specific document packages', href: '/tools/document-checklist', icon: FileText },
 ];
 
 export default function Header({ onMenuToggle }) {
   const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState(null); // 'registration' | 'tax' | 'startup' | 'schemes' | 'funding' | 'certifications' | 'ip' | 'tools'
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [mobileAccordion, setMobileAccordion] = useState(null);
   const dropdownTimeoutRef = useRef(null);
   const headerRef = useRef(null);
   const location = useLocation();
 
   useEffect(() => {
-    if (onMenuToggle) onMenuToggle(open);
-  }, [open, onMenuToggle]);
+    if (onMenuToggle) onMenuToggle(mobileOpen);
+  }, [mobileOpen, onMenuToggle]);
 
-  /* SCROLL MONITOR */
+  // Scroll listener
   useEffect(() => {
-    let ticking = false;
-    const onScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        setScrolled(window.scrollY > 20);
-        ticking = false;
-      });
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 15);
     };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  /* Header entrance animation */
+  // Keyboard shortcut: Cmd/Ctrl + K to open search, ESC to close menus
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const el = headerRef.current;
-    if (!el) return;
-    gsap.fromTo(el, { y: -20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' });
+    const handleKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setSearchOpen((prev) => !prev);
+      }
+      if (e.key === 'Escape') {
+        setActiveDropdown(null);
+        setMobileOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  // Close menus on route change
   useEffect(() => {
-    setOpen(false);
+    setMobileOpen(false);
     setActiveDropdown(null);
   }, [location.pathname]);
 
-  const handleMouseEnter = (menu) => {
+  const handleMouseEnter = (key) => {
     if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
-    setActiveDropdown(menu);
+    setActiveDropdown(key);
   };
 
   const handleMouseLeave = () => {
@@ -144,323 +230,675 @@ export default function Header({ onMenuToggle }) {
     <>
       <header
         ref={headerRef}
-        className="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+        className={`fixed top-0 left-0 right-0 z-400 transition-all duration-300 ${
+          scrolled
+            ? 'bg-canvas/92 backdrop-blur-md border-b border-line shadow-sm py-2 sm:py-2.5'
+            : 'bg-canvas/75 backdrop-blur-sm border-b border-line/60 py-3 sm:py-4'
+        }`}
       >
-        <div
-          className={`w-full transition-all duration-300 border-b ${
-            scrolled
-              ? 'bg-white/95 backdrop-blur-md border-line shadow-[0_4px_25px_-5px_rgba(22,58,138,0.08)]'
-              : 'bg-white/90 backdrop-blur-sm border-line/70'
-          }`}
-        >
-          <div className="max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10">
-            <div
-              className={`flex items-center justify-between gap-6 transition-all duration-300 ${
-                scrolled ? 'h-16' : 'h-20'
-              }`}
-            >
-              {/* ============ BRAND LOGO ============ */}
-              <div className="flex items-center gap-3 shrink-0">
-                <Logo size={scrolled ? 'md' : 'lg'} />
-              </div>
-
-              {/* ============ DESKTOP NAVIGATION ============ */}
-              <nav className="hidden xl:flex items-center gap-1" aria-label="Main Navigation">
-                {/* Services Dropdown Trigger */}
-                <div
-                  className="relative"
-                  onMouseEnter={() => handleMouseEnter('services')}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <button
-                    className={`flex items-center gap-1 px-3.5 py-2 text-[13px] font-semibold tracking-tight rounded-xl transition-colors ${
-                      location.pathname.startsWith('/services') || activeDropdown === 'services'
-                        ? 'text-blue bg-blue/10'
-                        : 'text-graphite hover:text-ink hover:bg-canvas'
-                    }`}
-                    aria-expanded={activeDropdown === 'services'}
-                  >
-                    <span>Services</span>
-                    <ChevronDown size={14} className={`transition-transform duration-200 ${activeDropdown === 'services' ? 'rotate-180' : ''}`} />
-                  </button>
-
-                  {/* Mega Menu Dropdown */}
-                  {activeDropdown === 'services' && (
-                    <div className="absolute top-full left-0 mt-2 w-[580px] bg-white border border-line rounded-3xl p-5 shadow-[0_25px_50px_-15px_rgba(22,58,138,0.15)] animate-[dropdownFade_0.2s_ease-out]">
-                      <div className="flex items-center justify-between pb-3 mb-3 border-b border-line">
-                        <span className="text-[10px] font-bold text-blue tracking-[0.2em] uppercase">
-                          Corporate Advisory & Registrations
-                        </span>
-                        <Link to="/services" className="text-xs font-bold text-blue hover:text-deepblue flex items-center gap-1">
-                          All Services <ArrowUpRight size={12} />
-                        </Link>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-3">
-                        {SERVICES_MENU.map((item) => (
-                          <Link
-                            key={item.href}
-                            to={item.href}
-                            className="p-3 rounded-2xl border border-transparent hover:border-line hover:bg-canvas transition-all group flex items-start gap-3"
-                          >
-                            <div className="w-8 h-8 rounded-xl bg-blue/10 flex items-center justify-center shrink-0 group-hover:bg-blue group-hover:text-white transition-colors">
-                              <item.icon size={15} className="text-blue group-hover:text-white" />
-                            </div>
-                            <div>
-                              <div className="text-xs font-bold text-ink group-hover:text-blue transition-colors">
-                                {item.title}
-                              </div>
-                              <div className="text-[11px] text-muted line-clamp-1 mt-0.5">
-                                {item.desc}
-                              </div>
-                            </div>
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Schemes Dropdown Trigger */}
-                <div
-                  className="relative"
-                  onMouseEnter={() => handleMouseEnter('schemes')}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <button
-                    className={`flex items-center gap-1 px-3.5 py-2 text-[13px] font-semibold tracking-tight rounded-xl transition-colors ${
-                      location.pathname.startsWith('/schemes') || activeDropdown === 'schemes'
-                        ? 'text-blue bg-blue/10'
-                        : 'text-graphite hover:text-ink hover:bg-canvas'
-                    }`}
-                    aria-expanded={activeDropdown === 'schemes'}
-                  >
-                    <span>Schemes</span>
-                    <ChevronDown size={14} className={`transition-transform duration-200 ${activeDropdown === 'schemes' ? 'rotate-180' : ''}`} />
-                  </button>
-
-                  {/* Mega Menu Dropdown */}
-                  {activeDropdown === 'schemes' && (
-                    <div className="absolute top-full left-0 mt-2 w-[580px] bg-white border border-line rounded-3xl p-5 shadow-[0_25px_50px_-15px_rgba(22,58,138,0.15)] animate-[dropdownFade_0.2s_ease-out]">
-                      <div className="flex items-center justify-between pb-3 mb-3 border-b border-line">
-                        <span className="text-[10px] font-bold text-blue tracking-[0.2em] uppercase">
-                          Central & State Schemes Intelligence
-                        </span>
-                        <Link to="/schemes" className="text-xs font-bold text-blue hover:text-deepblue flex items-center gap-1">
-                          Full 18+ Schemes Directory <ArrowUpRight size={12} />
-                        </Link>
-                      </div>
-
-                      <div className="grid grid-cols-2 gap-3">
-                        {SCHEMES_MENU.map((item) => (
-                          <Link
-                            key={item.href}
-                            to={item.href}
-                            className="p-3 rounded-2xl border border-transparent hover:border-line hover:bg-canvas transition-all group block"
-                          >
-                            <div className="flex items-center justify-between mb-1">
-                              <span className="text-xs font-bold text-ink group-hover:text-blue transition-colors truncate">
-                                {item.title}
-                              </span>
-                              <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-blue/10 text-blue shrink-0">
-                                {item.tag}
-                              </span>
-                            </div>
-                            <div className="text-[11px] text-muted line-clamp-1">
-                              {item.desc}
-                            </div>
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                <Link
-                  to="/startup"
-                  className={`px-3.5 py-2 text-[13px] font-semibold tracking-tight rounded-xl transition-colors ${
-                    location.pathname === '/startup' ? 'text-blue bg-blue/10' : 'text-graphite hover:text-ink hover:bg-canvas'
-                  }`}
-                >
-                  Startup India
-                </Link>
-
-                <Link
-                  to="/eligibility/80-iac"
-                  className={`px-3.5 py-2 text-[13px] font-semibold tracking-tight rounded-xl transition-colors ${
-                    location.pathname === '/eligibility/80-iac' ? 'text-blue bg-blue/10' : 'text-graphite hover:text-ink hover:bg-canvas'
-                  }`}
-                >
-                  80-IAC Exemption
-                </Link>
-
-                <Link
-                  to="/funding"
-                  className={`px-3.5 py-2 text-[13px] font-semibold tracking-tight rounded-xl transition-colors ${
-                    location.pathname === '/funding' ? 'text-blue bg-blue/10' : 'text-graphite hover:text-ink hover:bg-canvas'
-                  }`}
-                >
-                  Funding
-                </Link>
-
-                <Link
-                  to="/certifications"
-                  className={`px-3.5 py-2 text-[13px] font-semibold tracking-tight rounded-xl transition-colors ${
-                    location.pathname === '/certifications' ? 'text-blue bg-blue/10' : 'text-graphite hover:text-ink hover:bg-canvas'
-                  }`}
-                >
-                  Certifications
-                </Link>
-
-                <Link
-                  to="/about"
-                  className={`px-3.5 py-2 text-[13px] font-semibold tracking-tight rounded-xl transition-colors ${
-                    location.pathname === '/about' ? 'text-blue bg-blue/10' : 'text-graphite hover:text-ink hover:bg-canvas'
-                  }`}
-                >
-                  About
-                </Link>
-
-                <Link
-                  to="/contact"
-                  className={`px-3.5 py-2 text-[13px] font-semibold tracking-tight rounded-xl transition-colors ${
-                    location.pathname === '/contact' ? 'text-blue bg-blue/10' : 'text-graphite hover:text-ink hover:bg-canvas'
-                  }`}
-                >
-                  Contact
-                </Link>
-              </nav>
-
-              {/* ============ DESKTOP CTAS ============ */}
-              <div className="hidden sm:flex items-center gap-3 shrink-0">
-                {/* WhatsApp Desk */}
-                <a
-                  href={getWhatsAppLink('general enquiry')}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 hover:border-emerald-300 transition-all duration-200"
-                >
-                  <span className="relative flex w-2 h-2">
-                    <span className="absolute inset-0 rounded-full bg-emerald-400 animate-ping opacity-75" />
-                    <span className="relative w-2 h-2 rounded-full bg-emerald-500" />
-                  </span>
-                  <MessageCircle size={14} />
-                  <span>WhatsApp Desk</span>
-                </a>
-
-                {/* Primary CTA */}
-                <Link
-                  to="/eligibility"
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-blue hover:bg-deepblue text-white text-xs font-bold shadow-[0_8px_20px_-4px_rgba(28,131,243,0.4)] hover:shadow-[0_12px_24px_-4px_rgba(28,131,243,0.5)] transition-all duration-200"
-                >
-                  <span>Check Eligibility</span>
-                  <ArrowUpRight size={13} />
-                </Link>
-              </div>
-
-              {/* ============ MOBILE ACTIONS ============ */}
-              <div className="xl:hidden flex items-center gap-2">
-                <Link
-                  to="/eligibility"
-                  className="sm:hidden inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-blue text-white text-[11px] font-semibold"
-                >
-                  <span>Eligibility</span>
-                </Link>
-
-                <button
-                  onClick={() => setOpen(!open)}
-                  className="p-2 text-ink rounded-xl border border-line bg-canvas hover:bg-paper transition-colors"
-                  aria-label={open ? 'Close Menu' : 'Open Navigation Menu'}
-                  aria-expanded={open}
-                >
-                  {open ? <X size={20} /> : <Menu size={20} />}
-                </button>
-              </div>
+        <div className="max-w-[1540px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between gap-4">
+            
+            {/* BRAND LOGO */}
+            <div className="shrink-0 flex items-center">
+              <Link to="/" className="inline-block group focus:outline-none" aria-label="CertWinX Home">
+                <Logo height="h-10 sm:h-11" className="transition-transform group-hover:scale-102" />
+              </Link>
             </div>
+
+            {/* DESKTOP PRIMARY NAVIGATION (10 Anchors + Mega-Menus) */}
+            <nav className="hidden xl:flex items-center gap-1 2xl:gap-1.5" aria-label="Main Navigation">
+              
+              {/* Home */}
+              <Link
+                to="/"
+                className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                  location.pathname === '/' ? 'text-blue font-bold' : 'text-graphite hover:text-ink hover:bg-canvas'
+                }`}
+              >
+                Home
+              </Link>
+
+              {/* 1. Business Registration (Mega-Menu) */}
+              <div
+                className="relative"
+                onMouseEnter={() => handleMouseEnter('registration')}
+                onMouseLeave={handleMouseLeave}
+              >
+                <button
+                  onClick={() => setActiveDropdown(activeDropdown === 'registration' ? null : 'registration')}
+                  className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                    activeDropdown === 'registration' ? 'text-blue bg-blue-soft/50' : 'text-graphite hover:text-ink'
+                  }`}
+                  aria-expanded={activeDropdown === 'registration'}
+                >
+                  <span>Registration</span>
+                  <ChevronDown size={13} className={`transition-transform duration-200 ${activeDropdown === 'registration' ? 'rotate-180 text-blue' : 'text-muted'}`} />
+                </button>
+
+                {activeDropdown === 'registration' && (
+                  <div className="absolute top-full left-0 mt-2 w-[720px] bg-white rounded-3xl shadow-[0_25px_60px_-15px_rgba(22,58,138,0.22)] border border-line p-6 grid grid-cols-3 gap-6 animate-in fade-in slide-in-from-top-2 duration-150 z-50">
+                    {BUSINESS_REG_MENU.sections.map((sec) => (
+                      <div key={sec.heading}>
+                        <h4 className="text-[10px] font-bold uppercase tracking-wider text-blue mb-3 pb-1 border-b border-line">
+                          {sec.heading}
+                        </h4>
+                        <div className="space-y-2">
+                          {sec.items.map((item) => (
+                            <Link
+                              key={item.title}
+                              to={item.href}
+                              className="group block p-2 rounded-xl hover:bg-canvas transition-colors"
+                            >
+                              <div className="flex items-center gap-2">
+                                <item.icon size={13} className="text-blue group-hover:scale-110 transition-transform" />
+                                <span className="text-xs font-bold text-ink group-hover:text-blue transition-colors">
+                                  {item.title}
+                                </span>
+                              </div>
+                              <p className="text-[10px] text-graphite line-clamp-1 mt-0.5 pl-5">
+                                {item.desc}
+                              </p>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* 2. Tax & Compliance (Mega-Menu) */}
+              <div
+                className="relative"
+                onMouseEnter={() => handleMouseEnter('tax')}
+                onMouseLeave={handleMouseLeave}
+              >
+                <button
+                  onClick={() => setActiveDropdown(activeDropdown === 'tax' ? null : 'tax')}
+                  className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                    activeDropdown === 'tax' ? 'text-blue bg-blue-soft/50' : 'text-graphite hover:text-ink'
+                  }`}
+                  aria-expanded={activeDropdown === 'tax'}
+                >
+                  <span>Tax & Compliance</span>
+                  <ChevronDown size={13} className={`transition-transform duration-200 ${activeDropdown === 'tax' ? 'rotate-180 text-blue' : 'text-muted'}`} />
+                </button>
+
+                {activeDropdown === 'tax' && (
+                  <div className="absolute top-full left-0 mt-2 w-[720px] bg-white rounded-3xl shadow-[0_25px_60px_-15px_rgba(22,58,138,0.22)] border border-line p-6 grid grid-cols-3 gap-6 animate-in fade-in slide-in-from-top-2 duration-150 z-50">
+                    {TAX_COMPLIANCE_MENU.sections.map((sec) => (
+                      <div key={sec.heading}>
+                        <h4 className="text-[10px] font-bold uppercase tracking-wider text-blue mb-3 pb-1 border-b border-line">
+                          {sec.heading}
+                        </h4>
+                        <div className="space-y-2">
+                          {sec.items.map((item) => (
+                            <Link
+                              key={item.title}
+                              to={item.href}
+                              className="group block p-2 rounded-xl hover:bg-canvas transition-colors"
+                            >
+                              <div className="flex items-center gap-2">
+                                <item.icon size={13} className="text-blue group-hover:scale-110 transition-transform" />
+                                <span className="text-xs font-bold text-ink group-hover:text-blue transition-colors">
+                                  {item.title}
+                                </span>
+                              </div>
+                              <p className="text-[10px] text-graphite line-clamp-1 mt-0.5 pl-5">
+                                {item.desc}
+                              </p>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* 3. Startup India (Dropdown) */}
+              <div
+                className="relative"
+                onMouseEnter={() => handleMouseEnter('startup')}
+                onMouseLeave={handleMouseLeave}
+              >
+                <button
+                  onClick={() => setActiveDropdown(activeDropdown === 'startup' ? null : 'startup')}
+                  className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                    activeDropdown === 'startup' ? 'text-blue bg-blue-soft/50' : 'text-graphite hover:text-ink'
+                  }`}
+                  aria-expanded={activeDropdown === 'startup'}
+                >
+                  <span>Startup India</span>
+                  <ChevronDown size={13} className={`transition-transform duration-200 ${activeDropdown === 'startup' ? 'rotate-180 text-blue' : 'text-muted'}`} />
+                </button>
+
+                {activeDropdown === 'startup' && (
+                  <div className="absolute top-full left-0 mt-2 w-[340px] bg-white rounded-3xl shadow-[0_25px_60px_-15px_rgba(22,58,138,0.22)] border border-line p-4 animate-in fade-in slide-in-from-top-2 duration-150 z-50">
+                    <div className="space-y-2">
+                      {STARTUP_INDIA_MENU.map((item) => (
+                        <Link
+                          key={item.title}
+                          to={item.href}
+                          className="group block p-2.5 rounded-2xl hover:bg-canvas transition-colors"
+                        >
+                          <div className="flex items-center gap-2">
+                            <item.icon size={14} className="text-blue group-hover:scale-110 transition-transform" />
+                            <span className="text-xs font-bold text-ink group-hover:text-blue transition-colors">
+                              {item.title}
+                            </span>
+                          </div>
+                          <p className="text-[11px] text-graphite line-clamp-1 mt-0.5 pl-5">
+                            {item.desc}
+                          </p>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* 4. Schemes (Dropdown) */}
+              <div
+                className="relative"
+                onMouseEnter={() => handleMouseEnter('schemes')}
+                onMouseLeave={handleMouseLeave}
+              >
+                <button
+                  onClick={() => setActiveDropdown(activeDropdown === 'schemes' ? null : 'schemes')}
+                  className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                    activeDropdown === 'schemes' ? 'text-blue bg-blue-soft/50' : 'text-graphite hover:text-ink'
+                  }`}
+                  aria-expanded={activeDropdown === 'schemes'}
+                >
+                  <span>Schemes</span>
+                  <ChevronDown size={13} className={`transition-transform duration-200 ${activeDropdown === 'schemes' ? 'rotate-180 text-blue' : 'text-muted'}`} />
+                </button>
+
+                {activeDropdown === 'schemes' && (
+                  <div className="absolute top-full left-0 mt-2 w-[380px] bg-white rounded-3xl shadow-[0_25px_60px_-15px_rgba(22,58,138,0.22)] border border-line p-4 animate-in fade-in slide-in-from-top-2 duration-150 z-50">
+                    <div className="space-y-2">
+                      {SCHEMES_MENU.map((item) => (
+                        <Link
+                          key={item.title}
+                          to={item.href}
+                          className="group block p-2.5 rounded-2xl hover:bg-canvas transition-colors"
+                        >
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs font-bold text-ink group-hover:text-blue transition-colors">
+                              {item.title}
+                            </span>
+                            <span className="text-[9px] font-bold text-blue bg-blue-soft px-2 py-0.5 rounded-full border border-blue/20">
+                              {item.tag}
+                            </span>
+                          </div>
+                          <p className="text-[11px] text-graphite line-clamp-1 mt-1">
+                            {item.desc}
+                          </p>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* 5. Funding (Dropdown) */}
+              <div
+                className="relative"
+                onMouseEnter={() => handleMouseEnter('funding')}
+                onMouseLeave={handleMouseLeave}
+              >
+                <button
+                  onClick={() => setActiveDropdown(activeDropdown === 'funding' ? null : 'funding')}
+                  className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                    activeDropdown === 'funding' ? 'text-blue bg-blue-soft/50' : 'text-graphite hover:text-ink'
+                  }`}
+                  aria-expanded={activeDropdown === 'funding'}
+                >
+                  <span>Funding</span>
+                  <ChevronDown size={13} className={`transition-transform duration-200 ${activeDropdown === 'funding' ? 'rotate-180 text-blue' : 'text-muted'}`} />
+                </button>
+
+                {activeDropdown === 'funding' && (
+                  <div className="absolute top-full left-0 mt-2 w-[340px] bg-white rounded-3xl shadow-[0_25px_60px_-15px_rgba(22,58,138,0.22)] border border-line p-4 animate-in fade-in slide-in-from-top-2 duration-150 z-50">
+                    <div className="space-y-2">
+                      {FUNDING_MENU.map((item) => (
+                        <Link
+                          key={item.title}
+                          to={item.href}
+                          className="group block p-2.5 rounded-2xl hover:bg-canvas transition-colors"
+                        >
+                          <div className="flex items-center gap-2">
+                            <item.icon size={14} className="text-blue group-hover:scale-110 transition-transform" />
+                            <span className="text-xs font-bold text-ink group-hover:text-blue transition-colors">
+                              {item.title}
+                            </span>
+                          </div>
+                          <p className="text-[11px] text-graphite line-clamp-1 mt-0.5 pl-5">
+                            {item.desc}
+                          </p>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* 6. Certifications & Licenses (Mega-Menu) */}
+              <div
+                className="relative"
+                onMouseEnter={() => handleMouseEnter('certifications')}
+                onMouseLeave={handleMouseLeave}
+              >
+                <button
+                  onClick={() => setActiveDropdown(activeDropdown === 'certifications' ? null : 'certifications')}
+                  className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                    activeDropdown === 'certifications' ? 'text-blue bg-blue-soft/50' : 'text-graphite hover:text-ink'
+                  }`}
+                  aria-expanded={activeDropdown === 'certifications'}
+                >
+                  <span>Certifications</span>
+                  <ChevronDown size={13} className={`transition-transform duration-200 ${activeDropdown === 'certifications' ? 'rotate-180 text-blue' : 'text-muted'}`} />
+                </button>
+
+                {activeDropdown === 'certifications' && (
+                  <div className="absolute top-full left-0 mt-2 w-[720px] bg-white rounded-3xl shadow-[0_25px_60px_-15px_rgba(22,58,138,0.22)] border border-line p-6 grid grid-cols-3 gap-6 animate-in fade-in slide-in-from-top-2 duration-150 z-50">
+                    {CERTIFICATIONS_MENU.sections.map((sec) => (
+                      <div key={sec.heading}>
+                        <h4 className="text-[10px] font-bold uppercase tracking-wider text-blue mb-3 pb-1 border-b border-line">
+                          {sec.heading}
+                        </h4>
+                        <div className="space-y-2">
+                          {sec.items.map((item) => (
+                            <Link
+                              key={item.title}
+                              to={item.href}
+                              className="group block p-2 rounded-xl hover:bg-canvas transition-colors"
+                            >
+                              <div className="flex items-center gap-2">
+                                <item.icon size={13} className="text-blue group-hover:scale-110 transition-transform" />
+                                <span className="text-xs font-bold text-ink group-hover:text-blue transition-colors">
+                                  {item.title}
+                                </span>
+                              </div>
+                              <p className="text-[10px] text-graphite line-clamp-1 mt-0.5 pl-5">
+                                {item.desc}
+                              </p>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* 7. IP & Trademark (Dropdown) */}
+              <div
+                className="relative"
+                onMouseEnter={() => handleMouseEnter('ip')}
+                onMouseLeave={handleMouseLeave}
+              >
+                <button
+                  onClick={() => setActiveDropdown(activeDropdown === 'ip' ? null : 'ip')}
+                  className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                    activeDropdown === 'ip' ? 'text-blue bg-blue-soft/50' : 'text-graphite hover:text-ink'
+                  }`}
+                  aria-expanded={activeDropdown === 'ip'}
+                >
+                  <span>IP & Legal</span>
+                  <ChevronDown size={13} className={`transition-transform duration-200 ${activeDropdown === 'ip' ? 'rotate-180 text-blue' : 'text-muted'}`} />
+                </button>
+
+                {activeDropdown === 'ip' && (
+                  <div className="absolute top-full left-0 mt-2 w-[340px] bg-white rounded-3xl shadow-[0_25px_60px_-15px_rgba(22,58,138,0.22)] border border-line p-4 animate-in fade-in slide-in-from-top-2 duration-150 z-50">
+                    <div className="space-y-2">
+                      {IP_MENU.map((item) => (
+                        <Link
+                          key={item.title}
+                          to={item.href}
+                          className="group block p-2.5 rounded-2xl hover:bg-canvas transition-colors"
+                        >
+                          <div className="flex items-center gap-2">
+                            <item.icon size={14} className="text-blue group-hover:scale-110 transition-transform" />
+                            <span className="text-xs font-bold text-ink group-hover:text-blue transition-colors">
+                              {item.title}
+                            </span>
+                          </div>
+                          <p className="text-[11px] text-graphite line-clamp-1 mt-0.5 pl-5">
+                            {item.desc}
+                          </p>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* 8. Founder Tools (Dropdown) */}
+              <div
+                className="relative"
+                onMouseEnter={() => handleMouseEnter('tools')}
+                onMouseLeave={handleMouseLeave}
+              >
+                <button
+                  onClick={() => setActiveDropdown(activeDropdown === 'tools' ? null : 'tools')}
+                  className={`inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                    activeDropdown === 'tools' ? 'text-blue bg-blue-soft/50' : 'text-graphite hover:text-ink'
+                  }`}
+                  aria-expanded={activeDropdown === 'tools'}
+                >
+                  <span>Tools</span>
+                  <ChevronDown size={13} className={`transition-transform duration-200 ${activeDropdown === 'tools' ? 'rotate-180 text-blue' : 'text-muted'}`} />
+                </button>
+
+                {activeDropdown === 'tools' && (
+                  <div className="absolute top-full right-0 mt-2 w-[360px] bg-white rounded-3xl shadow-[0_25px_60px_-15px_rgba(22,58,138,0.22)] border border-line p-4 animate-in fade-in slide-in-from-top-2 duration-150 z-50">
+                    <div className="space-y-2">
+                      {TOOLS_MENU.map((item) => (
+                        <Link
+                          key={item.title}
+                          to={item.href}
+                          className="group block p-2.5 rounded-2xl hover:bg-canvas transition-colors"
+                        >
+                          <div className="flex items-center gap-2">
+                            <item.icon size={14} className="text-blue group-hover:scale-110 transition-transform" />
+                            <span className="text-xs font-bold text-ink group-hover:text-blue transition-colors">
+                              {item.title}
+                            </span>
+                          </div>
+                          <p className="text-[11px] text-graphite line-clamp-1 mt-0.5 pl-5">
+                            {item.desc}
+                          </p>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* About Us */}
+              <Link
+                to="/about"
+                className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                  location.pathname === '/about' ? 'text-blue font-bold' : 'text-graphite hover:text-ink hover:bg-canvas'
+                }`}
+              >
+                About
+              </Link>
+
+              {/* Contact */}
+              <Link
+                to="/contact"
+                className={`px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-colors ${
+                  location.pathname === '/contact' ? 'text-blue font-bold' : 'text-graphite hover:text-ink hover:bg-canvas'
+                }`}
+              >
+                Contact
+              </Link>
+            </nav>
+
+            {/* HEADER ACTIONS (RIGHT) */}
+            <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+              {/* Global Search Button */}
+              <button
+                onClick={() => setSearchOpen(true)}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-line text-xs font-medium text-graphite hover:text-ink hover:border-blue/40 hover:bg-canvas transition-all shadow-xs"
+                aria-label="Open Global Search"
+              >
+                <Search size={14} className="text-blue" />
+                <span className="hidden sm:inline">Search</span>
+                <kbd className="hidden sm:inline-block text-[10px] font-mono text-muted bg-canvas border border-line px-1.5 py-0.5 rounded shadow-2xs">
+                  ⌘K
+                </kbd>
+              </button>
+
+              {/* WhatsApp Advisory Desk */}
+              <a
+                href={getWhatsAppLink('general enquiry')}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/80 hover:bg-emerald-100 text-xs font-bold transition-colors"
+                aria-label="Contact CertWinX on WhatsApp"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <MessageCircle size={13} className="text-emerald-700" />
+                <span>WhatsApp</span>
+              </a>
+
+              {/* Primary CTA: Check Eligibility */}
+              <Link
+                to="/eligibility"
+                className="inline-flex items-center gap-1 px-4 py-2 rounded-full bg-blue text-white text-xs font-bold shadow-sm shadow-blue/25 hover:bg-deepblue hover:shadow-md transition-all shrink-0"
+              >
+                <span>Check Eligibility</span>
+                <ArrowUpRight size={13} />
+              </Link>
+
+              {/* Mobile Hamburger Button */}
+              <button
+                onClick={() => setMobileOpen(!mobileOpen)}
+                className="xl:hidden p-2 rounded-xl bg-white border border-line text-ink hover:bg-canvas transition-colors"
+                aria-label="Toggle Mobile Menu"
+                aria-expanded={mobileOpen}
+              >
+                {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+              </button>
+            </div>
+
           </div>
         </div>
       </header>
 
-      {/* ============ MOBILE DRAWER ============ */}
-      <div
-        className={`fixed inset-0 z-50 xl:hidden transition-all duration-300 ${
-          open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
-      >
-        <div
-          className="absolute inset-0 bg-ink/40 backdrop-blur-sm transition-opacity"
-          onClick={() => setOpen(false)}
-        />
+      {/* GLOBAL SEARCH MODAL */}
+      <GlobalSearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
 
-        <div
-          className={`absolute top-0 right-0 bottom-0 w-[85%] max-w-[360px] bg-white shadow-2xl p-6 flex flex-col justify-between transition-transform duration-300 ${
-            open ? 'translate-x-0' : 'translate-x-full'
-          }`}
-        >
-          <div>
-            <div className="flex items-center justify-between pb-5 border-b border-line mb-6">
-              <Logo size="md" />
-              <button
-                onClick={() => setOpen(false)}
-                className="p-2 rounded-xl border border-line bg-canvas text-graphite"
-              >
-                <X size={18} />
-              </button>
+      {/* MOBILE DRAWER (< xl) */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-350 xl:hidden">
+          {/* Overlay */}
+          <div
+            className="fixed inset-0 bg-ink/40 backdrop-blur-xs transition-opacity"
+            onClick={() => setMobileOpen(false)}
+          />
+
+          {/* Drawer Panel */}
+          <div className="fixed top-0 right-0 bottom-0 w-full max-w-[340px] bg-white shadow-2xl z-10 flex flex-col justify-between overflow-y-auto">
+            {/* Header */}
+            <div>
+              <div className="p-4 border-b border-line flex items-center justify-between bg-canvas/40">
+                <Logo height="h-8" />
+                <button
+                  onClick={() => setMobileOpen(false)}
+                  className="p-1.5 rounded-full text-muted hover:text-ink hover:bg-line/50 transition-colors"
+                >
+                  <X size={18} />
+                </button>
+              </div>
+
+              {/* Search Bar in Mobile Menu */}
+              <div className="p-4 border-b border-line">
+                <button
+                  onClick={() => {
+                    setMobileOpen(false);
+                    setSearchOpen(true);
+                  }}
+                  className="w-full flex items-center gap-2.5 px-3.5 py-2.5 rounded-2xl bg-canvas border border-line text-xs text-muted hover:text-ink transition-colors"
+                >
+                  <Search size={15} className="text-blue" />
+                  <span>Search 40+ services & schemes...</span>
+                </button>
+              </div>
+
+              {/* Mobile Navigation List with Accordions */}
+              <div className="p-4 space-y-1">
+                <Link
+                  to="/"
+                  className="block px-3 py-2 rounded-xl text-xs font-bold text-ink hover:bg-canvas transition-colors"
+                >
+                  Home
+                </Link>
+
+                {/* Registration Accordion */}
+                <div>
+                  <button
+                    onClick={() => setMobileAccordion(mobileAccordion === 'reg' ? null : 'reg')}
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-ink hover:bg-canvas"
+                  >
+                    <span>Business Registration</span>
+                    <ChevronDown size={14} className={`transition-transform ${mobileAccordion === 'reg' ? 'rotate-180 text-blue' : 'text-muted'}`} />
+                  </button>
+                  {mobileAccordion === 'reg' && (
+                    <div className="pl-4 pr-2 py-1 space-y-1">
+                      {BUSINESS_REG_MENU.sections.flatMap((s) => s.items).map((item) => (
+                        <Link
+                          key={item.title}
+                          to={item.href}
+                          className="block px-3 py-1.5 rounded-lg text-[11px] font-medium text-graphite hover:text-blue hover:bg-blue-soft/30"
+                        >
+                          {item.title}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Tax Accordion */}
+                <div>
+                  <button
+                    onClick={() => setMobileAccordion(mobileAccordion === 'tax' ? null : 'tax')}
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-ink hover:bg-canvas"
+                  >
+                    <span>Tax & Compliance</span>
+                    <ChevronDown size={14} className={`transition-transform ${mobileAccordion === 'tax' ? 'rotate-180 text-blue' : 'text-muted'}`} />
+                  </button>
+                  {mobileAccordion === 'tax' && (
+                    <div className="pl-4 pr-2 py-1 space-y-1">
+                      {TAX_COMPLIANCE_MENU.sections.flatMap((s) => s.items).map((item) => (
+                        <Link
+                          key={item.title}
+                          to={item.href}
+                          className="block px-3 py-1.5 rounded-lg text-[11px] font-medium text-graphite hover:text-blue hover:bg-blue-soft/30"
+                        >
+                          {item.title}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Startup India */}
+                <div>
+                  <button
+                    onClick={() => setMobileAccordion(mobileAccordion === 'startup' ? null : 'startup')}
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-ink hover:bg-canvas"
+                  >
+                    <span>Startup India</span>
+                    <ChevronDown size={14} className={`transition-transform ${mobileAccordion === 'startup' ? 'rotate-180 text-blue' : 'text-muted'}`} />
+                  </button>
+                  {mobileAccordion === 'startup' && (
+                    <div className="pl-4 pr-2 py-1 space-y-1">
+                      {STARTUP_INDIA_MENU.map((item) => (
+                        <Link
+                          key={item.title}
+                          to={item.href}
+                          className="block px-3 py-1.5 rounded-lg text-[11px] font-medium text-graphite hover:text-blue hover:bg-blue-soft/30"
+                        >
+                          {item.title}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Schemes */}
+                <Link
+                  to="/schemes"
+                  className="block px-3 py-2 rounded-xl text-xs font-bold text-ink hover:bg-canvas transition-colors"
+                >
+                  Government Schemes
+                </Link>
+
+                {/* Funding */}
+                <Link
+                  to="/funding"
+                  className="block px-3 py-2 rounded-xl text-xs font-bold text-ink hover:bg-canvas transition-colors"
+                >
+                  Funding & Capital
+                </Link>
+
+                {/* Certifications */}
+                <Link
+                  to="/certifications"
+                  className="block px-3 py-2 rounded-xl text-xs font-bold text-ink hover:bg-canvas transition-colors"
+                >
+                  Certifications & Licenses
+                </Link>
+
+                {/* Tools Accordion */}
+                <div>
+                  <button
+                    onClick={() => setMobileAccordion(mobileAccordion === 'tools' ? null : 'tools')}
+                    className="w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-bold text-ink hover:bg-canvas"
+                  >
+                    <span>Founder Tools</span>
+                    <ChevronDown size={14} className={`transition-transform ${mobileAccordion === 'tools' ? 'rotate-180 text-blue' : 'text-muted'}`} />
+                  </button>
+                  {mobileAccordion === 'tools' && (
+                    <div className="pl-4 pr-2 py-1 space-y-1">
+                      {TOOLS_MENU.map((item) => (
+                        <Link
+                          key={item.title}
+                          to={item.href}
+                          className="block px-3 py-1.5 rounded-lg text-[11px] font-medium text-graphite hover:text-blue hover:bg-blue-soft/30"
+                        >
+                          {item.title}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <Link
+                  to="/about"
+                  className="block px-3 py-2 rounded-xl text-xs font-bold text-ink hover:bg-canvas transition-colors"
+                >
+                  About Us
+                </Link>
+
+                <Link
+                  to="/contact"
+                  className="block px-3 py-2 rounded-xl text-xs font-bold text-ink hover:bg-canvas transition-colors"
+                >
+                  Contact
+                </Link>
+              </div>
             </div>
 
-            <nav className="space-y-1">
-              {[
-                { label: 'Home', path: '/' },
-                { label: 'All Services', path: '/services' },
-                { label: 'Schemes Directory', path: '/schemes' },
-                { label: 'Startup India & DPIIT', path: '/startup' },
-                { label: 'Section 80-IAC Exemption', path: '/eligibility/80-iac' },
-                { label: 'Funding & Grants', path: '/funding' },
-                { label: 'MSME & Udyam', path: '/msme' },
-                { label: 'Certifications', path: '/certifications' },
-                { label: 'About CertWinX', path: '/about' },
-                { label: 'Contact Advisory Desk', path: '/contact' },
-              ].map((item) => (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  onClick={() => setOpen(false)}
-                  className="block px-4 py-2.5 rounded-xl text-sm font-semibold text-graphite hover:text-blue hover:bg-blue/5 transition-colors"
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
-          </div>
+            {/* Mobile Drawer Bottom Contacts */}
+            <div className="p-4 border-t border-line bg-canvas/60 space-y-2">
+              <a
+                href={`tel:${PHONE_NUMBER.replace(/\s+/g, '')}`}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-line text-xs font-bold text-ink hover:bg-canvas"
+              >
+                <Phone size={13} className="text-blue" />
+                <span>Call: {PHONE_NUMBER}</span>
+              </a>
+              <a
+                href={getWhatsAppLink('mobile menu')}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-600 text-white text-xs font-bold hover:bg-emerald-700"
+              >
+                <MessageCircle size={14} />
+                <span>WhatsApp Advisory Desk</span>
+              </a>
+            </div>
 
-          <div className="pt-6 border-t border-line space-y-3">
-            <Link
-              to="/eligibility"
-              onClick={() => setOpen(false)}
-              className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-blue text-white text-xs font-bold"
-            >
-              <span>Check Eligibility</span>
-              <ArrowUpRight size={14} />
-            </Link>
-            <a
-              href={getWhatsAppLink('mobile menu')}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs font-semibold"
-            >
-              <MessageCircle size={14} />
-              <span>WhatsApp Advisory Desk</span>
-            </a>
           </div>
         </div>
-      </div>
-
-      <style>{`
-        @keyframes dropdownFade {
-          from { opacity: 0; transform: translateY(-8px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
+      )}
     </>
   );
 }
