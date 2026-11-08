@@ -63,7 +63,7 @@ export default function Preloader({ onComplete }) {
           alt="CertWinX"
           className="h-16 sm:h-20 w-auto"
           loading="eager"
-          fetchPriority="high"
+          fetchpriority="high"
         />
         <div className="w-56 h-1 bg-gray-200 rounded-full overflow-hidden">
           <div

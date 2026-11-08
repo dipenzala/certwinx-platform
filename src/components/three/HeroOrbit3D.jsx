@@ -173,68 +173,52 @@ export default function HeroOrbit3D() {
       {activeTab === 'dialogue' && (
         <div className="relative">
           {/* Mobile Layout (< lg) */}
-          <div className="lg:hidden flex flex-col gap-3 py-2">
-            <div
-              data-bubble="1"
-              className="self-start max-w-[75%] bg-white rounded-2xl rounded-br-sm shadow-[0_10px_25px_-12px_rgba(28,131,243,0.3)] border border-line px-3.5 py-2.5"
-            >
-              <p className="text-[12px] leading-snug text-ink">
-                <span className="font-semibold text-blue">Hi!</span> Where should I start?
-              </p>
-            </div>
-
-            <div
-              data-bubble="3"
-              className="self-start max-w-[75%] bg-white rounded-2xl rounded-br-sm shadow-[0_10px_25px_-12px_rgba(28,131,243,0.3)] border border-line px-3.5 py-2.5"
-            >
-              <p className="text-[12px] leading-snug text-ink">
-                Need <span className="font-semibold text-blue">DPIIT + funding</span>.
-              </p>
-            </div>
-
-            <div
-              data-bubble="2"
-              className="self-end max-w-[75%] bg-deepblue rounded-2xl rounded-bl-sm shadow-[0_10px_25px_-12px_rgba(22,58,138,0.4)] px-3.5 py-2.5"
-            >
-              <p className="text-[12px] leading-snug text-white">
-                Are you <span className="font-semibold text-sky">registered</span> yet?
-              </p>
-            </div>
-
-            <div
-              data-bubble="4"
-              className="self-end max-w-[80%] bg-blue-soft border border-blue/30 rounded-2xl rounded-bl-sm shadow-[0_10px_25px_-12px_rgba(28,131,243,0.25)] px-3.5 py-2.5"
-            >
-              <div className="flex items-start gap-1.5">
-                <Check size={12} className="text-blue mt-0.5 shrink-0" strokeWidth={3} />
-                <p className="text-[12px] leading-snug text-blue-deep font-semibold">
-                  Free eligibility assessment first.
+          <div className="lg:hidden flex flex-col gap-2.5 py-1">
+            <div className="flex flex-col gap-2 mb-1">
+              <div
+                data-bubble="1"
+                className="self-start max-w-[85%] bg-white rounded-2xl rounded-br-xs shadow-xs border border-line px-3 py-2"
+              >
+                <p className="text-[11px] leading-snug text-ink">
+                  <span className="font-bold text-blue">Founder:</span> Which sovereign schemes & funding fit my startup?
                 </p>
+              </div>
+
+              <div
+                data-bubble="4"
+                className="self-end max-w-[88%] bg-blue-soft border border-blue/30 rounded-2xl rounded-bl-xs shadow-xs px-3 py-2"
+              >
+                <div className="flex items-start gap-1.5">
+                  <Check size={11} className="text-blue mt-0.5 shrink-0" strokeWidth={3} />
+                  <p className="text-[11px] leading-snug text-blue-deep font-semibold">
+                    CertWinX maps DPIIT, SISFS & Section 80-IAC via 60s diagnostic.
+                  </p>
+                </div>
               </div>
             </div>
 
-            <div data-image className="relative mt-2 will-change-transform">
+            <div data-image className="relative will-change-transform max-w-[340px] sm:max-w-[420px] mx-auto">
               <picture>
                 <source srcSet="/hero-characters.webp" type="image/webp" />
                 <img
                   src="/hero-characters.png"
                   alt="CertWinX consultant guiding an entrepreneur"
-                  className="w-full h-auto rounded-2xl"
+                  className="w-full h-auto rounded-2xl max-h-[260px] object-contain mx-auto"
                   loading="eager"
-                  style={{ filter: 'drop-shadow(0 20px 40px rgba(28,131,243,0.12))' }}
+                  style={{ filter: 'drop-shadow(0 15px 30px rgba(28,131,243,0.12))' }}
                 />
               </picture>
             </div>
 
             {/* Mobile Metric Badges */}
-            <div className="grid grid-cols-2 gap-2 mt-3">
-              <div className="bg-white border border-line rounded-xl p-2.5 shadow-sm">
-                <span className="text-[10px] font-bold text-blue uppercase">DPIIT Verified</span>
-                <p className="text-xs font-bold text-ink mt-0.5">10-Yr Recognition</p>
+            <div className="grid grid-cols-2 gap-2 mt-2">
+              <div className="bg-white border border-line rounded-xl p-2.5 shadow-xs text-center">
+                <span className="text-[9px] font-bold text-blue uppercase tracking-wider block">DPIIT Recognition</span>
+                <p className="text-xs font-bold text-ink mt-0.5">10-Year Validity Window</p>
               </div>
-              <div className="bg-white border border-line rounded-xl p-2.5 shadow-sm">
-                <span className="text-[10px] font-bold text-emerald-600 uppercase">Section 80-IAC</span>
-                <p className="text-xs font-bold text-ink mt-0.5">100% Tax Relief</p>
+              <div className="bg-white border border-line rounded-xl p-2.5 shadow-xs text-center">
+                <span className="text-[9px] font-bold text-emerald-600 uppercase tracking-wider block">Section 80-IAC</span>
+                <p className="text-xs font-bold text-ink mt-0.5">100% Tax Relief (3 Yrs)</p>
               </div>
             </div>
           </div>

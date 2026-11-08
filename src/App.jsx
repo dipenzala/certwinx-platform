@@ -239,7 +239,7 @@ function AppShell() {
         {!isAdmin && <Header onMenuToggle={setMobileMenuOpen} />}
 
         {/* Main content — all routes */}
-        <main className="relative z-10">
+        <main className="relative z-10 pb-16 lg:pb-0">
           <Suspense fallback={<LoadingScreen isAdmin={isAdmin} />}>
             <AppRoutes />
           </Suspense>
@@ -264,7 +264,7 @@ function AppShell() {
 export default function App() {
   return (
     <HelmetProvider>
-      <Router>
+      <Router future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <ScrollReset />
         <AppShell />
       </Router>

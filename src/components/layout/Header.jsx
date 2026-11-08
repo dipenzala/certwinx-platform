@@ -341,9 +341,7 @@ export default function Header({ onMenuToggle }) {
               
               {/* BRAND LOGO */}
               <div className="shrink-0 flex items-center">
-                <Link to="/" className="inline-block group focus:outline-none" aria-label="CertWinX Home">
-                  <Logo height="h-10 sm:h-11" className="transition-transform group-hover:scale-102" />
-                </Link>
+                <Logo size="md" link={true} className="transition-transform hover:scale-102" />
               </div>
 
               {/* DESKTOP PRIMARY NAVIGATION (Two-Panel Mega-Menus) */}
@@ -859,7 +857,7 @@ export default function Header({ onMenuToggle }) {
             {/* Header */}
             <div>
               <div className="p-4 border-b border-line flex items-center justify-between bg-canvas/40">
-                <Logo height="h-8" />
+                <Logo size="sm" link={true} />
                 <button
                   onClick={() => setMobileOpen(false)}
                   className="p-1.5 rounded-full text-muted hover:text-ink hover:bg-line/50 transition-colors"
