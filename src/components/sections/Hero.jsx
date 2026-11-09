@@ -93,7 +93,12 @@ export default function Hero() {
                 </MagneticButton>
               </span>
               <span data-hero="cta" className="w-full sm:w-auto">
-                <MagneticButton to="/contact" variant="outline" size="lg" className="w-full sm:w-auto justify-center min-h-[46px]">
+                <MagneticButton
+                  onClick={() => window.openLeadPopup?.('Startup & Government Schemes Advisory')}
+                  variant="outline"
+                  size="lg"
+                  className="w-full sm:w-auto justify-center min-h-[46px]"
+                >
                   Talk to an Expert
                 </MagneticButton>
               </span>

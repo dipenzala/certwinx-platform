@@ -222,7 +222,7 @@ function AppShell() {
       )}
 
       {/* Lead Popup — only on public site */}
-      {!isAdmin && preloaderDone && <LeadPopup delay={12000} force={false} />}
+      {!isAdmin && preloaderDone && <LeadPopup delay={4000} force={false} />}
 
       <div
         className={`grain relative min-h-screen text-ink ${

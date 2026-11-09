@@ -289,13 +289,13 @@ export default function Header({ onMenuToggle }) {
                       <MessageCircle size={14} className="text-emerald-400" />
                       <span>Instant WhatsApp Desk</span>
                     </a>
-                    <Link
-                      to="/contact"
-                      className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-white/10 transition-colors text-xs font-semibold text-white/80 hover:text-white"
+                    <button
+                      onClick={() => window.openLeadPopup?.('1:1 Advisory Consultation')}
+                      className="w-full flex items-center gap-2.5 p-2 rounded-xl hover:bg-white/10 transition-colors text-xs font-semibold text-white/80 hover:text-white cursor-pointer text-left"
                     >
                       <Users size={14} className="text-[#1C83F3]" />
                       <span>Book 1:1 Consultation</span>
-                    </Link>
+                    </button>
                     <Link
                       to="/eligibility/80-iac"
                       className="flex items-center gap-2.5 p-2 rounded-xl hover:bg-white/10 transition-colors text-xs font-semibold text-white/80 hover:text-white"

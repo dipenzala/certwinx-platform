@@ -1,35 +1,143 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  X, ArrowRight, CheckCircle2, Loader2,
-  User, Phone, Mail, Building2, Zap, ClipboardCheck,
-  Sparkles, ShieldCheck,
+  X,
+  ArrowRight,
+  CheckCircle2,
+  Loader2,
+  User,
+  Phone,
+  Mail,
+  Building2,
+  Zap,
+  ClipboardCheck,
+  Sparkles,
+  ShieldCheck,
+  Check,
+  ArrowUpRight,
+  Headphones,
+  Lock,
 } from 'lucide-react';
-import { SITE } from '../../lib/constants';
+import { SITE, PHONE_NUMBER, getWhatsAppLink } from '../../lib/constants';
 import { submitLead } from '../../lib/supabase';
 import Logo from './Logo';
 
-const STORAGE_KEY = 'certwinx_popup_shown';
-const DELAY_MS = 12000;
+const SERVICE_OPTIONS = [
+  'Section 80-IAC Tax Exemption (100% Tax Holiday)',
+  'Startup India & DPIIT Recognition',
+  'DST NIDHI-PRAYAS / Technology Grants',
+  'CGSS Collateral-Free Credit (Up to ₹10 Cr)',
+  'Private Limited / LLP Company Setup',
+  'MSME Udyam & ZED Certification (80% Subsidy)',
+  'Corporate Statutory & Tax Compliance',
+  'General Enterprise Advisory Assessment',
+];
 
-export default function LeadPopup({ delay = DELAY_MS, force = false }) {
+export default function LeadPopup({ delay = 4000, force = false }) {
   const [open, setOpen] = useState(false);
   const [tab, setTab] = useState('quick');
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [form, setForm] = useState({ name: '', mobile: '', email: '', company: '' });
+  const [form, setForm] = useState({
+    name: '',
+    mobile: '',
+    email: '',
+    company: '',
+    service: SERVICE_OPTIONS[0],
+  });
   const [errors, setErrors] = useState({});
 
+  // ============================================================
+  // MULTI-TRIGGER LISTENER (Global Event + Window Function + Auto-Timer)
+  // ============================================================
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    if (!force && sessionStorage.getItem(STORAGE_KEY) === '1') return;
-    const timer = setTimeout(() => setOpen(true), delay);
-    return () => clearTimeout(timer);
+    // 1. Expose global window function
+    window.openLeadPopup = (prefillService) => {
+      if (prefillService && typeof prefillService === 'string') {
+        const matched = SERVICE_OPTIONS.find((s) =>
+          s.toLowerCase().includes(prefillService.toLowerCase())
+        );
+        setForm((prev) => ({ ...prev, service: matched || prefillService }));
+      }
+      setOpen(true);
+    };
+
+    // 2. Custom event listener
+    const handleCustomEvent = (e) => {
+      const service = e.detail?.service;
+      if (service && typeof service === 'string') {
+        setForm((prev) => ({ ...prev, service }));
+      }
+      setOpen(true);
+    };
+    window.addEventListener('open-lead-popup', handleCustomEvent);
+
+    // 3. Delegate click handler for any element with data-open-enquiry
+    const handleDocumentClick = (e) => {
+      const trigger = e.target.closest(
+        '[data-open-enquiry], [href="#enquiry"], [href="#lead-popup"], [data-enquiry-trigger]'
+      );
+      if (trigger) {
+        e.preventDefault();
+        const service =
+          trigger.getAttribute('data-service') ||
+          trigger.getAttribute('data-category') ||
+          trigger.getAttribute('data-topic');
+        window.openLeadPopup(service);
+      }
+    };
+    document.addEventListener('click', handleDocumentClick);
+
+    // 4. Automatic Timer (Polite & Sensible)
+    let timer = null;
+    if (typeof window !== 'undefined') {
+      const hasSubmitted = sessionStorage.getItem('certwinx_lead_submitted') === '1';
+      const lastDismissed = sessionStorage.getItem('certwinx_popup_dismissed_at');
+
+      let canAutoPop = !hasSubmitted;
+      if (lastDismissed && !force) {
+        const elapsed = Date.now() - parseInt(lastDismissed, 10);
+        if (elapsed < 10 * 60 * 1000) {
+          canAutoPop = false; // 10 min cooldown after manual close
+        }
+      }
+
+      if (canAutoPop || force) {
+        timer = setTimeout(() => {
+          setOpen(true);
+        }, delay);
+      }
+
+      // 5. Exit Intent (Mouse moves towards address bar)
+      const handleMouseLeave = (e) => {
+        if (
+          e.clientY <= 15 &&
+          !sessionStorage.getItem('certwinx_lead_submitted') &&
+          !sessionStorage.getItem('certwinx_popup_dismissed_at')
+        ) {
+          setOpen(true);
+        }
+      };
+      document.addEventListener('mouseleave', handleMouseLeave);
+
+      return () => {
+        if (timer) clearTimeout(timer);
+        delete window.openLeadPopup;
+        window.removeEventListener('open-lead-popup', handleCustomEvent);
+        document.removeEventListener('click', handleDocumentClick);
+        document.removeEventListener('mouseleave', handleMouseLeave);
+      };
+    }
   }, [delay, force]);
 
+  // Lock scroll when open
   useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : '';
+    if (open) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
     return () => {
       document.body.style.overflow = '';
     };
@@ -37,7 +145,7 @@ export default function LeadPopup({ delay = DELAY_MS, force = false }) {
 
   const close = () => {
     setOpen(false);
-    if (!force) sessionStorage.setItem(STORAGE_KEY, '1');
+    sessionStorage.setItem('certwinx_popup_dismissed_at', Date.now().toString());
   };
 
   const validate = () => {
@@ -47,7 +155,7 @@ export default function LeadPopup({ delay = DELAY_MS, force = false }) {
     else if (!/^[6-9]\d{9}$/.test(form.mobile.replace(/\D/g, '')))
       e.mobile = 'Enter a valid 10-digit mobile number';
     if (form.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email))
-      e.email = 'Enter a valid email';
+      e.email = 'Enter a valid email address';
     return e;
   };
 
@@ -66,14 +174,17 @@ export default function LeadPopup({ delay = DELAY_MS, force = false }) {
       mobile: form.mobile,
       email: form.email,
       company: form.company,
-      source: 'lead-popup',
+      service: form.service,
+      subject: `Advisory Enquiry: ${form.service}`,
+      message: `Entrepreneur inquiry from website lead popup modal for: ${form.service}`,
+      source: 'lead-popup-modal',
       utm_source: params.get('utm_source'),
       utm_medium: params.get('utm_medium'),
       utm_campaign: params.get('utm_campaign'),
     });
 
     if (!success) {
-      setErrors({ submit: error || 'Failed to submit inquiry' });
+      setErrors({ submit: error || 'Failed to submit inquiry. Please try again.' });
       setLoading(false);
       return;
     }
@@ -82,247 +193,406 @@ export default function LeadPopup({ delay = DELAY_MS, force = false }) {
       window.dataLayer.push({ event: 'lead_popup_submitted', ...form });
     }
 
-    await new Promise((r) => setTimeout(r, 400));
+    sessionStorage.setItem('certwinx_lead_submitted', '1');
 
-    const msg = `Hi CertWinX Team,\n\n*Name:* ${form.name}\n*Mobile:* ${form.mobile}\n${form.email ? `*Email:* ${form.email}\n` : ''}${form.company ? `*Company:* ${form.company}\n` : ''}\nI am requesting advisory guidance regarding government schemes and business compliance.`;
-    const url = `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(msg)}`;
-    window.open(url, '_blank');
+    // Open WhatsApp in background with complete structured parameters
+    const whatsappMsg = `Hi CertWinX Regulatory Desk,\n\n*Name:* ${form.name}\n*Mobile:* ${form.mobile}\n${form.email ? `*Email:* ${form.email}\n` : ''}${form.company ? `*Company:* ${form.company}\n` : ''}*Requirement:* ${form.service}\n\nI have requested an advisory consultation via CertWinX website.`;
+    const whatsappUrl = `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(whatsappMsg)}`;
+
+    try {
+      window.open(whatsappUrl, '_blank');
+    } catch (e) {
+      // Ignored if popup blocked
+    }
 
     setLoading(false);
     setSubmitted(true);
-    if (!force) sessionStorage.setItem(STORAGE_KEY, '1');
-    setTimeout(() => setOpen(false), 3000);
   };
 
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[999] overflow-y-auto">
+    <div className="fixed inset-0 z-[9999] overflow-y-auto">
       <div className="min-h-full flex items-center justify-center p-3 sm:p-4 lg:p-6 py-6">
-        {/* Backdrop */}
+        {/* Deep Backdrop */}
         <div
-          className="fixed inset-0 bg-ink/50 backdrop-blur-sm transition-opacity"
+          className="fixed inset-0 bg-[#020617]/85 backdrop-blur-md transition-opacity duration-300 animate-in fade-in"
           onClick={close}
         />
 
-        {/* Modal Card */}
+        {/* ============================================================
+            ULTRA-MEGA-LEVEL 2-COLUMN LUXURY ADVISORY MODAL
+            Left: Sovereign Navy Trust & Impact Pillar
+            Right: Executive Form with Rich Inputs & Glowing Accents
+           ============================================================ */}
         <div
-          className="relative w-full max-w-md rounded-3xl bg-white border border-line shadow-2xl overflow-hidden my-auto animate-fade-up"
+          className="relative w-full max-w-4xl rounded-3xl bg-white border border-white/20 shadow-[0_30px_90px_-15px_rgba(0,0,0,0.65)] overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-200"
           style={{ maxHeight: 'calc(100vh - 32px)' }}
         >
-          {/* Top blue accent bar */}
-          <div className="h-1.5 w-full bg-gradient-to-r from-blue via-sky to-deepblue" />
+          {/* Top Multi-Color Electric Accent Ribbon */}
+          <div className="h-1.5 w-full bg-gradient-to-r from-[#1C83F3] via-sky to-[#0A47CC]" />
 
           {/* Close Button */}
           <button
             onClick={close}
-            className="absolute top-4 right-4 z-20 w-8 h-8 rounded-full bg-canvas border border-line flex items-center justify-center text-graphite hover:text-ink hover:bg-paper transition-all"
-            aria-label="Close"
+            className="absolute top-4 right-4 z-30 w-9 h-9 rounded-full bg-white/90 md:bg-slate-100 hover:bg-slate-200 border border-slate-200 flex items-center justify-center text-slate-600 hover:text-slate-900 shadow-xs hover:scale-105 transition-all cursor-pointer"
+            aria-label="Close Enquiry Modal"
           >
-            <X size={15} />
+            <X size={16} />
           </button>
 
           {!submitted ? (
-            <div className="p-6 sm:p-7 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 40px)' }}>
-              {/* Header */}
-              <div className="mb-5">
-                <div className="flex items-center gap-2 mb-3">
-                  <Logo size="sm" link={false} />
-                  <span className="text-[10px] font-semibold text-blue uppercase tracking-wider">
-                    Official Advisory
-                  </span>
+            <div className="grid grid-cols-1 md:grid-cols-12 overflow-y-auto" style={{ maxHeight: 'calc(100vh - 40px)' }}>
+              
+              {/* ============================================================
+                  LEFT COLUMN: SOVEREIGN ADVISORY CREST & TRUST PILLARS
+                 ============================================================ */}
+              <div className="md:col-span-5 bg-gradient-to-br from-[#060D24] via-[#091538] to-[#040816] text-white p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden">
+                {/* Ambient Radial Mesh Lighting */}
+                <div className="absolute inset-0 pointer-events-none">
+                  <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-[#1C83F3]/25 blur-[70px]" />
+                  <div className="absolute bottom-0 left-0 w-64 h-64 rounded-full bg-sky/20 blur-[80px]" />
                 </div>
 
-                <h3 className="font-display text-xl sm:text-2xl font-bold text-ink leading-tight mb-2">
-                  Accelerate Your Startup With Government Schemes.
-                </h3>
-                <p className="text-xs text-graphite leading-relaxed">
-                  Connect directly with CertWinX advisors for DPIIT recognition, 80-IAC tax exemption, and funding schemes.
-                </p>
+                <div className="relative z-10">
+                  {/* Brand Header & Live Advisory Status */}
+                  <div className="flex items-center justify-between mb-6">
+                    <Logo size="sm" link={false} />
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[10px] font-bold text-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.2)]">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      ADVISORY ACTIVE
+                    </span>
+                  </div>
+
+                  {/* Headline */}
+                  <h3 className="font-display text-xl sm:text-2xl font-bold leading-tight tracking-tight text-white mb-3 text-balance">
+                    Fast-Track Your Regulatory & Tax Exemption Approvals.
+                  </h3>
+                  <p className="text-xs text-white/75 leading-relaxed mb-6">
+                    Direct representation before the Inter-Ministerial Board (IMB), DPIIT NSWS portal, and national credit guarantee windows.
+                  </p>
+
+                  {/* 4 Sovereign Credential Cards */}
+                  <div className="space-y-2.5">
+                    <div className="p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm flex items-start gap-3">
+                      <div className="w-7 h-7 rounded-lg bg-[#1C83F3]/20 border border-[#1C83F3]/40 flex items-center justify-center shrink-0 mt-0.5">
+                        <Check size={14} className="text-[#1C83F3]" strokeWidth={3} />
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-bold text-white leading-tight">100% Tax Exemption</h4>
+                        <p className="text-[11px] text-white/60 leading-snug">3-year holiday under Section 80-IAC</p>
+                      </div>
+                    </div>
+
+                    <div className="p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm flex items-start gap-3">
+                      <div className="w-7 h-7 rounded-lg bg-[#1C83F3]/20 border border-[#1C83F3]/40 flex items-center justify-center shrink-0 mt-0.5">
+                        <Check size={14} className="text-[#1C83F3]" strokeWidth={3} />
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-bold text-white leading-tight">DPIIT Recognition</h4>
+                        <p className="text-[11px] text-white/60 leading-snug">Turnover cap up to ₹200 Crore · 10 Yrs validity</p>
+                      </div>
+                    </div>
+
+                    <div className="p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm flex items-start gap-3">
+                      <div className="w-7 h-7 rounded-lg bg-[#1C83F3]/20 border border-[#1C83F3]/40 flex items-center justify-center shrink-0 mt-0.5">
+                        <Check size={14} className="text-[#1C83F3]" strokeWidth={3} />
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-bold text-white leading-tight">CGSS Credit Guarantees</h4>
+                        <p className="text-[11px] text-white/60 leading-snug">Up to ₹10 Crore collateral-free debt cover</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Bottom Direct Contact Capsule */}
+                <div className="relative z-10 pt-6 mt-6 border-t border-white/10">
+                  <div className="flex items-center justify-between text-xs text-white/80">
+                    <span className="flex items-center gap-1.5 font-medium">
+                      <Headphones size={13} className="text-[#1C83F3]" />
+                      Direct Advisory Line:
+                    </span>
+                    <strong className="text-white font-bold">{PHONE_NUMBER}</strong>
+                  </div>
+                  <p className="text-[9.5px] font-semibold text-white/50 tracking-wider uppercase mt-2">
+                    AAPKI TARAKKI KA SAATHI · BHAROSHA APKA, JIMMEDARI HUMARI
+                  </p>
+                </div>
               </div>
 
-              {/* Tabs */}
-              <div className="grid grid-cols-2 gap-1 p-1 rounded-xl bg-canvas border border-line mb-5">
-                <button
-                  type="button"
-                  onClick={() => setTab('quick')}
-                  className={`flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-semibold transition-all ${
-                    tab === 'quick'
-                      ? 'bg-white text-blue shadow-sm'
-                      : 'text-graphite hover:text-ink'
-                  }`}
-                >
-                  <Zap size={13} />
-                  Quick Contact
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setTab('eligibility')}
-                  className={`flex items-center justify-center gap-1.5 py-2 rounded-lg text-xs font-semibold transition-all ${
-                    tab === 'eligibility'
-                      ? 'bg-white text-blue shadow-sm'
-                      : 'text-graphite hover:text-ink'
-                  }`}
-                >
-                  <ClipboardCheck size={13} />
-                  Full Eligibility
-                </button>
-              </div>
-
-              {/* Tab 1: Quick Contact */}
-              {tab === 'quick' && (
-                <form onSubmit={submit} className="space-y-3">
-                  <div>
-                    <label htmlFor="popup-name" className="sr-only">Full Name</label>
-                    <div className="relative">
-                      <User size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted pointer-events-none" />
-                      <input
-                        id="popup-name"
-                        type="text"
-                        value={form.name}
-                        onChange={(e) => setForm({ ...form, name: e.target.value })}
-                        placeholder="Full Name *"
-                        className={`w-full pl-10 pr-3 py-2.5 rounded-xl bg-canvas border ${
-                          errors.name ? 'border-red-400' : 'border-line'
-                        } text-ink text-xs placeholder-muted focus:bg-white focus:outline-none focus:border-blue transition-all`}
-                      />
+              {/* ============================================================
+                  RIGHT COLUMN: EXECUTIVE LEAD INQUIRY FORM
+                 ============================================================ */}
+              <div className="md:col-span-7 p-6 sm:p-8 bg-white flex flex-col justify-between">
+                <div>
+                  {/* Form Header */}
+                  <div className="mb-5">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-[10px] font-bold text-[#1C83F3] uppercase tracking-wider mb-2">
+                      <Sparkles size={11} className="text-[#1C83F3]" />
+                      Official Advisory Desk
                     </div>
-                    {errors.name && <p className="text-[10px] text-red-500 mt-1 ml-1">{errors.name}</p>}
+                    <h4 className="font-display text-xl sm:text-2xl font-bold text-slate-900 leading-tight">
+                      Schedule Confidential Advisory Call
+                    </h4>
+                    <p className="text-xs text-slate-600 mt-1">
+                      Fill out your details below. An assigned regulatory specialist will review your profile and connect within 2 hours.
+                    </p>
                   </div>
 
-                  <div>
-                    <label htmlFor="popup-mobile" className="sr-only">Mobile Number</label>
-                    <div className="relative">
-                      <Phone size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted pointer-events-none" />
-                      <input
-                        id="popup-mobile"
-                        type="tel"
-                        value={form.mobile}
-                        onChange={(e) => setForm({ ...form, mobile: e.target.value })}
-                        placeholder="10-Digit Mobile Number *"
-                        className={`w-full pl-10 pr-3 py-2.5 rounded-xl bg-canvas border ${
-                          errors.mobile ? 'border-red-400' : 'border-line'
-                        } text-ink text-xs placeholder-muted focus:bg-white focus:outline-none focus:border-blue transition-all`}
-                      />
-                    </div>
-                    {errors.mobile && <p className="text-[10px] text-red-500 mt-1 ml-1">{errors.mobile}</p>}
+                  {/* Mode Tabs */}
+                  <div className="grid grid-cols-2 gap-1.5 p-1 rounded-2xl bg-slate-100 border border-slate-200 mb-5">
+                    <button
+                      type="button"
+                      onClick={() => setTab('quick')}
+                      className={`flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                        tab === 'quick'
+                          ? 'bg-white text-[#1C83F3] shadow-xs'
+                          : 'text-slate-600 hover:text-slate-900'
+                      }`}
+                    >
+                      <Zap size={13} className={tab === 'quick' ? 'text-[#1C83F3]' : 'text-slate-400'} />
+                      <span>Quick Callback</span>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setTab('eligibility')}
+                      className={`flex items-center justify-center gap-1.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                        tab === 'eligibility'
+                          ? 'bg-white text-[#1C83F3] shadow-xs'
+                          : 'text-slate-600 hover:text-slate-900'
+                      }`}
+                    >
+                      <ClipboardCheck size={13} className={tab === 'eligibility' ? 'text-[#1C83F3]' : 'text-slate-400'} />
+                      <span>Full Assessment</span>
+                    </button>
                   </div>
 
-                  <div>
-                    <label htmlFor="popup-email" className="sr-only">Email Address</label>
-                    <div className="relative">
-                      <Mail size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted pointer-events-none" />
-                      <input
-                        id="popup-email"
-                        type="email"
-                        value={form.email}
-                        onChange={(e) => setForm({ ...form, email: e.target.value })}
-                        placeholder="Email Address (optional)"
-                        className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-canvas border border-line text-ink text-xs placeholder-muted focus:bg-white focus:outline-none focus:border-blue transition-all"
-                      />
-                    </div>
-                  </div>
+                  {/* Tab 1: Direct Form */}
+                  {tab === 'quick' && (
+                    <form onSubmit={submit} className="space-y-3.5">
+                      
+                      {/* Name */}
+                      <div>
+                        <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                          Full Name <span className="text-red-500">*</span>
+                        </label>
+                        <div className="relative">
+                          <User size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                          <input
+                            type="text"
+                            value={form.name}
+                            onChange={(e) => setForm({ ...form, name: e.target.value })}
+                            placeholder="Enter your full name"
+                            className={`w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-slate-50 border ${
+                              errors.name ? 'border-red-400 bg-red-50/20' : 'border-slate-200'
+                            } text-slate-900 text-xs placeholder-slate-400 focus:bg-white focus:outline-none focus:border-[#1C83F3] focus:ring-3 focus:ring-[#1C83F3]/15 transition-all`}
+                          />
+                        </div>
+                        {errors.name && <p className="text-[10px] text-red-500 font-semibold mt-1 ml-1">{errors.name}</p>}
+                      </div>
 
-                  <div>
-                    <label htmlFor="popup-company" className="sr-only">Company / Startup Name</label>
-                    <div className="relative">
-                      <Building2 size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted pointer-events-none" />
-                      <input
-                        id="popup-company"
-                        type="text"
-                        value={form.company}
-                        onChange={(e) => setForm({ ...form, company: e.target.value })}
-                        placeholder="Company or Startup Name"
-                        className="w-full pl-10 pr-3 py-2.5 rounded-xl bg-canvas border border-line text-ink text-xs placeholder-muted focus:bg-white focus:outline-none focus:border-blue transition-all"
-                      />
-                    </div>
-                  </div>
+                      {/* Phone Number with +91 badge */}
+                      <div>
+                        <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                          Mobile Number <span className="text-red-500">*</span>
+                        </label>
+                        <div className="relative flex">
+                          <span className="inline-flex items-center px-3 rounded-l-xl border border-r-0 border-slate-200 bg-slate-100 text-slate-700 text-xs font-bold select-none">
+                            🇮🇳 +91
+                          </span>
+                          <input
+                            type="tel"
+                            maxLength={10}
+                            value={form.mobile}
+                            onChange={(e) => setForm({ ...form, mobile: e.target.value.replace(/\D/g, '') })}
+                            placeholder="10-digit mobile number"
+                            className={`w-full px-3.5 py-2.5 rounded-r-xl bg-slate-50 border ${
+                              errors.mobile ? 'border-red-400 bg-red-50/20' : 'border-slate-200'
+                            } text-slate-900 text-xs placeholder-slate-400 focus:bg-white focus:outline-none focus:border-[#1C83F3] focus:ring-3 focus:ring-[#1C83F3]/15 transition-all`}
+                          />
+                        </div>
+                        {errors.mobile && <p className="text-[10px] text-red-500 font-semibold mt-1 ml-1">{errors.mobile}</p>}
+                      </div>
 
-                  {errors.submit && (
-                    <p className="text-[11px] text-red-500 text-center">{errors.submit}</p>
+                      {/* Email & Company (Two-Column on sm+) */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                          <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                            Official Email
+                          </label>
+                          <div className="relative">
+                            <Mail size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                            <input
+                              type="email"
+                              value={form.email}
+                              onChange={(e) => setForm({ ...form, email: e.target.value })}
+                              placeholder="name@company.com"
+                              className="w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs placeholder-slate-400 focus:bg-white focus:outline-none focus:border-[#1C83F3] focus:ring-3 focus:ring-[#1C83F3]/15 transition-all"
+                            />
+                          </div>
+                        </div>
+
+                        <div>
+                          <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                            Startup / Entity Name
+                          </label>
+                          <div className="relative">
+                            <Building2 size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />
+                            <input
+                              type="text"
+                              value={form.company}
+                              onChange={(e) => setForm({ ...form, company: e.target.value })}
+                              placeholder="Entity / Brand name"
+                              className="w-full pl-10 pr-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs placeholder-slate-400 focus:bg-white focus:outline-none focus:border-[#1C83F3] focus:ring-3 focus:ring-[#1C83F3]/15 transition-all"
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Advisory Requirement Selector */}
+                      <div>
+                        <label className="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">
+                          Advisory Service Vertical
+                        </label>
+                        <select
+                          value={form.service}
+                          onChange={(e) => setForm({ ...form, service: e.target.value })}
+                          className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 border border-slate-200 text-slate-900 text-xs focus:bg-white focus:outline-none focus:border-[#1C83F3] focus:ring-3 focus:ring-[#1C83F3]/15 transition-all cursor-pointer font-medium"
+                        >
+                          {SERVICE_OPTIONS.map((opt) => (
+                            <option key={opt} value={opt}>
+                              {opt}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      {errors.submit && (
+                        <div className="p-2.5 rounded-xl bg-red-50 border border-red-200 text-[11px] text-red-600 text-center font-medium">
+                          {errors.submit}
+                        </div>
+                      )}
+
+                      {/* Submit CTA Button with Live Gradient Glow */}
+                      <button
+                        type="submit"
+                        disabled={loading}
+                        className="w-full mt-2 py-3.5 px-6 rounded-2xl bg-gradient-to-r from-[#1C83F3] via-[#0E60D2] to-[#0A47CC] hover:from-[#2B92FF] hover:to-[#1656E8] text-white font-bold text-xs uppercase tracking-wider shadow-[0_10px_25px_-5px_rgba(28,131,243,0.45)] hover:shadow-[0_15px_30px_-5px_rgba(28,131,243,0.65)] hover:scale-[1.01] active:scale-[0.99] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+                      >
+                        {loading ? (
+                          <>
+                            <Loader2 size={15} className="animate-spin" />
+                            <span>Dispatching Advisory Dossier...</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>Request Senior Advisory Callback</span>
+                            <ArrowRight size={15} />
+                          </>
+                        )}
+                      </button>
+
+                      {/* Security Trust Strip */}
+                      <div className="flex items-center justify-center gap-3 pt-2 text-[10px] text-slate-600 font-semibold">
+                        <span className="flex items-center gap-1">
+                          <Lock size={11} className="text-emerald-600" />
+                          256-Bit SSL Encrypted
+                        </span>
+                        <span>·</span>
+                        <span className="flex items-center gap-1">
+                          <ShieldCheck size={11} className="text-[#1C83F3]" />
+                          Direct CA/CS Review
+                        </span>
+                        <span>·</span>
+                        <span className="flex items-center gap-1">
+                          <CheckCircle2 size={11} className="text-emerald-600" />
+                          Zero Spam
+                        </span>
+                      </div>
+                    </form>
                   )}
 
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full mt-2 py-3 px-4 rounded-xl bg-blue hover:bg-blue-hover text-white text-xs font-semibold shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
-                  >
-                    {loading ? (
-                      <>
-                        <Loader2 size={14} className="animate-spin" />
-                        <span>Submitting Details...</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>Request Free Advisory Call</span>
-                        <ArrowRight size={14} />
-                      </>
-                    )}
-                  </button>
+                  {/* Tab 2: Interactive Eligibility Link */}
+                  {tab === 'eligibility' && (
+                    <div className="space-y-4">
+                      <div className="p-5 rounded-2xl bg-gradient-to-br from-blue-50/70 to-sky-50/50 border border-blue-200/80 text-xs text-slate-700 leading-relaxed">
+                        <div className="flex items-center gap-2 mb-2 font-bold text-[#0A163B] text-sm">
+                          <ClipboardCheck size={18} className="text-[#1C83F3]" />
+                          Interactive Scheme Intelligence Diagnostic
+                        </div>
+                        <p className="mb-3 text-slate-600">
+                          Complete our 3-step structured assessment to map your venture against 16+ active Central & State government schemes, including DPIIT, Section 80-IAC, DST NIDHI Grants, and CGSS.
+                        </p>
+                        <ul className="space-y-2 text-slate-800 font-semibold pl-1">
+                          <li className="flex items-center gap-2">
+                            <CheckCircle2 size={13} className="text-emerald-600 shrink-0" />
+                            <span>Entity age and ₹200 Cr turnover criteria evaluation</span>
+                          </li>
+                          <li className="flex items-center gap-2">
+                            <CheckCircle2 size={13} className="text-emerald-600 shrink-0" />
+                            <span>Non-dilutive grant mapping & state subsidy check</span>
+                          </li>
+                          <li className="flex items-center gap-2">
+                            <CheckCircle2 size={13} className="text-emerald-600 shrink-0" />
+                            <span>Customized statutory documentation checklist</span>
+                          </li>
+                        </ul>
+                      </div>
 
-                  <div className="flex items-center justify-center gap-4 pt-3 text-[10px] text-muted font-medium">
-                    <span className="flex items-center gap-1">
-                      <ShieldCheck size={11} className="text-emerald-500" />
-                      Strict Confidentiality
-                    </span>
-                    <span>·</span>
-                    <span className="flex items-center gap-1">
-                      <Sparkles size={11} className="text-blue" />
-                      100% Transparent
-                    </span>
-                  </div>
-                </form>
-              )}
-
-              {/* Tab 2: Full Eligibility Direct Link */}
-              {tab === 'eligibility' && (
-                <div className="space-y-4">
-                  <div className="p-4 rounded-2xl bg-blue-soft border border-blue/15 text-xs text-graphite leading-relaxed">
-                    <div className="flex items-center gap-2 mb-2 font-semibold text-blue-deep">
-                      <ClipboardCheck size={16} className="text-blue" />
-                      Interactive Scheme Intelligence Engine
+                      <Link
+                        to="/eligibility"
+                        onClick={close}
+                        className="w-full py-3.5 px-6 rounded-2xl bg-gradient-to-r from-[#1C83F3] to-[#0A47CC] hover:from-[#2B92FF] hover:to-[#1656E8] text-white text-xs font-bold uppercase tracking-wider shadow-[0_10px_25px_-5px_rgba(28,131,243,0.45)] inline-flex items-center justify-center gap-2 hover:scale-[1.01] transition-all"
+                      >
+                        <span>Launch Automated Eligibility Diagnostic</span>
+                        <ArrowUpRight size={15} />
+                      </Link>
                     </div>
-                    <p className="mb-3">
-                      Complete our 3-step structured assessment to map your venture against 16+ active Central & State government schemes, including DPIIT, DST Grants, CGSS, and Section 80-IAC.
-                    </p>
-                    <ul className="space-y-1.5 text-ink font-medium pl-1">
-                      <li className="flex items-center gap-2">
-                        <CheckCircle2 size={12} className="text-emerald-600" />
-                        <span>Entity age and turnover evaluation</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <CheckCircle2 size={12} className="text-emerald-600" />
-                        <span>Non-dilutive grant mapping</span>
-                      </li>
-                      <li className="flex items-center gap-2">
-                        <CheckCircle2 size={12} className="text-emerald-600" />
-                        <span>Customized documentation checklist</span>
-                      </li>
-                    </ul>
-                  </div>
-
-                  <Link
-                    to="/eligibility"
-                    onClick={close}
-                    className="w-full py-3 px-4 rounded-xl bg-blue hover:bg-blue-hover text-white text-xs font-semibold shadow-md inline-flex items-center justify-center gap-2"
-                  >
-                    <span>Launch Eligibility Engine</span>
-                    <ArrowRight size={14} />
-                  </Link>
+                  )}
                 </div>
-              )}
+              </div>
+
             </div>
           ) : (
-            <div className="p-8 text-center animate-fade-up">
-              <div className="w-14 h-14 rounded-full bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center mx-auto mb-4 text-emerald-600">
-                <CheckCircle2 size={28} />
+            /* ============================================================
+               SUCCESS VIEW: LUXURY ACKNOWLEDGEMENT SHOWCASE
+               ============================================================ */
+            <div className="p-8 sm:p-12 text-center bg-white animate-in fade-in duration-300">
+              <div className="w-16 h-16 rounded-full bg-emerald-100 border border-emerald-300 flex items-center justify-center mx-auto mb-4 text-emerald-600 shadow-[0_0_20px_rgba(16,185,129,0.25)]">
+                <CheckCircle2 size={34} />
               </div>
-              <h4 className="font-display text-lg font-bold text-ink mb-1">
-                Thank You for Reaching Out
+
+              <div className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-[10px] font-bold text-emerald-700 uppercase tracking-wider mb-3">
+                Advisory Dossier Transmitted
+              </div>
+
+              <h4 className="font-display text-2xl font-bold text-slate-900 mb-2">
+                Thank You, {form.name || 'Valued Entrepreneur'}!
               </h4>
-              <p className="text-xs text-graphite leading-relaxed max-w-xs mx-auto">
-                Your enquiry has been received. Our advisory team will review your venture profile and connect with you shortly.
+
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed max-w-md mx-auto mb-6">
+                Your enquiry regarding <strong className="text-slate-900">{form.service}</strong> has been transmitted directly to our Senior Advisory Team at <span className="font-bold text-[#1C83F3]">info@certwinx.com</span>.
               </p>
+
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                <a
+                  href={getWhatsAppLink('Instant Enquiry Follow-up')}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-6 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs uppercase tracking-wider inline-flex items-center gap-2 shadow-md hover:scale-[1.02] transition-all"
+                >
+                  <span>Chat on WhatsApp Directly</span>
+                  <ArrowUpRight size={14} />
+                </a>
+
+                <button
+                  onClick={close}
+                  className="px-6 py-3 rounded-2xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs uppercase tracking-wider cursor-pointer transition-colors"
+                >
+                  Done
+                </button>
+              </div>
             </div>
           )}
         </div>

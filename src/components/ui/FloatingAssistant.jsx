@@ -429,6 +429,17 @@ Please connect me with a Senior Statutory Analyst.`;
                     <span>Connect on WhatsApp with Brief</span>
                   </a>
 
+                  <button
+                    onClick={() => {
+                      setIsOpen(false);
+                      window.openLeadPopup?.(selectedService.title);
+                    }}
+                    className="w-full text-center py-2.5 px-3 rounded-xl bg-gradient-to-r from-[#1C83F3] to-[#0A47CC] text-white hover:opacity-95 text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm cursor-pointer"
+                  >
+                    <span>Request Callback For {selectedService.short}</span>
+                    <ArrowRight size={13} />
+                  </button>
+
                   <div className="flex items-center gap-2">
                     <Link
                       to={selectedService.link}
