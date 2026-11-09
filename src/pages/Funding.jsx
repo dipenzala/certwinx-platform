@@ -22,16 +22,17 @@ import {
 } from 'lucide-react';
 import RevealOnScroll from '../components/motion/RevealOnScroll';
 import MagneticButton from '../components/motion/MagneticButton';
+import CounterNumber from '../components/motion/CounterNumber';
 import FundingEcosystem from '../components/sections/FundingEcosystem';
 import { SCHEMES } from '../data/schemes';
 import { getWhatsAppLink, PHONE_NUMBER } from '../lib/constants';
 
-/* ============ DIRECTORY STATS (CorporateMart Reference) ============ */
+/* ============ DIRECTORY STATS (Live Count-Up Animation) ============ */
 const STAT_METRICS = [
-  { value: '39+', label: 'Active Schemes Tracked' },
-  { value: '₹100+ Cr', label: 'Cumulative Grant Pool' },
-  { value: '0% Equity', label: 'Non-Dilutive Grants' },
-  { value: '100+', label: 'Active Advisory Engagements' },
+  { num: 39, prefix: '', suffix: '+', label: 'Active Schemes Tracked' },
+  { num: 200, prefix: '₹', suffix: '+ Cr', label: 'Cumulative Capital Pool' },
+  { staticText: '0% Equity', label: 'Non-Dilutive Grants' },
+  { num: 100, prefix: '', suffix: '+', label: 'Active Advisory Engagements' },
 ];
 
 /* ============ QUICK FILTER PILLS (CorporateMart Reference) ============ */
@@ -167,21 +168,21 @@ export default function Funding() {
         <title>Discover Startup Grants & Government Funding Schemes 2026 — CertWinX</title>
         <meta
           name="description"
-          content="Explore non-dilutive government grants, Startup India Seed Fund, collateral-free credit guarantees up to ₹10 Crore, and MSME capital subsidies."
+          content="Explore non-dilutive government grants, DST NIDHI prototyping grants, collateral-free credit guarantees up to ₹10 Crore, and MSME capital subsidies."
         />
       </Helmet>
 
-      {/* ============ HERO SECTION (CorporateMart Benchmark Reference) ============ */}
+      {/* ============ HERO SECTION (3D Depth & Gradient) ============ */}
       <section className="relative pt-36 lg:pt-42 pb-14 bg-canvas overflow-hidden border-b border-line">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-blue/5 blur-[120px]" />
-          <div className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] rounded-full bg-sky/20 blur-[120px]" />
+          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-blue/10 blur-[130px] animate-pulse" style={{ animationDuration: '6s' }} />
+          <div className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] rounded-full bg-sky/25 blur-[120px] animate-pulse" style={{ animationDuration: '8s' }} />
         </div>
 
         <div className="relative max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10">
           <div className="max-w-4xl">
             {/* Top Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue/10 border border-blue/20 text-xs font-bold text-blue uppercase tracking-wider mb-5">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue/10 border border-blue/20 text-xs font-bold text-blue uppercase tracking-wider mb-5 shadow-xs">
               <span className="w-2 h-2 rounded-full bg-blue animate-pulse" />
               <span>Verified Govt & Institutional Grants Directory 2026</span>
             </div>
@@ -189,21 +190,34 @@ export default function Funding() {
             {/* Title */}
             <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-ink mb-5 leading-[1.12]">
               Discover Startup Grants &{' '}
-              <span className="text-blue">Government Funding Schemes</span>
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#1C83F3] via-[#0E60D2] to-[#0A1128]">
+                Government Funding Schemes
+              </span>
             </h1>
 
             {/* Description */}
             <p className="text-base sm:text-lg text-graphite leading-relaxed mb-8 max-w-3xl">
-              Explore non-dilutive government grants, seed funds, collateral-free MSME credit, and institutional venture capital schemes. Filter verified funding programs by sector, stage, amount, founder eligibility, and mandatory registrations.
+              Explore non-dilutive government grants, technology grants, collateral-free MSME credit, and institutional venture capital schemes. Filter verified funding programs by sector, stage, amount, founder eligibility, and mandatory registrations.
             </p>
 
-            {/* 4 Metric Counter Boxes (CorporateMart Screenshot 6 & 7) */}
+            {/* 4 Metric Counter Boxes (Live Count-Up Starting from 0) */}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4 mb-8">
               {STAT_METRICS.map((stat, i) => (
-                <div key={i} className="bg-white border border-line rounded-2xl p-4 sm:p-5 shadow-xs">
-                  <span className="font-display text-2xl sm:text-3xl font-bold text-deepblue block mb-1">
-                    {stat.value}
-                  </span>
+                <div key={i} className="bg-white/95 backdrop-blur-md border border-line rounded-2xl p-4 sm:p-5 shadow-[0_10px_25px_-10px_rgba(28,131,243,0.1)] hover:-translate-y-0.5 transition-all">
+                  {stat.staticText ? (
+                    <span className="font-display text-2xl sm:text-3xl font-bold text-deepblue block mb-1">
+                      {stat.staticText}
+                    </span>
+                  ) : (
+                    <CounterNumber
+                      from={0}
+                      to={stat.num}
+                      prefix={stat.prefix}
+                      suffix={stat.suffix}
+                      duration={2.2}
+                      className="font-display text-2xl sm:text-3xl font-bold text-deepblue block mb-1 tabular"
+                    />
+                  )}
                   <span className="text-[11px] font-semibold text-muted tracking-tight block">
                     {stat.label}
                   </span>

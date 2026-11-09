@@ -61,7 +61,7 @@ const PROCESS_STEPS = [
 const POINTS = [
   'DPIIT Recognition as strict mandatory prerequisite',
   'Private Limited or LLP incorporated after 1 April 2016',
-  'Turnover under ₹100 Cr in any preceding financial year',
+  'Turnover under ₹200 Cr in any preceding financial year',
   'Innovative product/service with scalable employment or wealth creation',
   'Preparation of scalability memorandum & pitch dossier',
   'Representation & query resolution before Inter-Ministerial Board (IMB)',

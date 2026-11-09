@@ -5,7 +5,6 @@ export default function CustomCursor() {
   const dotRef = useRef(null);
   const ringRef = useRef(null);
   const [enabled, setEnabled] = useState(false);
-  const [cursorColor, setCursorColor] = useState('#1C83F3');
   const [hasMoved, setHasMoved] = useState(false);
 
   useEffect(() => {
@@ -22,55 +21,18 @@ export default function CustomCursor() {
 
     gsap.set([dot, ring], { xPercent: -50, yPercent: -50, opacity: 0 });
 
-    const xTo = gsap.quickTo([dot, ring], 'x', { duration: 0.18, ease: 'power3.out' });
-    const yTo = gsap.quickTo([dot, ring], 'y', { duration: 0.18, ease: 'power3.out' });
-
-    let lastDetect = 0;
-    const detectBackground = (x, y) => {
-      const now = performance.now();
-      if (now - lastDetect < 120) return; // Throttle to prevent main thread blocking
-      lastDetect = now;
-
-      try {
-        const el = document.elementFromPoint(x, y);
-        if (!el) return;
-
-        let bgColor = getComputedStyle(el).backgroundColor;
-        let parent = el.parentElement;
-
-        while (
-          parent &&
-          (bgColor === 'rgba(0, 0, 0, 0)' ||
-            bgColor === 'transparent' ||
-            bgColor === '')
-        ) {
-          bgColor = getComputedStyle(parent).backgroundColor;
-          parent = parent.parentElement;
-        }
-
-        const rgb = bgColor ? bgColor.match(/\d+/g) : null;
-        if (!rgb) return;
-
-        const [r, g, b] = rgb.map(Number);
-        const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
-        const newColor = luminance < 0.4 ? '#FFFFFF' : '#1C83F3';
-
-        setCursorColor((prev) => (prev !== newColor ? newColor : prev));
-      } catch (err) {
-        // Fallback to primary blue safely
-      }
-    };
+    const xTo = gsap.quickTo([dot, ring], 'x', { duration: 0.16, ease: 'power3.out' });
+    const yTo = gsap.quickTo([dot, ring], 'y', { duration: 0.16, ease: 'power3.out' });
 
     let firstMove = true;
     const onMove = (e) => {
       if (firstMove) {
         firstMove = false;
         setHasMoved(true);
-        gsap.to([dot, ring], { opacity: 1, duration: 0.25 });
+        gsap.to([dot, ring], { opacity: 1, duration: 0.2 });
       }
       xTo(e.clientX);
       yTo(e.clientY);
-      detectBackground(e.clientX, e.clientY);
     };
 
     const onMouseLeaveDoc = () => {
@@ -85,16 +47,16 @@ export default function CustomCursor() {
 
     const onEnterInteractive = () => {
       gsap.to(ring, {
-        scale: 2.2,
-        duration: 0.25,
-        ease: 'power3.out',
+        scale: 1.6,
+        duration: 0.22,
+        ease: 'power2.out',
       });
-      gsap.to(dot, { scale: 0.3, duration: 0.25, ease: 'power3.out' });
+      gsap.to(dot, { scale: 0.85, duration: 0.22, ease: 'power2.out' });
     };
 
     const onLeaveInteractive = () => {
-      gsap.to(ring, { scale: 1, duration: 0.25, ease: 'power3.out' });
-      gsap.to(dot, { scale: 1, duration: 0.25, ease: 'power3.out' });
+      gsap.to(ring, { scale: 1, duration: 0.22, ease: 'power2.out' });
+      gsap.to(dot, { scale: 1, duration: 0.22, ease: 'power2.out' });
     };
 
     window.addEventListener('mousemove', onMove, { passive: true });
@@ -124,27 +86,27 @@ export default function CustomCursor() {
 
   return (
     <>
-      {/* Outer Ring */}
+      {/* Outer Ring — High contrast dual-halo so it is always 100% visible on light AND dark */}
       <div
         ref={ringRef}
-        className={`pointer-events-none fixed top-0 left-0 z-[9998] w-8 h-8 rounded-full transition-colors duration-200 ${
+        className={`pointer-events-none fixed top-0 left-0 z-[9998] w-8 h-8 rounded-full ${
           hasMoved ? 'visible' : 'invisible'
         }`}
         style={{
-          border: `1.5px solid ${cursorColor}`,
-          boxShadow: `0 0 10px ${cursorColor}44`,
+          border: '2px solid #1C83F3',
+          boxShadow: '0 0 0 1px rgba(255, 255, 255, 0.75), 0 0 14px rgba(28, 131, 243, 0.45)',
         }}
       />
 
-      {/* Center Dot */}
+      {/* Center Dot — High contrast dual-halo so it never disappears on any section */}
       <div
         ref={dotRef}
-        className={`pointer-events-none fixed top-0 left-0 z-[9999] w-1.5 h-1.5 rounded-full transition-colors duration-200 ${
+        className={`pointer-events-none fixed top-0 left-0 z-[9999] w-2 h-2 rounded-full ${
           hasMoved ? 'visible' : 'invisible'
         }`}
         style={{
-          backgroundColor: cursorColor,
-          boxShadow: `0 0 6px ${cursorColor}77`,
+          backgroundColor: '#1C83F3',
+          boxShadow: '0 0 0 1px #FFFFFF, 0 0 6px rgba(28, 131, 243, 0.8)',
         }}
       />
     </>

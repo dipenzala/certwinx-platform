@@ -150,7 +150,7 @@ export default function Tools() {
     let recommendation = 'Maintain disciplined hiring and prepare non-dilutive grant/debt applications.';
     if (months < 6) {
       status = 'Critical Runway Alert (< 6 Months)';
-      recommendation = 'Initiate immediate capital infusion: explore SISFS grants, CGSS collateral-free debt, or founder bridges.';
+      recommendation = 'Initiate immediate capital infusion: explore DST NIDHI grants, CGSS collateral-free debt, or founder bridges.';
     } else if (months < 12) {
       status = 'Moderate Runway (6–12 Months)';
       recommendation = 'Begin investor conversations or government subsidy applications now to prevent cash crunch.';

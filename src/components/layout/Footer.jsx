@@ -102,7 +102,7 @@ export default function Footer() {
                 <span className="text-sky block sm:inline">Accelerate Enterprise Growth.</span>
               </h2>
               <p className="mt-2 text-xs sm:text-sm text-white/75 leading-relaxed">
-                Connect with our Senior Statutory Analysts in Ahmedabad for end-to-end guidance across DPIIT, Section 80-IAC, SISFS seed funding, and corporate compliance.
+                Connect with our Senior Statutory Analysts in Ahmedabad for end-to-end guidance across DPIIT, Section 80-IAC, capital grants, and corporate compliance.
               </p>
             </div>
 
@@ -307,7 +307,7 @@ export default function Footer() {
               <span>Statutory Regulatory Disclosure & Autonomous Advisory Standard:</span>
             </div>
             <p>
-              CertWinX Private Limited is an autonomous private corporate advisory, statutory documentation, and venture feasibility consulting organization registered under the Companies Act, 2013 in Ahmedabad, Gujarat. CertWinX is not a government department, ministry, or regulatory agency of DPIIT, the Ministry of Commerce & Industry, the Ministry of Finance, or the Ministry of MSME. All sovereign certifications, 80-IAC tax holidays, SISFS grants, and CGSS credit facilities are sanctioned strictly at the independent discretion of their respective evaluation committees and statutory boards.
+              CertWinX Private Limited is an autonomous private corporate advisory, statutory documentation, and venture feasibility consulting organization registered under the Companies Act, 2013 in Ahmedabad, Gujarat. CertWinX is not a government department, ministry, or regulatory agency of DPIIT, the Ministry of Commerce & Industry, the Ministry of Finance, or the Ministry of MSME. All sovereign certifications, 80-IAC tax holidays, capital subsidies, and CGSS credit facilities are sanctioned strictly at the independent discretion of their respective evaluation committees and statutory boards.
             </p>
           </div>
         </div>

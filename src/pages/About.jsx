@@ -21,14 +21,15 @@ import {
 } from 'lucide-react';
 import MagneticButton from '../components/motion/MagneticButton';
 import RevealOnScroll from '../components/motion/RevealOnScroll';
+import CounterNumber from '../components/motion/CounterNumber';
 import { getWhatsAppLink } from '../lib/constants';
 
-/* ============ AUTHENTIC OPERATIONAL VALUES ============ */
+/* ============ AUTHENTIC OPERATIONAL VALUES (Live 0-to-target Counter Animation) ============ */
 const STATS = [
-  { value: '6+ Yrs', label: 'Advisory Experience' },
-  { value: '100%', label: 'Procedural Transparency' },
-  { value: '28+', label: 'States & UTs Network' },
-  { value: '24h', label: 'Client Advisory SLA' },
+  { num: 6, suffix: '+ Yrs', label: 'Advisory Experience' },
+  { num: 100, suffix: '%', label: 'Procedural Transparency' },
+  { num: 28, suffix: '+', label: 'States & UTs Network' },
+  { num: 24, suffix: 'h', label: 'Client Advisory SLA' },
 ];
 
 /* ============ CORE PRINCIPLES ============ */
@@ -51,7 +52,7 @@ const VALUES = [
   {
     icon: Heart,
     title: 'Authentic Partnership',
-    desc: 'Driven by our core mission: "AAPKI TARAKKI KA SAATHI, BHAROSHA APKA, JIMMEDARI HUMARI".',
+    desc: 'Driven by our core mission: AAPKI TARAKKI KA SAATHI · BHAROSHA APKA, JIMMEDARI HUMARI.',
   },
 ];
 
@@ -60,7 +61,7 @@ const COVERAGE = [
   { icon: Building2, label: 'Company & LLP Incorporation', href: '/services' },
   { icon: Rocket, label: 'DPIIT & Startup Recognition', href: '/startup' },
   { icon: Landmark, label: 'Section 80-IAC Tax Exemption', href: '/eligibility/80-iac' },
-  { icon: TrendingUp, label: 'Seed Fund & Grants (SISFS/NIDHI)', href: '/funding' },
+  { icon: TrendingUp, label: 'Capital Grants (NIDHI/BIRAC)', href: '/funding' },
   { icon: ShieldCheck, label: 'CGSS & CGTMSE Credit Guarantees', href: '/funding' },
   { icon: Award, label: 'ISO 9001/27001 & ZED Certifications', href: '/certifications' },
   { icon: BadgeCheck, label: 'MSME Udyam & PMEGP Subsidies', href: '/msme' },
@@ -98,15 +99,15 @@ export default function About() {
         <title>About CertWinX — #1 Startup India & Section 80-IAC Advisory | 6+ Years Experience</title>
         <meta
           name="description"
-          content="CertWinX brings 6+ years of specialized advisory experience guiding Indian startups across all 28 states for Section 80-IAC 100% Tax Holidays, DPIIT recognition, SISFS Seed Grants & corporate compliance."
+          content="CertWinX brings 6+ years of specialized advisory experience guiding Indian startups across all 28 states for Section 80-IAC 100% Tax Holidays, DPIIT recognition, capital grants & corporate compliance."
         />
       </Helmet>
 
-      {/* ============ HERO (Enterprise Light-Blue) ============ */}
+      {/* ============ HERO (3D Depth & Sovereign Credo Showcase) ============ */}
       <section className="relative pt-36 lg:pt-44 pb-16 bg-canvas overflow-hidden border-b border-line">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-blue/5 blur-[120px]" />
-          <div className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] rounded-full bg-sky/20 blur-[120px]" />
+          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-blue/10 blur-[130px] animate-pulse" style={{ animationDuration: '6s' }} />
+          <div className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] rounded-full bg-sky/25 blur-[120px] animate-pulse" style={{ animationDuration: '8s' }} />
         </div>
 
         <div className="relative max-w-[1440px] mx-auto px-6 lg:px-10">
@@ -115,7 +116,7 @@ export default function About() {
             {/* Left Content */}
             <div className="lg:col-span-7">
               <RevealOnScroll>
-                <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue/10 border border-blue/20 text-[10px] font-bold tracking-[0.2em] text-blue uppercase mb-6">
+                <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue/10 border border-blue/20 text-[10px] font-bold tracking-[0.2em] text-blue uppercase mb-6 shadow-xs">
                   <span className="w-1.5 h-1.5 rounded-full bg-blue animate-pulse" />
                   CertWinX Private Limited · Ahmedabad, Gujarat
                 </span>
@@ -123,7 +124,10 @@ export default function About() {
 
               <RevealOnScroll delay={0.1}>
                 <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.08] tracking-tight text-ink mb-6 text-balance">
-                  Empowering Indian enterprise with regulatory intelligence.
+                  Empowering Indian enterprise with{' '}
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#1C83F3] via-[#0E60D2] to-[#0A1128]">
+                    regulatory intelligence.
+                  </span>
                 </h1>
               </RevealOnScroll>
 
@@ -131,12 +135,21 @@ export default function About() {
                 <p className="text-base sm:text-lg text-graphite leading-relaxed mb-6">
                   CertWinX Private Limited is an enterprise-grade digital advisory and schemes intelligence platform. We bridge the gap between complex sovereign policies and visionary Indian entrepreneurs.
                 </p>
-                <div className="p-4 rounded-2xl bg-white border border-line shadow-sm mb-8 inline-block">
-                  <p className="text-xs font-bold text-deepblue tracking-wide uppercase">
-                    Official Brand Credo:
-                  </p>
-                  <p className="font-display text-sm font-semibold text-ink mt-0.5">
-                    "AAPKI TARAKKI KA SAATHI, BHAROSHA APKA, JIMMEDARI HUMARI"
+
+                {/* ULTRA-PREMIUM SOVEREIGN BRAND CREDO (No quotes, no trailing comma, live 3D gradient) */}
+                <div className="relative group overflow-hidden rounded-2xl p-5 mb-8 bg-gradient-to-r from-[#060D24] via-[#0D1B3E] to-[#060D24] border border-[#1C83F3]/40 shadow-[0_12px_35px_-10px_rgba(28,131,243,0.35)] transition-all hover:border-[#1C83F3]/70 hover:shadow-[0_16px_45px_-8px_rgba(28,131,243,0.5)]">
+                  {/* Ambient Light Sweep */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
+                  
+                  <div className="relative z-10 flex items-center gap-2 mb-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                    <p className="text-[10px] font-extrabold tracking-[0.25em] uppercase text-sky">
+                      Official Brand Credo
+                    </p>
+                  </div>
+                  
+                  <p className="font-display text-sm sm:text-base font-extrabold tracking-wide uppercase text-white leading-relaxed">
+                    AAPKI TARAKKI KA SAATHI <span className="text-sky font-normal">·</span> BHAROSHA APKA, JIMMEDARI HUMARI
                   </p>
                 </div>
               </RevealOnScroll>
@@ -153,19 +166,24 @@ export default function About() {
               </RevealOnScroll>
             </div>
 
-            {/* Right Card: Stats & Institutional Pillars */}
+            {/* Right Card: Stats & Institutional Pillars (Live 0-to-target Count-Up Animation) */}
             <div className="lg:col-span-5">
               <RevealOnScroll delay={0.2}>
-                <div className="bg-white border border-line rounded-3xl p-7 lg:p-8 shadow-sm">
-                  <h3 className="font-display text-lg font-bold text-ink mb-5 pb-3 border-b border-line">
-                    Operational Integrity & Standards
+                <div className="bg-white/95 backdrop-blur-md border border-line rounded-3xl p-7 lg:p-8 shadow-[0_15px_40px_-15px_rgba(28,131,243,0.14)]">
+                  <h3 className="font-display text-lg font-bold text-ink mb-5 pb-3 border-b border-line flex items-center justify-between">
+                    <span>Operational Integrity & Standards</span>
+                    <span className="w-2 h-2 rounded-full bg-blue animate-pulse" />
                   </h3>
                   <div className="grid grid-cols-2 gap-4 mb-6">
                     {STATS.map((s, i) => (
-                      <div key={i} className="p-3.5 bg-canvas rounded-2xl border border-line/60">
-                        <span className="font-display text-2xl font-bold text-blue block mb-0.5">
-                          {s.value}
-                        </span>
+                      <div key={i} className="p-4 bg-canvas/80 backdrop-blur-sm rounded-2xl border border-line/80 shadow-xs hover:border-blue/40 hover:-translate-y-0.5 transition-all">
+                        <CounterNumber
+                          from={0}
+                          to={s.num}
+                          suffix={s.suffix}
+                          duration={2.2}
+                          className="font-display text-2xl font-bold text-blue block mb-0.5 tabular"
+                        />
                         <span className="text-[10px] font-bold tracking-wider text-muted uppercase block leading-tight">
                           {s.label}
                         </span>

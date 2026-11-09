@@ -5,7 +5,7 @@ import SectionHeading from '../components/ui/SectionHeading';
 import RevealOnScroll from '../components/motion/RevealOnScroll';
 
 const CATS = [
-  { icon: TrendingUp, label: 'Startup India & DPIIT', desc: 'DPIIT criteria, Section 80-IAC tax holiday, SISFS seed funding, and IPR rebates.', href: '/startup' },
+  { icon: TrendingUp, label: 'Startup India & DPIIT', desc: 'DPIIT criteria, Section 80-IAC tax holiday, CGSS credit guarantees, and IPR rebates.', href: '/startup' },
   { icon: Shield, label: 'MSME Programs & Subsidies', desc: 'Udyam registration, PMEGP capital subsidies, and CGTMSE credit guarantee.', href: '/msme' },
   { icon: Landmark, label: 'Government Schemes Directory', desc: 'Searchable central and state scheme intelligence across 18+ priority programs.', href: '/schemes' },
   { icon: TrendingUp, label: 'Grants & Funding Schemes', desc: 'Non-dilutive prototype grants, debt guarantees up to ₹10 Crore, and SIDBI FFS.', href: '/funding' },

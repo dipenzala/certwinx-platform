@@ -22,15 +22,16 @@ import {
 } from 'lucide-react';
 import RevealOnScroll from '../components/motion/RevealOnScroll';
 import MagneticButton from '../components/motion/MagneticButton';
+import CounterNumber from '../components/motion/CounterNumber';
 import { SERVICES } from '../data/services';
 import { getWhatsAppLink } from '../lib/constants';
 
 /* ============ AUTHENTIC OPERATIONAL METRICS ============ */
 const HERO_STATS = [
-  { value: '10 Yrs', label: 'Max Startup Window' },
-  { value: '₹100Cr', label: 'DPIIT Turnover Cap' },
-  { value: '3 Yrs', label: '100% Tax Holiday' },
-  { value: '100%', label: 'Procedural Advisory' },
+  { num: 10, prefix: '', suffix: ' Yrs', label: 'Max Startup Window' },
+  { num: 200, prefix: '₹', suffix: 'Cr', label: 'DPIIT Turnover Cap' },
+  { num: 3, prefix: '', suffix: ' Yrs', label: '100% Tax Holiday' },
+  { num: 100, prefix: '', suffix: '%', label: 'Procedural Advisory' },
 ];
 
 /* ============ SUPPORT AREAS ============ */
@@ -47,8 +48,8 @@ const AREAS = [
   },
   {
     icon: TrendingUp,
-    title: 'Seed Fund Scheme (SISFS)',
-    desc: 'Grants up to ₹20 Lakhs for prototype trials and ₹50 Lakhs for commercialization.',
+    title: 'Technology & Capital Grants',
+    desc: 'Non-dilutive grant facilities up to ₹50 Lakhs for prototype validation & technology scaling.',
   },
   {
     icon: ShieldCheck,
@@ -88,7 +89,7 @@ const DPIIT_CRITERIA = [
   {
     icon: Percent,
     title: 'Annual Turnover',
-    requirement: 'Turnover under ₹100 Crore in all fiscal years',
+    requirement: 'Turnover under ₹200 Crore in all fiscal years',
     detail: 'Aggregate gross turnover across all preceding balance sheets',
   },
   {
@@ -116,7 +117,7 @@ const IAC_CRITERIA = [
   { label: 'DPIIT Recognition', value: 'Mandatory Active DIPP Number', icon: ShieldCheck },
   { label: 'Entity Structure', value: 'Private Limited or LLP Only', icon: Building2 },
   { label: 'Statutory Window', value: 'Incorporated on or after 1 Apr 2016', icon: Calendar },
-  { label: 'Turnover Threshold', value: 'Below ₹100 Crore in all years', icon: Percent },
+  { label: 'Turnover Threshold', value: 'Below ₹200 Crore in all years', icon: Percent },
   { label: 'Statutory Benefit', value: '100% Tax Holiday for 3 consecutive years', icon: TrendingUp },
   { label: 'Approval Authority', value: 'Inter-Ministerial Board (IMB)', icon: Landmark },
 ];
@@ -146,7 +147,7 @@ const PROCESS = [
   {
     num: '05',
     title: 'Certification & Downstream Unlocks',
-    desc: 'Receipt of official DPIIT certificate, opening immediate access to Section 80-IAC filings, SISFS, and GeM tender exemptions.',
+    desc: 'Receipt of official DPIIT certificate, opening immediate access to Section 80-IAC filings, CGSS debt guarantees, and GeM tender exemptions.',
   },
 ];
 
@@ -159,22 +160,22 @@ export default function Startup() {
         <title>Startup India & DPIIT Advisory — CertWinX</title>
         <meta
           name="description"
-          content="End-to-end advisory for DPIIT recognition, Section 80-IAC 3-year tax exemptions, Seed Fund schemes, and venture growth support."
+          content="End-to-end advisory for DPIIT recognition, Section 80-IAC 3-year tax exemptions, CGSS collateral-free credit facilities, and venture growth support."
         />
       </Helmet>
 
-      {/* ============ HERO (Enterprise Light-Blue) ============ */}
+      {/* ============ HERO (Enterprise 3D Gradient Depth) ============ */}
       <section className="relative pt-36 lg:pt-44 pb-16 bg-canvas overflow-hidden border-b border-line">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-blue/5 blur-[120px]" />
-          <div className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] rounded-full bg-sky/20 blur-[120px]" />
+          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-blue/10 blur-[120px] animate-pulse" style={{ animationDuration: '6s' }} />
+          <div className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] rounded-full bg-sky/25 blur-[120px] animate-pulse" style={{ animationDuration: '8s' }} />
         </div>
 
         <div className="relative max-w-[1440px] mx-auto px-6 lg:px-10">
           <div className="max-w-3xl mx-auto text-center">
 
             <RevealOnScroll>
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue/10 border border-blue/20 text-[10px] font-bold tracking-[0.2em] text-blue uppercase mb-6">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue/10 border border-blue/20 text-[10px] font-bold tracking-[0.2em] text-blue uppercase mb-6 shadow-xs">
                 <span className="w-1.5 h-1.5 rounded-full bg-blue animate-pulse" />
                 Indian Startup Ecosystem Advisory Desk
               </span>
@@ -182,13 +183,16 @@ export default function Startup() {
 
             <RevealOnScroll delay={0.1}>
               <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.08] tracking-tight text-ink mb-6 text-balance">
-                Scale your venture with verified sovereign recognition.
+                Scale your venture with{' '}
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#1C83F3] via-[#0E60D2] to-[#0A1128]">
+                  verified sovereign recognition.
+                </span>
               </h1>
             </RevealOnScroll>
 
             <RevealOnScroll delay={0.2}>
               <p className="text-base sm:text-lg text-graphite leading-relaxed max-w-2xl mx-auto mb-10">
-                Unlock official DPIIT recognition, 3-year Section 80-IAC corporate tax holidays, Seed Fund grants, and collateral-free debt guarantees with structured statutory support.
+                Unlock official DPIIT recognition, 3-year Section 80-IAC corporate tax holidays, collateral-free debt guarantees, and statutory procurement benefits with structured advisory support.
               </p>
             </RevealOnScroll>
 
@@ -203,14 +207,19 @@ export default function Startup() {
               </div>
             </RevealOnScroll>
 
-            {/* Metrics */}
+            {/* Live Count-Up Metrics (Starting from 0) */}
             <RevealOnScroll delay={0.4}>
-              <div className="mt-12 inline-flex flex-wrap items-center justify-center gap-x-6 sm:gap-x-8 gap-y-3 px-6 py-4 rounded-2xl bg-white border border-line shadow-sm">
+              <div className="mt-12 inline-flex flex-wrap items-center justify-center gap-x-6 sm:gap-x-8 gap-y-3 px-6 py-4 rounded-2xl bg-white/95 backdrop-blur-md border border-line shadow-[0_15px_35px_-10px_rgba(28,131,243,0.12)]">
                 {HERO_STATS.map((s, i) => (
                   <div key={i} className="flex items-center gap-2.5">
-                    <span className="font-display text-xl font-bold text-ink tabular">
-                      {s.value}
-                    </span>
+                    <CounterNumber
+                      from={0}
+                      to={s.num}
+                      prefix={s.prefix}
+                      suffix={s.suffix}
+                      duration={2}
+                      className="font-display text-xl font-bold text-ink tabular"
+                    />
                     <span className="text-[10px] font-bold tracking-[0.15em] text-muted uppercase">
                       {s.label}
                     </span>
@@ -239,7 +248,7 @@ export default function Startup() {
                 Every sovereign benefit and funding pathway, structured.
               </h2>
               <p className="text-base text-graphite leading-relaxed">
-                From initial DPIIT application to Inter-Ministerial Board defense and seed fund incubator pitching.
+                From initial DPIIT application to Inter-Ministerial Board defense and institutional capital growth strategy.
               </p>
             </div>
           </RevealOnScroll>

@@ -55,11 +55,11 @@ const CASE_FRAMEWORKS = [
   {
     sector: 'DeepTech & AI Vision',
     location: 'Bengaluru, Karnataka',
-    badge: 'Section 80-IAC + SISFS',
+    badge: 'Section 80-IAC + CGSS',
     title: 'IMB Presentation Dossier for 100% Tax Exemption',
-    challenge: 'AI-driven logistics enterprise required formal IMB scalability pitch and seed fund validation.',
+    challenge: 'AI-driven logistics enterprise required formal IMB scalability pitch and credit guarantee structuring.',
     solution: 'Drafted 32-page scalability memorandum, chartered accountant IP valuation, and represented query rejoinders before the IMB.',
-    result: 'IMB approval gazetted for Section 80-IAC (3-year 100% tax relief) and ₹20L SISFS grant allocation.',
+    result: 'IMB approval gazetted for Section 80-IAC (3-year 100% tax relief) and ₹5 Crore collateral-free debt sanction under CGSS.',
     timeframe: '120 Days Total Execution',
   },
   {

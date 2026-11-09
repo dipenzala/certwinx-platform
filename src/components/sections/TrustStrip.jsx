@@ -63,7 +63,7 @@ const ITEMS = [
   { icon: Landmark, label: 'Section 80-IAC Tax Exemption' },
   { icon: Building2, label: 'Udyam / MSME Registration' },
   { icon: BadgeCheck, label: 'ISO & ZED Certifications' },
-  { icon: TrendingUp, label: 'Seed Fund & Capital Grants' },
+  { icon: TrendingUp, label: 'Government Grants & CGSS' },
   { icon: FileCheck, label: 'Company & LLP Registration' },
   { icon: ClipboardCheck, label: 'Corporate Statutory Compliance' },
 ];

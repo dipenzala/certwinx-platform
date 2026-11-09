@@ -106,7 +106,7 @@ const SERVICES_MEGA_DATA = [
       { title: 'Startup India DPIIT Recognition', desc: 'Official DPIIT sovereign certificate for patent rebates and NSWS access', href: '/services/dpiit-recognition', icon: Rocket },
       { title: 'Section 80-IAC Tax Exemption', desc: '100% corporate tax holiday for 3 consecutive years approved by IMB', href: '/eligibility/80-iac', icon: Percent },
       { title: 'Section 56 Angel Tax Exemption', desc: 'Exemption from tax scrutiny on premium equity funding from angels/VCs', href: '/startup', icon: ShieldCheck },
-      { title: 'Startup India Seed Fund (SISFS)', desc: 'Early-stage prototype validation and commercialization grant up to ₹50L', href: '/schemes/startup-india-seed-fund', icon: Coins },
+      { title: 'DST NIDHI Prototyping Grant', desc: 'Hardware & tech prototyping non-dilutive grant up to ₹10L–₹50L', href: '/funding', icon: Coins },
     ],
   },
   {
@@ -125,9 +125,9 @@ const SERVICES_MEGA_DATA = [
 
 /* 2. SCHEMES DROPDOWN DATA */
 const SCHEMES_MENU = [
-  { title: 'Startup India Seed Fund (SISFS)', desc: 'Early-stage prototype grant up to ₹20L / ₹50L debt', href: '/schemes/startup-india-seed-fund', tag: 'DPIIT Grant' },
   { title: 'Section 80-IAC Corporate Tax Exemption', desc: '3 consecutive years 100% tax holiday approved by IMB', href: '/eligibility/80-iac', tag: 'Tax Holiday' },
   { title: 'Credit Guarantee Scheme for Startups (CGSS)', desc: 'Collateral-free loans up to ₹10 Crore with sovereign cover', href: '/schemes/cgss', tag: 'Debt Facility' },
+  { title: 'DST NIDHI-PRAYAS Prototyping Grant', desc: 'Up to ₹10 Lakhs non-dilutive hardware prototype support', href: '/funding', tag: 'DST Grant' },
   { title: 'PMEGP MSME Capital Subsidy', desc: 'Up to 35% margin money subsidy on project costs up to ₹50L', href: '/schemes/pmegp', tag: 'MSME Subsidy' },
   { title: 'BIRAC Biotechnology Ignition Grant (BIG)', desc: 'Up to ₹50 Lakhs non-dilutive grant for bio-innovators', href: '/schemes/birac-big', tag: 'Biotech Grant' },
   { title: 'Gujarat State Startup Scheme (i-Hub)', desc: 'Up to ₹30 Lakhs seed support + monthly founder sustenance', href: '/schemes/gujarat-startup-policy', tag: 'State Policy' },
@@ -146,7 +146,7 @@ const CERTIFICATIONS_MENU = [
 
 /* 4. FUNDING & CAPITAL DROPDOWN DATA */
 const FUNDING_MENU = [
-  { title: 'Non-Dilutive Capital Grants', desc: 'SISFS, DST NIDHI PRAYAS, BIRAC BIG with 0% equity dilution', href: '/funding', icon: Coins, tag: '0% Equity' },
+  { title: 'Non-Dilutive Capital Grants', desc: 'DST NIDHI PRAYAS, BIRAC BIG & capital grants with 0% equity dilution', href: '/funding', icon: Coins, tag: '0% Equity' },
   { title: 'Collateral-Free Credit Guarantees', desc: 'CGSS up to ₹10 Cr and CGTMSE up to ₹5 Cr without personal security', href: '/funding', icon: ShieldCheck, tag: 'Collateral-Free' },
   { title: 'Capital & Margin Subsidies', desc: 'PMEGP 15%–35% margin money & ZED certification fee reimbursements', href: '/funding', icon: Award, tag: 'Government' },
   { title: 'Institutional Term Loans & MUDRA', desc: 'Concessionary bank debt up to ₹20 Lakhs under MUDRA Tarun Plus', href: '/funding', icon: Landmark, tag: 'Banking' },
@@ -306,8 +306,8 @@ export default function Header({ onMenuToggle }) {
             scrolled ? 'py-2 sm:py-2.5' : 'py-2.5 sm:py-3.5'
           }`}
         >
-          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between gap-3 xl:gap-4">
+          <div className="max-w-[1440px] mx-auto px-3 sm:px-4 lg:px-6">
+            <div className="flex items-center justify-between gap-2 xl:gap-3">
 
               {/* BRAND LOGO */}
               <div className="shrink-0 flex items-center">
@@ -320,7 +320,7 @@ export default function Header({ onMenuToggle }) {
                 {/* 1. About */}
                 <Link
                   to="/about"
-                  className={`px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${
+                  className={`px-1.5 xl:px-2.5 py-1.5 rounded-lg text-[11px] xl:text-xs font-medium whitespace-nowrap transition-colors ${
                     location.pathname === '/about' ? 'text-[#1C83F3] font-bold bg-white/10' : 'text-white/80 hover:text-white hover:bg-white/5'
                   }`}
                 >
@@ -335,7 +335,7 @@ export default function Header({ onMenuToggle }) {
                 >
                   <button
                     onClick={() => toggleDropdown('services')}
-                    className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors cursor-pointer ${
+                    className={`inline-flex items-center gap-1 px-1.5 xl:px-2.5 py-1.5 rounded-lg text-[11px] xl:text-xs font-medium whitespace-nowrap transition-colors cursor-pointer ${
                       activeDropdown === 'services' || location.pathname.startsWith('/services')
                         ? 'text-[#1C83F3] font-bold bg-white/10'
                         : 'text-white/80 hover:text-white hover:bg-white/5'
@@ -343,7 +343,7 @@ export default function Header({ onMenuToggle }) {
                     aria-expanded={activeDropdown === 'services'}
                   >
                     <span>Services</span>
-                    <ChevronDown size={13} className={`transition-transform duration-200 ${activeDropdown === 'services' ? 'rotate-180 text-[#1C83F3]' : 'text-white/50'}`} />
+                    <ChevronDown size={12} className={`transition-transform duration-200 ${activeDropdown === 'services' ? 'rotate-180 text-[#1C83F3]' : 'text-white/50'}`} />
                   </button>
 
                   {/* Mega-Menu Panel with Zero-Gap Wrapper */}
@@ -647,7 +647,7 @@ export default function Header({ onMenuToggle }) {
                 {/* 6. Startup India (DPIIT) */}
                 <Link
                   to="/startup"
-                  className={`px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${
+                  className={`px-1.5 xl:px-2.5 py-1.5 rounded-lg text-[11px] xl:text-xs font-medium whitespace-nowrap transition-colors ${
                     location.pathname === '/startup' ? 'text-[#1C83F3] font-bold bg-white/10' : 'text-white/80 hover:text-white hover:bg-white/5'
                   }`}
                 >
@@ -657,14 +657,14 @@ export default function Header({ onMenuToggle }) {
                 {/* 7. 80-IAC (Tax Holiday Pill with Glowing Badge) */}
                 <Link
                   to="/eligibility/80-iac"
-                  className={`inline-flex items-center gap-1.5 px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
+                  className={`inline-flex items-center gap-1 xl:gap-1.5 px-1.5 xl:px-2.5 py-1.5 rounded-lg text-[11px] xl:text-xs font-semibold whitespace-nowrap transition-all ${
                     location.pathname === '/eligibility/80-iac'
                       ? 'text-[#1C83F3] font-bold bg-white/10'
                       : 'text-white/90 hover:text-white hover:bg-white/5'
                   }`}
                 >
                   <span className="whitespace-nowrap">80-IAC</span>
-                  <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#1C83F3]/25 border border-[#1C83F3]/50 text-sky shadow-[0_0_10px_rgba(28,131,243,0.35)] leading-none whitespace-nowrap">
+                  <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[8px] xl:text-[9px] font-bold bg-[#1C83F3]/25 border border-[#1C83F3]/50 text-sky shadow-[0_0_10px_rgba(28,131,243,0.35)] leading-none whitespace-nowrap">
                     100% Tax Holiday
                   </span>
                 </Link>
@@ -672,7 +672,7 @@ export default function Header({ onMenuToggle }) {
                 {/* 8. Contact */}
                 <Link
                   to="/contact"
-                  className={`px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${
+                  className={`px-1.5 xl:px-2.5 py-1.5 rounded-lg text-[11px] xl:text-xs font-medium whitespace-nowrap transition-colors ${
                     location.pathname === '/contact' ? 'text-[#1C83F3] font-bold bg-white/10' : 'text-white/80 hover:text-white hover:bg-white/5'
                   }`}
                 >
@@ -682,14 +682,14 @@ export default function Header({ onMenuToggle }) {
               </nav>
 
               {/* ACTIONS RIGHT: Metric Capsule, Search, WhatsApp Desk, Check Eligibility CTA, Mobile Hamburger */}
-              <div className="flex items-center gap-2 xl:gap-2.5 shrink-0">
+              <div className="flex items-center gap-1.5 xl:gap-2 shrink-0">
 
-                {/* LIVE METRIC CAPSULE (Visible on 2XL wide screens 1536px+ so standard laptops never overflow) */}
-                <div className="hidden 2xl:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#131E3D] border border-white/15 text-xs text-white shadow-inner shrink-0">
+                {/* LIVE METRIC CAPSULE (Visible on XL 1280px+ with compact padding) */}
+                <div className="hidden xl:flex items-center gap-1.5 px-2 xl:px-2.5 py-1 rounded-full bg-[#131E3D] border border-white/15 text-[10px] xl:text-xs text-white shadow-inner shrink-0">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
-                  <span className="font-semibold text-[11px] text-white/90 whitespace-nowrap">99% Success</span>
-                  <span className="text-[11px] text-[#A9D2F1] font-bold flex items-center gap-0.5 whitespace-nowrap">
-                    <ArrowUpRight size={11} />
+                  <span className="font-semibold text-[10px] xl:text-[11px] text-white/90 whitespace-nowrap">99% Success</span>
+                  <span className="text-[10px] xl:text-[11px] text-[#A9D2F1] font-bold flex items-center gap-0.5 whitespace-nowrap">
+                    <ArrowUpRight size={10} />
                     <span>+2.1%</span>
                   </span>
                 </div>
@@ -697,7 +697,7 @@ export default function Header({ onMenuToggle }) {
                 {/* GLOBAL SEARCH TRIGGER */}
                 <button
                   onClick={() => setSearchOpen(true)}
-                  className="hidden lg:flex items-center gap-1.5 p-1.5 xl:px-2.5 xl:py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white transition-colors cursor-pointer text-xs shrink-0"
+                  className="hidden lg:flex items-center gap-1.5 p-1.5 xl:px-2 xl:py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white transition-colors cursor-pointer text-xs shrink-0"
                   aria-label="Search CertWinX services"
                 >
                   <Search size={13} className="text-[#1C83F3]" />
@@ -710,21 +710,21 @@ export default function Header({ onMenuToggle }) {
                   href={getWhatsAppLink('Website Header Enquiry')}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/40 hover:bg-emerald-500/25 text-xs font-bold whitespace-nowrap transition-all shadow-[0_0_12px_rgba(16,185,129,0.15)] shrink-0"
+                  className="hidden md:inline-flex items-center gap-1.5 px-2.5 xl:px-3 py-1.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/40 hover:bg-emerald-500/25 text-[11px] xl:text-xs font-bold whitespace-nowrap transition-all shadow-[0_0_12px_rgba(16,185,129,0.15)] shrink-0"
                   aria-label="Contact CertWinX on WhatsApp"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                  <MessageCircle size={13} className="text-emerald-400" />
+                  <MessageCircle size={12} className="text-emerald-400" />
                   <span>WhatsApp</span>
                 </a>
 
                 {/* Primary CTA: CHECK ELIGIBILITY (Guaranteed inside screen bounds with zero clipping) */}
                 <Link
                   to="/eligibility"
-                  className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-gradient-to-r from-[#1C83F3] to-[#0A47CC] hover:from-[#2B92FF] hover:to-[#1656E8] text-white text-xs font-bold uppercase tracking-wider whitespace-nowrap shadow-[0_4px_20px_rgba(28,131,243,0.4)] hover:shadow-[0_6px_25px_rgba(28,131,243,0.6)] hover:scale-102 transition-all shrink-0 mr-1 sm:mr-3"
+                  className="hidden sm:inline-flex items-center gap-1 xl:gap-1.5 px-3 xl:px-4 py-1.5 xl:py-2 rounded-full bg-gradient-to-r from-[#1C83F3] to-[#0A47CC] hover:from-[#2B92FF] hover:to-[#1656E8] text-white text-[11px] xl:text-xs font-bold uppercase tracking-wider whitespace-nowrap shadow-[0_4px_20px_rgba(28,131,243,0.4)] hover:shadow-[0_6px_25px_rgba(28,131,243,0.6)] hover:scale-102 transition-all shrink-0"
                 >
                   <span>CHECK ELIGIBILITY</span>
-                  <ArrowUpRight size={13} />
+                  <ArrowUpRight size={12} />
                 </Link>
 
                 {/* Mobile Hamburger Button */}

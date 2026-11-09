@@ -4,14 +4,14 @@ import { Check } from 'lucide-react';
 
 /* ============================================================
    MULTIPLE DIVERSE ADVISORY CONVERSATIONS
-   Right Side = Client (Founder / Entrepreneur)
-   Left Side  = CertWinX Consultant (Advisor)
+   Right Side = Client (Founder / Entrepreneur asking queries)
+   Left Side  = CertWinX Consultant (Advisor giving solutions)
    ============================================================ */
 const CONVERSATIONS = [
   {
     topic: 'Startup India & DPIIT',
     clientTop: 'Hi! Where should I start?',
-    clientBottom: 'Need DPIIT + ₹50L seed grant.',
+    clientBottom: 'Need DPIIT + 100% 80-IAC tax holiday.',
     certwinxTop: 'Free eligibility diagnostic first.',
     certwinxBottom: 'Are you registered yet? We file on NSWS.',
   },
@@ -23,11 +23,11 @@ const CONVERSATIONS = [
     certwinxBottom: 'We prepare the 40-page IMB novelty presentation.',
   },
   {
-    topic: 'Collateral-Free MSME Credit',
+    topic: 'Collateral-Free Credit (CGSS)',
     clientTop: 'Collateral-free credit without property pledge?',
-    clientBottom: 'Expanding our production capacity.',
-    certwinxTop: 'CGTMSE guarantee covers up to ₹5 Crore!',
-    certwinxBottom: 'Udyam classification opens priority sector credit.',
+    clientBottom: 'Need ₹5 Cr to scale manufacturing.',
+    certwinxTop: 'CGSS & CGTMSE guarantee up to ₹10 Crore!',
+    certwinxBottom: 'We structure the credit dossier for scheduled banks.',
   },
   {
     topic: 'Company Incorporation',
@@ -56,6 +56,13 @@ const CONVERSATIONS = [
     clientBottom: 'We do not meet 3-year turnover criteria.',
     certwinxTop: '100% EMD & prior turnover waiver on GeM!',
     certwinxBottom: 'Direct sovereign vendor onboarding on GeM.',
+  },
+  {
+    topic: 'MSME ZED Certification',
+    clientTop: 'How to qualify for 80% ZED subsidy?',
+    clientBottom: 'Manufacturing precision auto components.',
+    certwinxTop: 'Instant MSME ZED Bronze/Silver validation!',
+    certwinxBottom: 'Up to ₹5 Lakhs fee reimbursement + bank rebates.',
   },
 ];
 
@@ -229,10 +236,10 @@ export default function HeroOrbit3D() {
       </div>
 
       {/* Desktop Layout (lg+) — ZERO OVERLAP & LIVE DYNAMIC TYPEWRITER */}
-      <div className="hidden lg:block relative w-full h-[510px]">
+      <div className="hidden lg:block relative w-full h-[540px]">
         {/* Ambient Backing Glow */}
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[420px] h-[420px] rounded-full bg-[#1C83F3]/10 blur-[100px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[440px] h-[440px] rounded-full bg-[#1C83F3]/10 blur-[100px]" />
           <div className="absolute top-[20%] left-[10%] w-[180px] h-[180px] rounded-full bg-sky/20 blur-[80px]" />
         </div>
 
@@ -240,13 +247,13 @@ export default function HeroOrbit3D() {
           <div className="relative w-full max-w-[620px] mx-auto">
 
             {/* Character 3D illustration — Sitting comfortably lower so heads are strictly below speech bubbles */}
-            <div data-image className="relative z-10 will-change-transform pt-20 xl:pt-24">
+            <div data-image className="relative z-10 will-change-transform pt-28 xl:pt-32 pb-2">
               <picture>
                 <source srcSet="/hero-characters.webp" type="image/webp" />
                 <img
                   src="/hero-characters.png"
                   alt="CertWinX consultant guiding an entrepreneur"
-                  className="w-full h-auto rounded-3xl max-h-[385px] object-contain mx-auto"
+                  className="w-full h-auto rounded-3xl max-h-[375px] object-contain mx-auto"
                   loading="eager"
                   style={{ filter: 'drop-shadow(0 20px 45px rgba(22,58,138,0.14))' }}
                 />
@@ -256,17 +263,24 @@ export default function HeroOrbit3D() {
             {/* =======================================================
                 LEFT SIDE: CERTWINX CONSULTANT (Advisory Solutions)
                 Character has CertWinX badge, laptop & mug.
+                Pill Badge: CERTWINX ADVISOR
                 Bubble 1: Golden / Amber Status Badge (with Check)
                 Bubble 2: Royal Blue Gradient Guidance Card
                 Directional tail points DOWN-RIGHT to CertWinX consultant.
                ======================================================= */}
             <div
-              className="absolute top-0 left-0 xl:-left-3 z-20 flex flex-col gap-2 max-w-[215px] transition-opacity duration-300"
+              className="absolute top-2 -left-4 xl:-left-10 z-20 flex flex-col gap-2 max-w-[225px] transition-opacity duration-300 pointer-events-none"
               style={{ opacity: bubbleOpacity }}
             >
+              {/* Advisor Label Pill */}
+              <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-blue-50/95 border border-blue-200/90 shadow-2xs w-fit">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#1C83F3] animate-pulse" />
+                <span className="text-[9.5px] font-bold text-[#1C83F3] uppercase tracking-wider">CertWinX Advisor</span>
+              </div>
+
               {/* Bubble 1: CertWinX Top (Golden Badge with Checkmark) */}
               <div
-                className={`relative bg-[#E8C582]/40 border border-[#D4A373]/55 rounded-2xl rounded-br-xs shadow-[0_10px_25px_-5px_rgba(180,120,40,0.18)] px-3.5 py-2 transition-all duration-300 min-h-[40px] flex items-center ${
+                className={`relative bg-[#E8C582]/45 border border-[#D4A373]/60 rounded-2xl rounded-br-xs shadow-[0_10px_25px_-5px_rgba(180,120,40,0.18)] px-3.5 py-2 transition-all duration-300 min-h-[40px] flex items-center ${
                   activeTyping === 'zt' ? 'ring-2 ring-[#C69255]/50 scale-[1.02]' : ''
                 }`}
               >
@@ -280,7 +294,7 @@ export default function HeroOrbit3D() {
                   </p>
                 </div>
                 {/* Speech tail pointing toward CertWinX consultant */}
-                <span className="absolute -bottom-1.5 right-6 w-2.5 h-2.5 bg-[#E8C582]/50 border-r border-b border-[#D4A373]/55 rotate-45" />
+                <span className="absolute -bottom-1.5 right-6 w-2.5 h-2.5 bg-[#E8C582]/50 border-r border-b border-[#D4A373]/60 rotate-45" />
               </div>
 
               {/* Bubble 2: CertWinX Bottom (Royal Blue Guidance Card) */}
@@ -303,14 +317,21 @@ export default function HeroOrbit3D() {
             {/* =======================================================
                 RIGHT SIDE: CLIENT / FOUNDER (Entrepreneur Inquiries)
                 Character has "Client" acrylic nameplate & diary.
+                Pill Badge: FOUNDER INQUIRY
                 Bubble 1: Crisp White Card with Blue Accent
-                Bubble 2: Crisp White Card
+                Bubble 2: Crisp White Card with Light Sky Accent
                 Directional tail points DOWN-LEFT to Client founder.
                ======================================================= */}
             <div
-              className="absolute top-0 right-0 xl:-right-3 z-20 flex flex-col gap-2 max-w-[215px] transition-opacity duration-300"
+              className="absolute top-2 -right-4 xl:-right-10 z-20 flex flex-col gap-2 max-w-[225px] transition-opacity duration-300 pointer-events-none"
               style={{ opacity: bubbleOpacity }}
             >
+              {/* Founder Label Pill */}
+              <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-white/95 border border-slate-200 shadow-2xs w-fit self-end">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-[9.5px] font-bold text-slate-700 uppercase tracking-wider">Founder Inquiry</span>
+              </div>
+
               {/* Bubble 1: Client Top (Founder Query with Blue Accent) */}
               <div
                 className={`relative bg-white/98 backdrop-blur-sm rounded-2xl rounded-bl-xs shadow-[0_10px_25px_-5px_rgba(22,58,138,0.15)] border border-line/80 px-3.5 py-2 transition-all duration-300 min-h-[40px] flex items-center ${

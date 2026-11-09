@@ -110,7 +110,7 @@ export default function SchemeFinder() {
             <div className="space-y-2.5 pt-2">
               <div className="flex items-center gap-2.5 text-xs font-semibold text-ink">
                 <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />
-                <span>Central Government Priority Schemes (SISFS, 80-IAC, CGSS, PMEGP)</span>
+                <span>Central Government Priority Schemes (NIDHI, 80-IAC, CGSS, PMEGP)</span>
               </div>
               <div className="flex items-center gap-2.5 text-xs font-semibold text-ink">
                 <CheckCircle2 size={16} className="text-emerald-500 shrink-0" />

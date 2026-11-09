@@ -283,7 +283,7 @@ export default function LeadPopup({ delay = DELAY_MS, force = false }) {
                       Interactive Scheme Intelligence Engine
                     </div>
                     <p className="mb-3">
-                      Complete our 3-step structured assessment to map your venture against 16+ active Central & State government schemes, including DPIIT, Seed Fund, and 80-IAC.
+                      Complete our 3-step structured assessment to map your venture against 16+ active Central & State government schemes, including DPIIT, DST Grants, CGSS, and Section 80-IAC.
                     </p>
                     <ul className="space-y-1.5 text-ink font-medium pl-1">
                       <li className="flex items-center gap-2">

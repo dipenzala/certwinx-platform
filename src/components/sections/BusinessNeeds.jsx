@@ -38,8 +38,8 @@ const NEEDS = [
   },
   {
     icon: Landmark,
-    title: 'Seed & Equity Funding',
-    desc: 'Startup India Seed Fund Scheme (SISFS), credit guarantee (CGSS), and institutional debt schemes.',
+    title: 'Grants & Credit Guarantees',
+    desc: 'DST NIDHI prototyping grants, credit guarantees (CGSS up to ₹10 Cr), and institutional debt.',
     path: '/funding',
     tag: 'Capital',
   },
@@ -138,7 +138,7 @@ export default function BusinessNeeds() {
         <SectionHeading
           eyebrow="Services Explorer"
           title="Tailored Solutions For Every Growth Stage"
-          subtitle="From initial incorporation to DPIIT recognition, 80-IAC tax exemption and seed funding."
+          subtitle="From initial incorporation to DPIIT recognition, 80-IAC tax exemption, and government capital grants."
           align="center"
         />
 

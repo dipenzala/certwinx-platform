@@ -20,11 +20,11 @@ export default function Home() {
         <title>CertWinX — #1 Startup India & Section 80-IAC Tax Exemption Advisory | 6+ Years Experience</title>
         <meta
           name="description"
-          content="CertWinX brings 6+ years of institutional advisory experience across all 28 Indian states. Secure 100% Section 80-IAC 3-year Tax Holiday, Startup India DPIIT recognition, SISFS Seed Grants (up to ₹50L), and MSME incentives."
+          content="CertWinX brings 6+ years of institutional advisory experience across all 28 Indian states. Secure 100% Section 80-IAC 3-year Tax Holiday, Startup India DPIIT recognition, capital grants, and MSME incentives."
         />
         <meta
           name="keywords"
-          content="Section 80-IAC tax exemption, Startup India DPIIT recognition, 3 years 100% tax holiday, SISFS grant consultant, MSME udyam registration, 6 years startup advisory India, Pan India startup consultant, certwinx"
+          content="Section 80-IAC tax exemption, Startup India DPIIT recognition, 3 years 100% tax holiday, capital grant consultant, MSME udyam registration, 6 years startup advisory India, Pan India startup consultant, certwinx"
         />
         <link rel="canonical" href="https://certwinx.com/" />
       </Helmet>

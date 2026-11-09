@@ -6,16 +6,16 @@
 import { SCHEMES } from './schemes';
 
 export const ELIGIBILITY_RULES = [
-  // 1. Startup India Seed Fund Scheme (SISFS)
-  { id: 101, scheme_id: 'startup-india-seed-fund', field: 'businessType', operator: 'in', value: ['private-limited', 'llp', 'pvt-ltd'], logic_group: 'AND', active: true },
-  { id: 102, scheme_id: 'startup-india-seed-fund', field: 'businessAge', operator: 'in', value: ['less-than-2', 'not-registered'], logic_group: 'AND', active: true },
-  { id: 103, scheme_id: 'startup-india-seed-fund', field: 'dpiit', operator: 'in', value: ['yes', 'in-progress', 'planning'], logic_group: 'AND', active: true },
+  // 1. Startup India Seed Fund Scheme (SISFS - Discontinued / Closed by Ministry)
+  { id: 101, scheme_id: 'startup-india-seed-fund', field: 'businessType', operator: 'in', value: ['private-limited', 'llp', 'pvt-ltd'], logic_group: 'AND', active: false },
+  { id: 102, scheme_id: 'startup-india-seed-fund', field: 'businessAge', operator: 'in', value: ['less-than-2', 'not-registered'], logic_group: 'AND', active: false },
+  { id: 103, scheme_id: 'startup-india-seed-fund', field: 'dpiit', operator: 'in', value: ['yes', 'in-progress', 'planning'], logic_group: 'AND', active: false },
 
-  // 2. Section 80-IAC Tax Exemption
+  // 2. Section 80-IAC Tax Exemption (Turnover Cap ₹200 Crore)
   { id: 201, scheme_id: 'section-80-iac', field: 'businessType', operator: 'in', value: ['private-limited', 'llp', 'pvt-ltd'], logic_group: 'AND', active: true },
   { id: 202, scheme_id: 'section-80-iac', field: 'businessAge', operator: 'in', value: ['less-than-2', '2-5', '5-plus'], logic_group: 'AND', active: true },
   { id: 203, scheme_id: 'section-80-iac', field: 'dpiit', operator: 'in', value: ['yes', 'in-progress'], logic_group: 'AND', active: true },
-  { id: 204, scheme_id: 'section-80-iac', field: 'turnover', operator: 'in', value: ['pre-revenue', 'below-1cr', '1cr-10cr', '10cr-50cr', 'below-100cr'], logic_group: 'AND', active: true },
+  { id: 204, scheme_id: 'section-80-iac', field: 'turnover', operator: 'in', value: ['pre-revenue', 'below-1cr', '1cr-10cr', '10cr-50cr', 'below-100cr', 'below-200cr'], logic_group: 'AND', active: true },
 
   // 3. Credit Guarantee Scheme for Startups (CGSS)
   { id: 301, scheme_id: 'cgss', field: 'businessType', operator: 'in', value: ['private-limited', 'llp', 'partnership'], logic_group: 'AND', active: true },

@@ -15,12 +15,12 @@ const CASE_FRAMEWORKS = [
     outcome: 'Successful gazette certification under Section 80-IAC, enabling 100% operational tax exemption across 3 fiscal years.',
   },
   {
-    tag: 'Startup Seed Fund (SISFS)',
-    title: 'CleanTech IoT Hardware: ₹20 Lakhs Prototype Grant & Incubator Induction',
+    tag: 'DST Prototyping Grant (NIDHI)',
+    title: 'CleanTech IoT Hardware: ₹10 Lakhs Prototype Grant & Incubator Induction',
     sector: 'Smart Energy & IoT Hardware',
     challenge: 'Early-stage pre-revenue hardware venture requiring non-dilutive capital for laboratory fabrication, sensor trials, and pilot field deployments.',
-    solution: 'Aligned component Bill of Materials (BOM), structured incubator pitch narrative, and prepared candidate for ISMC committee due diligence.',
-    outcome: 'Secured admission into Tier-1 DST-backed incubator and ₹20 Lakhs non-dilutive prototype grant tranche.',
+    solution: 'Aligned component Bill of Materials (BOM), structured incubator pitch narrative, and prepared candidate for DST technical screening committee.',
+    outcome: 'Secured admission into Tier-1 DST-backed incubator and ₹10 Lakhs non-dilutive prototype grant tranche.',
   },
   {
     tag: 'MSME ZED & CGTMSE',
@@ -39,7 +39,7 @@ export default function CaseStudies() {
         <title>Advisory Case Studies & Execution Frameworks — CertWinX</title>
         <meta
           name="description"
-          content="Explore anonymized regulatory advisory case frameworks across Section 80-IAC tax exemptions, Startup India Seed Fund, and MSME ZED accreditations."
+          content="Explore anonymized regulatory advisory case frameworks across Section 80-IAC tax exemptions, DST NIDHI grants, and MSME ZED accreditations."
         />
       </Helmet>
 

@@ -32,8 +32,7 @@ Headquarters: Ahmedabad, Gujarat, India - 380015 (Pan-India Scope)
    - Comprehensive 40+ Page Technical Novelty Dossier Preparation
 
 3. CENTRAL GOVERNMENT GRANTS & SEED CAPITAL
-   - Startup India Seed Fund Scheme (SISFS): Up to ₹20L Grant / ₹50L Debt
-   - DST NIDHI-PRAYAS: Up to ₹10 Lakhs Proof-of-Concept Grant
+   - DST NIDHI-PRAYAS: Up to ₹10 Lakhs Proof-of-Concept Grant (0% Dilution)
    - BIRAC BIG: Up to ₹50 Lakhs Biotechnology & MedTech Grant
    - Credit Guarantee Scheme for Startups (CGSS): Up to ₹10 Cr Collateral-Free
 
@@ -95,7 +94,7 @@ WhatsApp: https://wa.me/918128931029?text=Hello%20CertWinX,%20I%20downloaded%20t
             CertWinX Advisory Brochure 2026
           </h3>
           <p className="text-xs sm:text-sm text-white/80 mt-1">
-            Complete institutional roadmap covering DPIIT, Section 80-IAC, SISFS, CGSS, and MSME frameworks.
+            Complete institutional roadmap covering DPIIT, Section 80-IAC, CGSS, NIDHI, and MSME frameworks.
           </p>
         </div>
 

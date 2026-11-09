@@ -38,7 +38,7 @@ const STATE_DATA = {
     ],
     prioritySectors: ['Fintech & GIFT City', 'Chemicals & Petrochemicals', 'Renewable Energy & Solar', 'Agritech', 'Textile & Advanced Materials'],
     keyIncubators: ['i-Hub Gujarat (KCG)', 'iCreate (International Centre for Entrepreneurship)', 'CIIE.CO (IIM Ahmedabad)', 'PDEU Innovation Hub'],
-    centralLinkage: 'Eligible for SISFS seed fund, CGSS credit guarantee, and Section 80-IAC central tax holiday concurrently.',
+    centralLinkage: 'Eligible for CGSS credit guarantee, DST NIDHI grants, and Section 80-IAC central tax holiday concurrently.',
   },
   karnataka: {
     name: 'Karnataka',
@@ -68,7 +68,7 @@ const STATE_DATA = {
       { label: 'Quality Testing & Cert Grant', value: '80% fee reimbursement up to ₹2 Lakhs for accredited lab tests' },
       { label: 'Patent Support Scheme', value: 'Financial assistance up to ₹2 Lakhs (domestic) and ₹10 Lakhs (international)' },
       { label: 'State Procurement Preference', value: 'Relaxation of prior turnover and experience in government departmental tenders' },
-      { label: 'Women Entrepreneur Cell', value: 'Special seed funding pool and dedicated incubation support' },
+      { label: 'Women Entrepreneur Cell', value: 'Special innovation grant pool and dedicated incubation support' },
     ],
     prioritySectors: ['BFSI & Financial Technology', 'Automotive & Industrial Engineering', 'Logistics & Supply Chain', 'Digital Media & Gaming', 'CleanTech'],
     keyIncubators: ['SINE (IIT Bombay)', 'Venture Center (NCL Pune)', 'CoEP Bhau Institute', 'AIC-NMIMS'],
@@ -123,7 +123,7 @@ const STATE_DATA = {
     ],
     prioritySectors: ['Automotive & EV Components', 'Deep Engineering & SaaS', 'Hardware & Electronic System Design (ESDM)', 'Textile & Sustainable Apparel', 'AgriTech'],
     keyIncubators: ['IIT Madras Research Park', 'AIC-AU Incubation Foundation', 'Villgro Innovations', 'Forge Academy & Labs'],
-    centralLinkage: 'Fully aligned with Startup India Seed Fund and MSME Champions schemes.',
+    centralLinkage: 'Fully aligned with Startup India DPIIT and MSME Champions schemes.',
   },
   rajasthan: {
     name: 'Rajasthan',

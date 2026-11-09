@@ -168,7 +168,7 @@ Requested Consultation:
                       <option value="">Select an Advisory Vertical</option>
                       <option value="DPIIT / Startup India Recognition">DPIIT / Startup India Recognition</option>
                       <option value="Section 80-IAC Tax Exemption">Section 80-IAC Tax Exemption (IMB Board)</option>
-                      <option value="Startup India Seed Fund (SISFS)">Startup India Seed Fund Scheme (SISFS)</option>
+                      <option value="Government Grants (NIDHI / BIRAC)">Government Technology Grants (NIDHI / BIRAC)</option>
                       <option value="Credit Guarantee (CGSS / CGTMSE)">Credit Guarantee Schemes (CGSS / CGTMSE)</option>
                       <option value="MSME ZED / Quality Certifications">MSME ZED / Quality Certifications</option>
                       <option value="Company / LLP Incorporation">Company / LLP Incorporation</option>

@@ -5,7 +5,7 @@ import { Rocket, TrendingUp, ShieldCheck, ArrowRight, X } from 'lucide-react';
 const BANNERS = [
   { id: 1, icon: Rocket, label: 'STARTUP INDIA', title: 'DPIIT Recognition & Benefits', path: '/startup', tone: 'blue' },
   { id: 2, icon: ShieldCheck, label: 'SECTION 80-IAC', title: '3-Year 100% Tax Holiday', path: '/eligibility/80-iac', tone: 'sky' },
-  { id: 3, icon: TrendingUp, label: 'SEED FUND SCHEME', title: 'Up to ₹50L Financial Grant', path: '/funding', tone: 'blue' },
+  { id: 3, icon: TrendingUp, label: 'CREDIT GUARANTEE (CGSS)', title: 'Up to ₹10 Cr Collateral-Free Debt', path: '/funding', tone: 'blue' },
 ];
 
 export default function LiveBanner({ hidden = false }) {

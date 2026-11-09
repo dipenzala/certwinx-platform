@@ -28,7 +28,7 @@ const STEPS = [
     field: 'businessAge',
     options: [
       { value: 'not-registered', label: 'Idea Stage / Pre-incorporation', desc: 'Planning to incorporate or seeking incubation fellowship' },
-      { value: 'less-than-2', label: 'Early Stage (Less than 2 years)', desc: 'Prime window for Startup India Seed Fund & prototype grants' },
+      { value: 'less-than-2', label: 'Early Stage (Less than 2 years)', desc: 'Prime window for technology prototype grants' },
       { value: '2-5', label: 'Growth Stage (2 to 5 years)', desc: 'Eligible for 80-IAC tax holiday, CGSS credit guarantee, and scaling' },
       { value: '5-plus', label: 'Mature / Established (5 to 10+ years)', desc: 'Eligible for CGTMSE, MSME ZED, and debt expansion facilities' },
     ],
@@ -70,7 +70,7 @@ const STEPS = [
     options: [
       { value: 'dpiit', label: 'DPIIT / Startup India Recognition', desc: 'Official government certification and sovereign validation' },
       { value: '80-iac', label: 'Section 80-IAC 3-Year Tax Exemption', desc: '100% tax holiday on corporate profits via IMB board' },
-      { value: 'funding', label: 'Government Grants & Seed Funding', desc: 'SISFS (₹20L-₹50L), NIDHI, BIRAC, and equity matching' },
+      { value: 'funding', label: 'Government Grants & Capital Schemes', desc: 'DST NIDHI, BIRAC, and equity matching grants' },
       { value: 'credit', label: 'Collateral-Free Credit & Debt Guarantee', desc: 'CGSS (up to ₹10 Cr) and CGTMSE (up to ₹5 Cr)' },
       { value: 'certification', label: 'Quality & Tendering Certifications', desc: 'ISO 9001/27001, MSME ZED Bronze/Silver/Gold, NSIC' },
       { value: 'registration', label: 'Business Incorporation & Statutory Compliance', desc: 'Pvt Ltd, LLP, GST, Udyam, Trademark, and MCA filings' },
@@ -132,7 +132,7 @@ export default function Eligibility() {
     const supportLabels = {
       dpiit: 'DPIIT Recognition',
       '80-iac': 'Section 80-IAC Tax Exemption',
-      funding: 'Government Grants & Seed Funding',
+      funding: 'Government Grants & Non-Dilutive Capital',
       credit: 'Collateral-Free Credit / Debt',
       certification: 'Certifications (ISO/ZED)',
       registration: 'Business Incorporation & Compliance',
@@ -192,7 +192,7 @@ export default function Eligibility() {
         <title>Government Schemes & Tax Incentives Eligibility Checker — CertWinX</title>
         <meta
           name="description"
-          content="Assess your enterprise eligibility across 18+ central and state schemes including Section 80-IAC, Startup India Seed Fund, and CGSS."
+          content="Assess your enterprise eligibility across 18+ central and state schemes including Section 80-IAC, DST NIDHI Grants, and CGSS."
         />
       </Helmet>
 

@@ -19,7 +19,7 @@ DPIIT (Department for Promotion of Industry and Internal Trade) recognition is t
 ### Statutory Eligibility Benchmarks
 1. **Entity Structure:** Must be incorporated as a Private Limited Company, Limited Liability Partnership (LLP), or Registered Partnership Firm. Sole proprietorships and unregistered entities cannot apply.
 2. **Entity Age:** The entity must not have exceeded 10 years from the exact date of incorporation.
-3. **Turnover Cap:** Turnover must not have exceeded ₹100 Crore in any financial year since incorporation.
+3. **Turnover Cap:** Turnover must not have exceeded ₹200 Crore in any financial year since incorporation.
 4. **Innovation Focus:** The entity must be working towards innovation, development or improvement of products or processes or services, or have a scalable business model with high potential of employment generation or wealth creation.
 5. **Fresh Entity:** The entity must not be formed by splitting up or reconstruction of an existing business.
 
@@ -44,7 +44,7 @@ Section 80-IAC of the Income Tax Act, 1961 provides a 100% tax holiday to eligib
 1. **DPIIT Recognition:** Must hold an active Certificate of Recognition from DPIIT.
 2. **Corporate Structure:** Private Limited Company or LLP only.
 3. **Incorporation Date:** Incorporated on or after April 1, 2016.
-4. **Turnover Ceiling:** Turnover must not have exceeded ₹100 Crore in any previous financial year.
+4. **Turnover Ceiling:** Turnover must not have exceeded ₹200 Crore in any previous financial year.
 
 ### The Inter-Ministerial Board (IMB) Evaluation
 Securing Section 80-IAC is one of the most rigorous regulatory approvals in India, with an approval rate historically under 3%. The Inter-Ministerial Board, comprising representatives from DPIIT, DST, and DBT, evaluates:
@@ -101,12 +101,12 @@ International Organization for Standardization (ISO) accreditations are vital co
     title: 'Strategic Approaches to Government Scheme Discovery & Grants',
     category: 'Government Schemes',
     read: '7 min read',
-    excerpt: 'How early-stage founders can systematically identify and apply for non-dilutive sovereign funding like SISFS, NIDHI, and BIRAC.',
+    excerpt: 'How early-stage founders can systematically identify and apply for non-dilutive sovereign funding like NIDHI, BIRAC, and CGSS.',
     content: `
 Navigating central and state funding schemes in India requires structured research, rigorous compliance alignment, and meticulous timing.
 
 ### Multi-Tier Scheme Landscape
-1. **Seed Stage Grants:** Startup India Seed Fund Scheme (up to ₹20 Lakhs non-dilutive grant), DST NIDHI-PRAYAS (up to ₹10 Lakhs for hardware prototypes), and BIRAC BIG (up to ₹50 Lakhs for biotech/healthtech).
+1. **Prototype & Tech Grants:** DST NIDHI-PRAYAS (up to ₹10 Lakhs for hardware prototypes) and BIRAC BIG (up to ₹50 Lakhs for biotech/healthtech).
 2. **Growth Debt Facilities:** Credit Guarantee Scheme for Startups (CGSS) enabling up to ₹10 Crore collateral-free debt from commercial lenders.
 3. **State Innovation Policies:** Programs like the Gujarat Student Startup & Innovation Policy (SSIP) and i-Hub offering up to ₹30 Lakhs project grants and monthly sustenance allowances.
     `,

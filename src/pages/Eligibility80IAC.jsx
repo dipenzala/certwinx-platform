@@ -46,11 +46,11 @@ const STEPS = [
     id: 'turnover',
     icon: TrendingUp,
     question: 'What is your total annual turnover?',
-    subtitle: 'Aggregate annual turnover must not have exceeded ₹100 Crore in any financial year since incorporation.',
+    subtitle: 'Aggregate annual turnover must not have exceeded ₹200 Crore in any financial year since incorporation.',
     field: 'turnover',
     options: [
-      { value: 'below-100cr', label: 'Below ₹100 Crore in all prior financial years', desc: 'Fully compliant with Section 80-IAC statutory ceiling' },
-      { value: 'above-100cr', label: 'Exceeded ₹100 Crore in any financial year', desc: 'Exceeds statutory turnover cap' },
+      { value: 'below-200cr', label: 'Below ₹200 Crore in all prior financial years', desc: 'Fully compliant with Section 80-IAC statutory ceiling' },
+      { value: 'above-200cr', label: 'Exceeded ₹200 Crore in any financial year', desc: 'Exceeds statutory turnover cap' },
     ],
   },
   {

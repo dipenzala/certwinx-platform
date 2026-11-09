@@ -65,7 +65,7 @@ const TOOLS_INDEX = [
 const POPULAR_SEARCHES = [
   'DPIIT Recognition',
   'Section 80-IAC',
-  'Seed Fund SISFS',
+  'DST NIDHI Grant',
   'Private Limited Company',
   'Udyam Registration',
   'GST Registration',

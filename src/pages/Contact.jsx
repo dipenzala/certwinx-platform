@@ -55,7 +55,7 @@ const HERO_STATS = [
 const TOPICS = [
   'Startup India / DPIIT',
   'Section 80-IAC Tax Exemption',
-  'Startup Seed Fund (SISFS)',
+  'Government Capital Grants',
   'CGSS / CGTMSE Credit Guarantees',
   'MSME ZED Certification',
   'ISO 9001/27001 Compliance',
@@ -74,18 +74,18 @@ export default function Contact() {
         />
       </Helmet>
 
-      {/* ============ HERO (Enterprise Light-Blue) ============ */}
+      {/* ============ HERO (3D Depth & Vivid Gradient) ============ */}
       <section className="relative pt-36 lg:pt-44 pb-16 bg-canvas overflow-hidden border-b border-line">
         <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-blue/5 blur-[120px]" />
-          <div className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] rounded-full bg-sky/20 blur-[120px]" />
+          <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-blue/10 blur-[130px] animate-pulse" style={{ animationDuration: '6s' }} />
+          <div className="absolute bottom-1/4 right-1/4 w-[450px] h-[450px] rounded-full bg-sky/25 blur-[120px] animate-pulse" style={{ animationDuration: '8s' }} />
         </div>
 
         <div className="relative max-w-[1440px] mx-auto px-6 lg:px-10">
           <div className="max-w-3xl mx-auto text-center">
 
             <RevealOnScroll>
-              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue/10 border border-blue/20 text-[10px] font-bold tracking-[0.2em] text-blue uppercase mb-6">
+              <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue/10 border border-blue/20 text-[10px] font-bold tracking-[0.2em] text-blue uppercase mb-6 shadow-xs">
                 <span className="w-1.5 h-1.5 rounded-full bg-blue animate-pulse" />
                 Advisory & Client Engagement Desk
               </span>
@@ -93,19 +93,22 @@ export default function Contact() {
 
             <RevealOnScroll delay={0.1}>
               <h1 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold leading-[1.08] tracking-tight text-ink mb-6 text-balance">
-                Connect directly with our regulatory advisory team.
+                Connect directly with our{' '}
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#1C83F3] via-[#0E60D2] to-[#0A1128]">
+                  regulatory advisory team.
+                </span>
               </h1>
             </RevealOnScroll>
 
             <RevealOnScroll delay={0.2}>
               <p className="text-base sm:text-lg text-graphite leading-relaxed max-w-2xl mx-auto mb-10">
-                Whether you need statutory guidance on Section 80-IAC, DPIIT recognition, seed funding, or MSME certifications — we're here to assist.
+                Whether you need statutory guidance on Section 80-IAC, DPIIT recognition, government capital schemes, or MSME certifications — we're here to assist.
               </p>
             </RevealOnScroll>
 
             {/* Metrics */}
             <RevealOnScroll delay={0.3}>
-              <div className="inline-flex flex-wrap items-center justify-center gap-x-6 sm:gap-x-8 gap-y-3 px-6 py-4 rounded-2xl bg-white border border-line shadow-sm">
+              <div className="inline-flex flex-wrap items-center justify-center gap-x-6 sm:gap-x-8 gap-y-3 px-6 py-4 rounded-2xl bg-white/95 backdrop-blur-md border border-line shadow-[0_15px_35px_-10px_rgba(28,131,243,0.12)]">
                 {HERO_STATS.map((s, i) => (
                   <div key={i} className="flex items-center gap-2.5">
                     <span className="font-display text-base font-bold text-ink tabular">
@@ -136,7 +139,7 @@ export default function Contact() {
                   href={m.href}
                   target={m.label.includes('WhatsApp') ? '_blank' : undefined}
                   rel={m.label.includes('WhatsApp') ? 'noopener noreferrer' : undefined}
-                  className="group block h-full bg-white border border-line rounded-3xl p-6 hover:border-blue/40 hover:shadow-[0_20px_40px_-15px_rgba(28,131,243,0.15)] transition-all duration-300"
+                  className="group block h-full bg-white border border-line rounded-3xl p-6 hover:border-blue/50 hover:shadow-[0_20px_45px_-15px_rgba(28,131,243,0.18)] hover:-translate-y-1 transition-all duration-300"
                 >
                   <div className="flex items-center justify-between mb-4">
                     <div className="w-11 h-11 rounded-2xl bg-blue/10 border border-blue/20 flex items-center justify-center">
