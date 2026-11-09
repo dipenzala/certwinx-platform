@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import {
   ArrowUpRight,
   CheckCircle2,
@@ -14,7 +14,6 @@ import {
   Users,
   Check,
 } from 'lucide-react';
-import { gsap } from '../../lib/gsap';
 import MagneticButton from '../motion/MagneticButton';
 import RevealOnScroll from '../motion/RevealOnScroll';
 
@@ -78,34 +77,6 @@ const ROWS = [
 export default function Section80IAC() {
   const rootRef = useRef(null);
   const [activeStep, setActiveStep] = useState(0);
-
-  useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const root = rootRef.current;
-    if (!root) return;
-
-    const ctx = gsap.context(() => {
-      gsap.from('[data-iac="row"]', {
-        y: 16,
-        opacity: 0,
-        duration: 0.8,
-        stagger: 0.06,
-        ease: 'expo.out',
-        scrollTrigger: { trigger: root, start: 'top 75%', once: true },
-      });
-
-      gsap.from('[data-iac="step"]', {
-        y: 14,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.05,
-        ease: 'expo.out',
-        scrollTrigger: { trigger: root, start: 'top 75%', once: true },
-      });
-    }, root);
-
-    return () => ctx.revert();
-  }, []);
 
   return (
     <section
@@ -185,11 +156,10 @@ export default function Section80IAC() {
                 return (
                   <button
                     key={s.step}
-                    data-iac="step"
                     onClick={() => setActiveStep(idx)}
-                    className={`text-left rounded-2xl p-4 transition-all duration-200 border relative ${
+                    className={`text-left rounded-2xl p-4 transition-all duration-200 border relative cursor-pointer ${
                       isActive
-                        ? 'bg-blue text-white border-blue shadow-md'
+                        ? 'bg-blue text-white border-blue shadow-md scale-[1.02]'
                         : 'bg-canvas text-ink border-line hover:border-blue/40 hover:bg-blue-soft/30'
                     }`}
                   >
@@ -310,7 +280,6 @@ export default function Section80IAC() {
                 {ROWS.map((r) => (
                   <div
                     key={r.label}
-                    data-iac="row"
                     className="p-3 rounded-xl bg-canvas border border-line/80 flex items-start gap-3"
                   >
                     <div className="w-7 h-7 rounded-lg bg-blue-soft text-blue flex items-center justify-center shrink-0 mt-0.5">

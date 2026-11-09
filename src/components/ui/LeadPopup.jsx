@@ -54,6 +54,11 @@ export default function LeadPopup({ delay = 4000, force = false }) {
   useEffect(() => {
     // 1. Expose global window function
     window.openLeadPopup = (prefillService) => {
+      try {
+        sessionStorage.removeItem('certwinx_popup_dismissed_at');
+      } catch (e) {
+        // Safe fallback
+      }
       if (prefillService && typeof prefillService === 'string') {
         const matched = SERVICE_OPTIONS.find((s) =>
           s.toLowerCase().includes(prefillService.toLowerCase())
@@ -65,6 +70,9 @@ export default function LeadPopup({ delay = 4000, force = false }) {
 
     // 2. Custom event listener
     const handleCustomEvent = (e) => {
+      try {
+        sessionStorage.removeItem('certwinx_popup_dismissed_at');
+      } catch (err) {}
       const service = e.detail?.service;
       if (service && typeof service === 'string') {
         setForm((prev) => ({ ...prev, service }));
@@ -89,24 +97,23 @@ export default function LeadPopup({ delay = 4000, force = false }) {
     };
     document.addEventListener('click', handleDocumentClick);
 
-    // 4. Automatic Timer (Polite & Sensible)
+    // 4. Automatic Timer (3.5s delay, polite 15-second debounce)
     let timer = null;
     if (typeof window !== 'undefined') {
-      const hasSubmitted = sessionStorage.getItem('certwinx_lead_submitted') === '1';
       const lastDismissed = sessionStorage.getItem('certwinx_popup_dismissed_at');
 
-      let canAutoPop = !hasSubmitted;
+      let canAutoPop = true;
       if (lastDismissed && !force) {
         const elapsed = Date.now() - parseInt(lastDismissed, 10);
-        if (elapsed < 10 * 60 * 1000) {
-          canAutoPop = false; // 10 min cooldown after manual close
+        if (elapsed < 15 * 1000) {
+          canAutoPop = false; // brief 15s debounce
         }
       }
 
       if (canAutoPop || force) {
         timer = setTimeout(() => {
           setOpen(true);
-        }, delay);
+        }, delay || 3500);
       }
 
       // 5. Exit Intent (Mouse moves towards address bar)

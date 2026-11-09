@@ -973,6 +973,18 @@ export default function Header({ onMenuToggle }) {
                 <span>WhatsApp Advisory Desk</span>
               </a>
 
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileOpen(false);
+                  window.openLeadPopup?.('Mobile Menu Advisory Enquiry');
+                }}
+                className="w-full flex items-center justify-center gap-1.5 py-3 rounded-xl bg-white text-[#060D24] text-xs font-bold shadow-md hover:bg-slate-100 transition-colors cursor-pointer"
+              >
+                <Sparkles size={14} className="text-[#1C83F3]" />
+                <span>Schedule Advisory Callback</span>
+              </button>
+
               <Link
                 to="/eligibility"
                 onClick={() => setMobileOpen(false)}
