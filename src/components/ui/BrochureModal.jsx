@@ -66,7 +66,7 @@ WhatsApp: https://wa.me/918128931029?text=Hello%20CertWinX,%20I%20downloaded%20t
   };
 
   return (
-    <div className="fixed inset-0 z-500 flex items-center justify-center p-4 sm:p-6">
+    <div className="fixed inset-0 z-[500] flex items-center justify-center p-4 sm:p-6">
       {/* Backdrop */}
       <div 
         className="fixed inset-0 bg-ink/60 backdrop-blur-sm transition-opacity" 

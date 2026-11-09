@@ -177,7 +177,7 @@ export default function GlobalSearchModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-500 flex items-start justify-center pt-16 sm:pt-24 px-4 overflow-y-auto">
+    <div className="fixed inset-0 z-[500] flex items-start justify-center pt-16 sm:pt-24 px-4 overflow-y-auto">
       {/* Backdrop */}
       <div
         className="fixed inset-0 bg-ink/50 backdrop-blur-sm transition-opacity"

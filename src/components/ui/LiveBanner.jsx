@@ -4,7 +4,7 @@ import { Rocket, TrendingUp, ShieldCheck, ArrowRight, X } from 'lucide-react';
 
 const BANNERS = [
   { id: 1, icon: Rocket, label: 'STARTUP INDIA', title: 'DPIIT Recognition & Benefits', path: '/startup', tone: 'blue' },
-  { id: 2, icon: ShieldCheck, label: 'SECTION 80-IAC', title: '3-Year 100% Tax Holiday', path: '/services/section-80-iac', tone: 'sky' },
+  { id: 2, icon: ShieldCheck, label: 'SECTION 80-IAC', title: '3-Year 100% Tax Holiday', path: '/eligibility/80-iac', tone: 'sky' },
   { id: 3, icon: TrendingUp, label: 'SEED FUND SCHEME', title: 'Up to ₹50L Financial Grant', path: '/funding', tone: 'blue' },
 ];
 
@@ -12,29 +12,18 @@ export default function LiveBanner({ hidden = false }) {
   const [index, setIndex] = useState(0);
   const [visible, setVisible] = useState(true);
   const [dismissed, setDismissed] = useState(false);
-  const [scrolledDown, setScrolledDown] = useState(false);
+  const [scrolledPastHero, setScrolledPastHero] = useState(false);
   const timerRef = useRef(null);
-  const lastScrollRef = useRef(0);
 
-  /* SCROLL DETECTION */
+  /* SCROLL DETECTION: Only show after user scrolls past the Hero (eliminates CTA overlap) */
   useEffect(() => {
     const onScroll = () => {
-      const currentY = window.scrollY;
-      const goingDown = currentY > lastScrollRef.current + 8;
-      const goingUp = currentY < lastScrollRef.current - 8;
-
-      if (currentY < 120) {
-        setScrolledDown(false);
-      } else if (goingDown) {
-        setScrolledDown(true);
-      } else if (goingUp) {
-        setScrolledDown(false);
-      }
-
-      lastScrollRef.current = currentY;
+      setScrolledPastHero(window.scrollY > 400);
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
+    // Check initial position in case page was reloaded scrolled down
+    onScroll();
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
@@ -65,30 +54,32 @@ export default function LiveBanner({ hidden = false }) {
     sessionStorage.setItem('certwinx_banner_dismissed', '1');
   };
 
+  // Hide on mobile (< 1024px) to keep mobile viewport clean with MobileStickyNav
+  // Also hide if dismissed, manually hidden, or while in Hero section
   if (dismissed || hidden) return null;
 
   const banner = BANNERS[index];
   const tones = {
     blue: {
-      dot: 'bg-blue',
+      dot: 'bg-[#1C83F3]',
       glow: 'shadow-[0_0_12px_rgba(28,131,243,0.5)]',
-      label: 'bg-blue-soft text-blue border-blue/20',
-      arrow: 'bg-blue-soft text-blue group-hover:bg-blue group-hover:text-white',
+      label: 'bg-[#1C83F3]/10 text-[#1C83F3] border-[#1C83F3]/20',
+      arrow: 'bg-[#1C83F3]/10 text-[#1C83F3] group-hover:bg-[#1C83F3] group-hover:text-white',
     },
     sky: {
-      dot: 'bg-sky-deep',
-      glow: 'shadow-[0_0_12px_rgba(92,157,216,0.5)]',
-      label: 'bg-sky/20 text-blue-deep border-sky/30',
-      arrow: 'bg-sky/20 text-blue-deep group-hover:bg-deepblue group-hover:text-white',
+      dot: 'bg-sky',
+      glow: 'shadow-[0_0_12px_rgba(169,210,241,0.5)]',
+      label: 'bg-sky/20 text-[#0E60D2] border-sky/30',
+      arrow: 'bg-sky/20 text-[#0E60D2] group-hover:bg-[#0E60D2] group-hover:text-white',
     },
   };
   const t = tones[banner.tone] || tones.blue;
 
   return (
     <aside
-      className={`fixed bottom-20 lg:bottom-6 left-3 lg:left-6 z-[60] max-w-[calc(100vw-24px)] sm:max-w-[320px] transition-all duration-400 ease-[cubic-bezier(0.19,1,0.22,1)] ${
-        visible && !scrolledDown
-          ? 'opacity-100 translate-y-0'
+      className={`hidden lg:block fixed bottom-6 left-8 z-40 max-w-[320px] transition-all duration-400 ease-[cubic-bezier(0.19,1,0.22,1)] ${
+        visible && scrolledPastHero
+          ? 'opacity-100 translate-y-0 pointer-events-auto'
           : 'opacity-0 translate-y-4 pointer-events-none'
       }`}
       role="status"
@@ -96,7 +87,7 @@ export default function LiveBanner({ hidden = false }) {
     >
       <Link
         to={banner.path}
-        className="group relative flex items-center gap-2.5 bg-white rounded-full border border-line shadow-[0_12px_32px_-12px_rgba(22,58,138,0.2)] pl-3.5 pr-2 py-2 hover:shadow-[0_16px_40px_-12px_rgba(28,131,243,0.3)] hover:border-blue/30 transition-all duration-300"
+        className="group relative flex items-center gap-2.5 bg-white rounded-full border border-line shadow-[0_12px_32px_-12px_rgba(22,58,138,0.25)] pl-3.5 pr-2 py-2 hover:shadow-[0_16px_40px_-12px_rgba(28,131,243,0.35)] hover:border-[#1C83F3]/40 transition-all duration-300"
       >
         {/* Pulsing live dot */}
         <span className="relative shrink-0 flex items-center justify-center">
@@ -128,7 +119,7 @@ export default function LiveBanner({ hidden = false }) {
         <button
           onClick={handleDismiss}
           aria-label="Dismiss banner"
-          className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-white border border-line flex items-center justify-center text-graphite hover:text-ink shadow-sm"
+          className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-white border border-line flex items-center justify-center text-graphite hover:text-ink shadow-sm cursor-pointer"
         >
           <X size={10} strokeWidth={2.5} />
         </button>

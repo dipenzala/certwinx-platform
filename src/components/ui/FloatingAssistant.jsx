@@ -196,7 +196,7 @@ Please connect me with a Senior Statutory Analyst.`;
   };
 
   return (
-    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-[80] flex flex-col items-end">
+    <div className="fixed bottom-18 right-4 lg:bottom-6 lg:right-6 z-[80] flex flex-col items-end">
       
       {/* ============ MULTI-STEP ADVISORY PANEL (Expanded) ============ */}
       {isOpen && (
