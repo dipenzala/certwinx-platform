@@ -75,12 +75,10 @@ const ROWS = [
 ];
 
 export default function Section80IAC() {
-  const rootRef = useRef(null);
   const [activeStep, setActiveStep] = useState(0);
 
   return (
     <section
-      ref={rootRef}
       className="relative py-20 lg:py-28 bg-canvas border-b border-line overflow-hidden"
     >
       <div className="relative max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10">
