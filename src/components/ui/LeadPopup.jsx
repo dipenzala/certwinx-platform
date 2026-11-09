@@ -221,12 +221,12 @@ export default function LeadPopup({ delay = 4000, force = false }) {
         />
 
         {/* ============================================================
-            ULTRA-MEGA-LEVEL 2-COLUMN LUXURY ADVISORY MODAL
-            Left: Sovereign Navy Trust & Impact Pillar
-            Right: Executive Form with Rich Inputs & Glowing Accents
+            ULTRA-MEGA-LEVEL LUXURY ADVISORY MODAL
+            - Desktop: 2-Column Sovereign Navy Pillar + Executive Form
+            - Mobile: Streamlined High-Conversion Form First with Compact Trust Badges
            ============================================================ */}
         <div
-          className="relative w-full max-w-4xl rounded-3xl bg-white border border-white/20 shadow-[0_30px_90px_-15px_rgba(0,0,0,0.65)] overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-200"
+          className="relative w-full max-w-lg md:max-w-4xl rounded-2xl md:rounded-3xl bg-white border border-white/20 shadow-[0_30px_90px_-15px_rgba(0,0,0,0.65)] overflow-hidden my-auto animate-in fade-in zoom-in-95 duration-200"
           style={{ maxHeight: 'calc(100vh - 32px)' }}
         >
           {/* Top Multi-Color Electric Accent Ribbon */}
@@ -235,7 +235,7 @@ export default function LeadPopup({ delay = 4000, force = false }) {
           {/* Close Button */}
           <button
             onClick={close}
-            className="absolute top-4 right-4 z-30 w-9 h-9 rounded-full bg-white/90 md:bg-slate-100 hover:bg-slate-200 border border-slate-200 flex items-center justify-center text-slate-600 hover:text-slate-900 shadow-xs hover:scale-105 transition-all cursor-pointer"
+            className="absolute top-3.5 right-3.5 md:top-4 md:right-4 z-30 w-8 h-8 md:w-9 md:h-9 rounded-full bg-slate-100 hover:bg-slate-200 border border-slate-200 flex items-center justify-center text-slate-600 hover:text-slate-900 shadow-xs hover:scale-105 transition-all cursor-pointer"
             aria-label="Close Enquiry Modal"
           >
             <X size={16} />
@@ -246,8 +246,9 @@ export default function LeadPopup({ delay = 4000, force = false }) {
               
               {/* ============================================================
                   LEFT COLUMN: SOVEREIGN ADVISORY CREST & TRUST PILLARS
+                  (Desktop/Tablet md+ only - hidden on mobile to show form first)
                  ============================================================ */}
-              <div className="md:col-span-5 bg-gradient-to-br from-[#060D24] via-[#091538] to-[#040816] text-white p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden">
+              <div className="hidden md:flex md:col-span-5 bg-gradient-to-br from-[#060D24] via-[#091538] to-[#040816] text-white p-6 sm:p-8 flex-col justify-between relative overflow-hidden">
                 {/* Ambient Radial Mesh Lighting */}
                 <div className="absolute inset-0 pointer-events-none">
                   <div className="absolute top-0 right-0 w-64 h-64 rounded-full bg-[#1C83F3]/25 blur-[70px]" />
@@ -272,7 +273,7 @@ export default function LeadPopup({ delay = 4000, force = false }) {
                     Direct representation before the Inter-Ministerial Board (IMB), DPIIT NSWS portal, and national credit guarantee windows.
                   </p>
 
-                  {/* 4 Sovereign Credential Cards */}
+                  {/* 3 Sovereign Credential Cards */}
                   <div className="space-y-2.5">
                     <div className="p-3 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm flex items-start gap-3">
                       <div className="w-7 h-7 rounded-lg bg-[#1C83F3]/20 border border-[#1C83F3]/40 flex items-center justify-center shrink-0 mt-0.5">
@@ -323,21 +324,44 @@ export default function LeadPopup({ delay = 4000, force = false }) {
 
               {/* ============================================================
                   RIGHT COLUMN: EXECUTIVE LEAD INQUIRY FORM
+                  (Full width on mobile, 7 cols on md+)
                  ============================================================ */}
-              <div className="md:col-span-7 p-6 sm:p-8 bg-white flex flex-col justify-between">
+              <div className="col-span-1 md:col-span-7 p-4 sm:p-6 md:p-8 bg-white flex flex-col justify-between">
                 <div>
+                  {/* Mobile-Only Header Brand Bar */}
+                  <div className="md:hidden flex items-center justify-between mb-3 pb-3 border-b border-slate-100 pr-9">
+                    <Logo size="sm" link={false} />
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-[10px] font-bold text-emerald-700 shadow-xs">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                      Advisory Desk
+                    </span>
+                  </div>
+
                   {/* Form Header */}
-                  <div className="mb-5">
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-[10px] font-bold text-[#1C83F3] uppercase tracking-wider mb-2">
+                  <div className="mb-4 sm:mb-5">
+                    <div className="hidden md:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-[10px] font-bold text-[#1C83F3] uppercase tracking-wider mb-2">
                       <Sparkles size={11} className="text-[#1C83F3]" />
                       Official Advisory Desk
                     </div>
-                    <h4 className="font-display text-xl sm:text-2xl font-bold text-slate-900 leading-tight">
+                    <h4 className="font-display text-lg sm:text-2xl font-bold text-slate-900 leading-tight">
                       Schedule Confidential Advisory Call
                     </h4>
-                    <p className="text-xs text-slate-600 mt-1">
+                    <p className="text-[11px] sm:text-xs text-slate-600 mt-1">
                       Fill out your details below. An assigned regulatory specialist will review your profile and connect within 2 hours.
                     </p>
+
+                    {/* Mobile Compact Credential Badges */}
+                    <div className="md:hidden flex items-center gap-1.5 overflow-x-auto py-2 no-scrollbar mt-2">
+                      <span className="shrink-0 px-2.5 py-1 rounded-full bg-blue-50 text-[#1C83F3] border border-blue-200/80 text-[10px] font-bold">
+                        ✓ 80-IAC 100% Tax Holiday
+                      </span>
+                      <span className="shrink-0 px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/80 text-[10px] font-bold">
+                        ✓ DPIIT ₹200 Cr
+                      </span>
+                      <span className="shrink-0 px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-200/80 text-[10px] font-bold">
+                        ✓ CGSS ₹10 Cr Debt
+                      </span>
+                    </div>
                   </div>
 
                   {/* Mode Tabs */}
@@ -494,7 +518,7 @@ export default function LeadPopup({ delay = 4000, force = false }) {
                       </button>
 
                       {/* Security Trust Strip */}
-                      <div className="flex items-center justify-center gap-3 pt-2 text-[10px] text-slate-600 font-semibold">
+                      <div className="flex items-center justify-center gap-2 sm:gap-3 pt-2 text-[10px] text-slate-600 font-semibold flex-wrap">
                         <span className="flex items-center gap-1">
                           <Lock size={11} className="text-emerald-600" />
                           256-Bit SSL Encrypted
@@ -509,6 +533,26 @@ export default function LeadPopup({ delay = 4000, force = false }) {
                           <CheckCircle2 size={11} className="text-emerald-600" />
                           Zero Spam
                         </span>
+                      </div>
+
+                      {/* Mobile Direct Helpline Strip */}
+                      <div className="md:hidden mt-3 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px]">
+                        <a
+                          href={`tel:${PHONE_NUMBER.replace(/\s+/g, '')}`}
+                          className="inline-flex items-center gap-1.5 font-bold text-slate-700 hover:text-[#1C83F3]"
+                        >
+                          <Headphones size={13} className="text-[#1C83F3]" />
+                          <span>Call: {PHONE_NUMBER}</span>
+                        </a>
+                        <a
+                          href={getWhatsAppLink('Direct Mobile Advisory Enquiry')}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 font-bold text-emerald-600"
+                        >
+                          <span>WhatsApp</span>
+                          <ArrowUpRight size={12} />
+                        </a>
                       </div>
                     </form>
                   )}
