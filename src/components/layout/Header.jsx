@@ -235,7 +235,7 @@ export default function Header({ onMenuToggle }) {
       >
         {/* ============ TOP UTILITY BAR (Hidden for clean single-bar live aesthetic) ============ */}
         <div className="hidden">
-          <div className="max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
             {/* Left: Phone Support & Desk Notice */}
             <div className="flex items-center gap-6">
               <a
@@ -306,7 +306,7 @@ export default function Header({ onMenuToggle }) {
             scrolled ? 'py-2 sm:py-2.5' : 'py-2.5 sm:py-3.5'
           }`}
         >
-          <div className="max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between gap-4">
 
               {/* BRAND LOGO */}
@@ -315,7 +315,7 @@ export default function Header({ onMenuToggle }) {
               </div>
 
               {/* DESKTOP PRIMARY NAVIGATION */}
-              <nav className="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Main Navigation">
+              <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1" aria-label="Main Navigation">
 
                 {/* 1. About */}
                 <Link
@@ -680,7 +680,7 @@ export default function Header({ onMenuToggle }) {
               <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
 
                 {/* LIVE METRIC CAPSULE (As seen in Live certwinx.com benchmark Image 4) */}
-                <div className="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#131E3D] border border-white/15 text-xs text-white shadow-inner">
+                <div className="hidden 2xl:flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#131E3D] border border-white/15 text-xs text-white shadow-inner">
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
                   <span className="font-semibold text-[11px] text-white/90">89+ Approvals</span>
                   <span className="text-[11px] text-[#A9D2F1] font-bold flex items-center gap-0.5">
@@ -705,7 +705,7 @@ export default function Header({ onMenuToggle }) {
                 {/* Primary CTA: CHECK ELIGIBILITY (Matching Live Site Image 4) */}
                 <Link
                   to="/eligibility"
-                  className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#1C83F3] hover:bg-[#0E60D2] text-white text-xs font-bold uppercase tracking-wider shadow-[0_4px_20px_rgba(28,131,243,0.4)] hover:shadow-[0_6px_25px_rgba(28,131,243,0.6)] hover:scale-102 transition-all shrink-0"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-[#1C83F3] hover:bg-[#0E60D2] text-white text-xs font-bold uppercase tracking-wider shadow-[0_4px_20px_rgba(28,131,243,0.4)] hover:shadow-[0_6px_25px_rgba(28,131,243,0.6)] hover:scale-102 transition-all shrink-0 mr-2 sm:mr-4"
                 >
                   <span>CHECK ELIGIBILITY</span>
                   <ArrowUpRight size={13} />

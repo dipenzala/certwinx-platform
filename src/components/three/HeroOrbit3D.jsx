@@ -5,7 +5,7 @@ import { Check } from 'lucide-react';
 export default function HeroOrbit3D() {
   const rootRef = useRef(null);
 
-  // Conversational dialogue step (0 to 3) for live animated alternating speech
+  // Conversational dialogue step (0 to 3) for live alternating speech highlight
   const [dialogueStep, setDialogueStep] = useState(0);
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export default function HeroOrbit3D() {
     const ctx = gsap.context(() => {
       // Floating gentle breathing micro-motion for characters
       gsap.to('[data-image]', {
-        y: -6,
+        y: -5,
         duration: 3.5,
         ease: 'sine.inOut',
         yoyo: true,
@@ -52,10 +52,9 @@ export default function HeroOrbit3D() {
 
   return (
     <div ref={rootRef} className="relative w-full max-w-full overflow-hidden sm:overflow-visible">
-      {/* Mobile Layout (< lg) */}
+      {/* Mobile Layout (< lg) — Speech bubbles placed above characters */}
       <div className="lg:hidden flex flex-col gap-2 py-1">
-        {/* Conversational Speech Bubbles on Mobile (Above Characters, Zero Face Overlap) */}
-        <div className="flex flex-col gap-2 mb-1 px-1">
+        <div className="flex flex-col gap-2 mb-2 px-1">
           <div
             className={`self-start max-w-[85%] bg-white rounded-2xl rounded-br-xs shadow-xs border px-3.5 py-2 transition-all duration-300 ${
               dialogueStep === 0 || dialogueStep === 1
@@ -99,8 +98,8 @@ export default function HeroOrbit3D() {
         </div>
       </div>
 
-      {/* Desktop Layout (lg+) — EXACT LIVE SITE BENCHMARK (Image 4) */}
-      <div className="hidden lg:block relative w-full h-[490px]">
+      {/* Desktop Layout (lg+) — ZERO FACE OVERLAP: Speech bubbles sit strictly ABOVE heads */}
+      <div className="hidden lg:block relative w-full h-[510px]">
         {/* Ambient Backing Glow */}
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[420px] h-[420px] rounded-full bg-[#1C83F3]/10 blur-[100px]" />
@@ -110,14 +109,14 @@ export default function HeroOrbit3D() {
         <div className="relative w-full h-full flex items-center justify-center pb-2">
           <div className="relative w-full max-w-[620px] mx-auto">
 
-            {/* Character 3D illustration */}
-            <div data-image className="relative z-10 will-change-transform">
+            {/* Character 3D illustration — with top margin so heads are strictly below the speech bubbles */}
+            <div data-image className="relative z-10 will-change-transform pt-20 xl:pt-24">
               <picture>
                 <source srcSet="/hero-characters.webp" type="image/webp" />
                 <img
                   src="/hero-characters.png"
                   alt="CertWinX consultant guiding an entrepreneur"
-                  className="w-full h-auto rounded-3xl max-h-[410px] object-contain mx-auto"
+                  className="w-full h-auto rounded-3xl max-h-[385px] object-contain mx-auto"
                   loading="eager"
                   style={{ filter: 'drop-shadow(0 20px 45px rgba(22,58,138,0.14))' }}
                 />
@@ -125,11 +124,11 @@ export default function HeroOrbit3D() {
             </div>
 
             {/* =======================================================
-                SPEECH BUBBLES: LEFT FOUNDER (Matching Image 4)
+                SPEECH BUBBLES: LEFT FOUNDER (Positioned ABOVE Founder's head)
                 Bubble 1: "Need DPIIT + funding."
                 Bubble 2: "Hi! Where should I start?"
                ======================================================= */}
-            <div className="absolute top-4 left-2 xl:left-6 z-20 flex flex-col gap-2.5 max-w-[210px]">
+            <div className="absolute top-0 left-0 xl:-left-3 z-20 flex flex-col gap-2 max-w-[200px]">
               {/* Bubble 1: Need DPIIT + funding */}
               <div
                 data-bubble="1"
@@ -164,12 +163,12 @@ export default function HeroOrbit3D() {
             </div>
 
             {/* =======================================================
-                SPEECH BUBBLES: RIGHT ADVISOR (Matching Image 4)
-                Bubble 3: "✓ Free eligibility first." (Golden badge)
-                Bubble 4: "Are you registered yet?" (Blue gradient bubble)
+                SPEECH BUBBLES: RIGHT ADVISOR (Positioned ABOVE Advisor's head)
+                Bubble 3: "✓ Free eligibility first." (Golden / amber badge)
+                Bubble 4: "Are you registered yet?" (Royal blue gradient bubble)
                ======================================================= */}
-            <div className="absolute top-4 right-2 xl:right-6 z-20 flex flex-col gap-2.5 max-w-[210px]">
-              {/* Bubble 3: Free eligibility first (Tan / Golden Pill as in Live Image 4) */}
+            <div className="absolute top-0 right-0 xl:-right-3 z-20 flex flex-col gap-2 max-w-[200px]">
+              {/* Bubble 3: Free eligibility first (Golden badge matching Live Site Image 4) */}
               <div
                 data-bubble="3"
                 className={`relative bg-[#E8C582]/35 border border-[#D4A373]/50 rounded-2xl rounded-bl-xs shadow-[0_10px_25px_-5px_rgba(180,120,40,0.15)] px-3.5 py-2 transition-all duration-300 ${
@@ -188,7 +187,7 @@ export default function HeroOrbit3D() {
                 <span className="absolute -bottom-1.5 left-6 w-2.5 h-2.5 bg-[#E8C582]/40 border-r border-b border-[#D4A373]/50 rotate-45" />
               </div>
 
-              {/* Bubble 4: Are you registered yet? (Royal Blue / Translucent Bubble as in Live Image 4) */}
+              {/* Bubble 4: Are you registered yet? (Royal Blue bubble matching Live Site Image 4) */}
               <div
                 data-bubble="4"
                 className={`relative bg-gradient-to-r from-[#1C83F3] to-[#0A47CC] text-white rounded-2xl rounded-bl-xs shadow-[0_10px_25px_-5px_rgba(28,131,243,0.35)] px-3.5 py-2 transition-all duration-300 ${
@@ -208,7 +207,7 @@ export default function HeroOrbit3D() {
           </div>
         </div>
 
-        {/* Bottom Baseline Trust Indicator (Matching Image 4) */}
+        {/* Bottom Baseline Trust Indicator (Matching Live Site Image 4) */}
         <div className="absolute bottom-1 left-1/2 -translate-x-1/2 z-10 pointer-events-none">
           <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-muted/75 whitespace-nowrap">
             RIGHT GUIDANCE · REAL OPPORTUNITIES · LONG-TERM PARTNERSHIP
