@@ -315,12 +315,12 @@ export default function Header({ onMenuToggle }) {
               </div>
 
               {/* DESKTOP PRIMARY NAVIGATION */}
-              <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1" aria-label="Main Navigation">
+              <nav className="hidden lg:flex items-center gap-0.5 xl:gap-1 text-xs" aria-label="Main Navigation">
 
                 {/* 1. About */}
                 <Link
                   to="/about"
-                  className={`px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                  className={`px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${
                     location.pathname === '/about' ? 'text-[#1C83F3] font-bold bg-white/10' : 'text-white/80 hover:text-white hover:bg-white/5'
                   }`}
                 >
@@ -329,13 +329,13 @@ export default function Header({ onMenuToggle }) {
 
                 {/* 2. Services (Two-Panel Mega-Menu - CorporateMart Depth) */}
                 <div
-                  className="relative"
+                  className="relative shrink-0"
                   onMouseEnter={() => handleMouseEnter('services')}
                   onMouseLeave={handleMouseLeave}
                 >
                   <button
                     onClick={() => toggleDropdown('services')}
-                    className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                    className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors cursor-pointer ${
                       activeDropdown === 'services' || location.pathname.startsWith('/services')
                         ? 'text-[#1C83F3] font-bold bg-white/10'
                         : 'text-white/80 hover:text-white hover:bg-white/5'
@@ -453,13 +453,13 @@ export default function Header({ onMenuToggle }) {
 
                 {/* 3. Schemes (Dropdown) */}
                 <div
-                  className="relative"
+                  className="relative shrink-0"
                   onMouseEnter={() => handleMouseEnter('schemes')}
                   onMouseLeave={handleMouseLeave}
                 >
                   <button
                     onClick={() => toggleDropdown('schemes')}
-                    className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                    className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors cursor-pointer ${
                       activeDropdown === 'schemes' || location.pathname.startsWith('/schemes')
                         ? 'text-[#1C83F3] font-bold bg-white/10'
                         : 'text-white/80 hover:text-white hover:bg-white/5'
@@ -515,13 +515,13 @@ export default function Header({ onMenuToggle }) {
 
                 {/* 4. Certifications (Dropdown) */}
                 <div
-                  className="relative"
+                  className="relative shrink-0"
                   onMouseEnter={() => handleMouseEnter('certifications')}
                   onMouseLeave={handleMouseLeave}
                 >
                   <button
                     onClick={() => toggleDropdown('certifications')}
-                    className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                    className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors cursor-pointer ${
                       activeDropdown === 'certifications' || location.pathname.startsWith('/certifications')
                         ? 'text-[#1C83F3] font-bold bg-white/10'
                         : 'text-white/80 hover:text-white hover:bg-white/5'
@@ -580,13 +580,13 @@ export default function Header({ onMenuToggle }) {
 
                 {/* 5. Funding (Dropdown) */}
                 <div
-                  className="relative"
+                  className="relative shrink-0"
                   onMouseEnter={() => handleMouseEnter('funding')}
                   onMouseLeave={handleMouseLeave}
                 >
                   <button
                     onClick={() => toggleDropdown('funding')}
-                    className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                    className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors cursor-pointer ${
                       activeDropdown === 'funding' || location.pathname.startsWith('/funding')
                         ? 'text-[#1C83F3] font-bold bg-white/10'
                         : 'text-white/80 hover:text-white hover:bg-white/5'
@@ -647,7 +647,7 @@ export default function Header({ onMenuToggle }) {
                 {/* 6. Startup India (DPIIT) */}
                 <Link
                   to="/startup"
-                  className={`px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                  className={`px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${
                     location.pathname === '/startup' ? 'text-[#1C83F3] font-bold bg-white/10' : 'text-white/80 hover:text-white hover:bg-white/5'
                   }`}
                 >
@@ -657,13 +657,13 @@ export default function Header({ onMenuToggle }) {
                 {/* 7. 80-IAC (Tax Holiday Pill with Glowing Badge) */}
                 <Link
                   to="/eligibility/80-iac"
-                  className={`inline-flex items-center gap-1.5 px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                  className={`inline-flex items-center gap-1.5 px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
                     location.pathname === '/eligibility/80-iac'
                       ? 'text-[#1C83F3] font-bold bg-white/10'
                       : 'text-white/90 hover:text-white hover:bg-white/5'
                   }`}
                 >
-                  <span>80-IAC</span>
+                  <span className="whitespace-nowrap">80-IAC</span>
                   <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#1C83F3]/25 border border-[#1C83F3]/50 text-sky shadow-[0_0_10px_rgba(28,131,243,0.35)] leading-none whitespace-nowrap">
                     100% Tax Holiday
                   </span>
@@ -672,7 +672,7 @@ export default function Header({ onMenuToggle }) {
                 {/* 8. Contact */}
                 <Link
                   to="/contact"
-                  className={`px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                  className={`px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors ${
                     location.pathname === '/contact' ? 'text-[#1C83F3] font-bold bg-white/10' : 'text-white/80 hover:text-white hover:bg-white/5'
                   }`}
                 >
@@ -684,11 +684,11 @@ export default function Header({ onMenuToggle }) {
               {/* ACTIONS RIGHT: Metric Capsule, Search, WhatsApp Desk, Check Eligibility CTA, Mobile Hamburger */}
               <div className="flex items-center gap-2 xl:gap-2.5 shrink-0">
 
-                {/* LIVE METRIC CAPSULE (As seen in Live certwinx.com benchmark) */}
-                <div className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#131E3D] border border-white/15 text-xs text-white shadow-inner">
+                {/* LIVE METRIC CAPSULE (Visible on 2XL wide screens 1536px+ so standard laptops never overflow) */}
+                <div className="hidden 2xl:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#131E3D] border border-white/15 text-xs text-white shadow-inner shrink-0">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
-                  <span className="font-semibold text-[11px] text-white/90">99% Success</span>
-                  <span className="text-[11px] text-[#A9D2F1] font-bold flex items-center gap-0.5">
+                  <span className="font-semibold text-[11px] text-white/90 whitespace-nowrap">99% Success</span>
+                  <span className="text-[11px] text-[#A9D2F1] font-bold flex items-center gap-0.5 whitespace-nowrap">
                     <ArrowUpRight size={11} />
                     <span>+2.1%</span>
                   </span>
@@ -697,12 +697,12 @@ export default function Header({ onMenuToggle }) {
                 {/* GLOBAL SEARCH TRIGGER */}
                 <button
                   onClick={() => setSearchOpen(true)}
-                  className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white transition-colors cursor-pointer text-xs"
+                  className="hidden lg:flex items-center gap-1.5 p-1.5 xl:px-2.5 xl:py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white transition-colors cursor-pointer text-xs shrink-0"
                   aria-label="Search CertWinX services"
                 >
                   <Search size={13} className="text-[#1C83F3]" />
-                  <span className="hidden xl:inline text-[11px]">Search</span>
-                  <kbd className="hidden xl:inline-block px-1 py-0.2 rounded text-[9px] bg-white/10 text-white/60 font-mono">⌘K</kbd>
+                  <span className="hidden 2xl:inline text-[11px] whitespace-nowrap">Search</span>
+                  <kbd className="hidden 2xl:inline-block px-1 py-0.2 rounded text-[9px] bg-white/10 text-white/60 font-mono">⌘K</kbd>
                 </button>
 
                 {/* WhatsApp Advisory Desk (Live Site Style) */}
@@ -710,7 +710,7 @@ export default function Header({ onMenuToggle }) {
                   href={getWhatsAppLink('Website Header Enquiry')}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/40 hover:bg-emerald-500/25 text-xs font-bold transition-all shadow-[0_0_12px_rgba(16,185,129,0.15)]"
+                  className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/40 hover:bg-emerald-500/25 text-xs font-bold whitespace-nowrap transition-all shadow-[0_0_12px_rgba(16,185,129,0.15)] shrink-0"
                   aria-label="Contact CertWinX on WhatsApp"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -718,10 +718,10 @@ export default function Header({ onMenuToggle }) {
                   <span>WhatsApp</span>
                 </a>
 
-                {/* Primary CTA: CHECK ELIGIBILITY (Adjusted with right breathing margin so it never touches screen edge) */}
+                {/* Primary CTA: CHECK ELIGIBILITY (Guaranteed inside screen bounds with zero clipping) */}
                 <Link
                   to="/eligibility"
-                  className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-gradient-to-r from-[#1C83F3] to-[#0A47CC] hover:from-[#2B92FF] hover:to-[#1656E8] text-white text-xs font-bold uppercase tracking-wider shadow-[0_4px_20px_rgba(28,131,243,0.4)] hover:shadow-[0_6px_25px_rgba(28,131,243,0.6)] hover:scale-102 transition-all shrink-0 mr-1 sm:mr-3"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-gradient-to-r from-[#1C83F3] to-[#0A47CC] hover:from-[#2B92FF] hover:to-[#1656E8] text-white text-xs font-bold uppercase tracking-wider whitespace-nowrap shadow-[0_4px_20px_rgba(28,131,243,0.4)] hover:shadow-[0_6px_25px_rgba(28,131,243,0.6)] hover:scale-102 transition-all shrink-0 mr-1 sm:mr-3"
                 >
                   <span>CHECK ELIGIBILITY</span>
                   <ArrowUpRight size={13} />
