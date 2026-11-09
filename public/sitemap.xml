@@ -71,9 +71,16 @@
 
   <url>
     <loc>https://certwinx.com/eligibility</loc>
-    <lastmod>2025-01-15</lastmod>
+    <lastmod>2026-01-15</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://certwinx.com/eligibility/80-iac</loc>
+    <lastmod>2026-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.95</priority>
   </url>
 
   <url>

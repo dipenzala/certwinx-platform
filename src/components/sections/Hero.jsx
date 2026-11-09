@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { ArrowUpRight, MessageCircle, ShieldCheck, Sparkles, Compass, CheckCircle2 } from 'lucide-react';
+import { ArrowUpRight, MessageCircle, ShieldCheck, Sparkles, Compass, CheckCircle2, Award } from 'lucide-react';
 import { gsap, SplitText } from '../../lib/gsap';
 import { getWhatsAppLink } from '../../lib/constants';
 import MagneticButton from '../motion/MagneticButton';
@@ -50,7 +50,7 @@ export default function Hero() {
   return (
     <section
       ref={rootRef}
-      className="relative pt-32 sm:pt-36 lg:pt-40 pb-12 sm:pb-16 overflow-hidden bg-canvas"
+      className="relative pt-36 sm:pt-40 lg:pt-44 pb-12 sm:pb-16 overflow-hidden bg-canvas"
     >
       <LiveBackground />
 
@@ -105,14 +105,14 @@ export default function Hero() {
             </div>
 
             {/* Genuine Trust Anchors */}
-            <div data-hero="trust" className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-line/80 flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-x-8 gap-y-2.5">
+            <div data-hero="trust" className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-line/80 flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-x-6 gap-y-2.5">
+              <div className="flex items-center gap-2">
+                <Award size={15} className="text-blue shrink-0" />
+                <p className="text-xs font-semibold text-ink">6+ Years Advisory Experience</p>
+              </div>
               <div className="flex items-center gap-2">
                 <CheckCircle2 size={15} className="text-emerald-600 shrink-0" />
                 <p className="text-xs font-medium text-graphite">Official Portal Submission Support</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <ShieldCheck size={15} className="text-blue shrink-0" />
-                <p className="text-xs font-medium text-graphite">Transparent, Structured Advisory</p>
               </div>
               <div className="flex items-center gap-2">
                 <Sparkles size={14} className="text-sky shrink-0" />

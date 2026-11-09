@@ -126,9 +126,9 @@ export default function WhyCertWinX() {
         
         {/* Section Header */}
         <SectionHeading
-          eyebrow="Why CertWinX"
+          eyebrow="Why CertWinX · 6+ Years Institutional Excellence"
           title="Professional Rigor. Transparent Engagement."
-          subtitle="We eliminate bureaucracy and confusion with structured documentation, honest feasibility assessments, and a predictable 7-step working methodology."
+          subtitle="With 6+ years of dedicated advisory experience and 1,250+ ventures guided across 28 Indian states, we eliminate bureaucracy with structured documentation, honest feasibility assessments, and a predictable 7-step working methodology."
           align="center"
         />
 

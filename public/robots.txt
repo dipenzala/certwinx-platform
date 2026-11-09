@@ -1,28 +1,44 @@
 # ============ ROBOTS.TXT ============
-# CertWinX — Business Registration & Compliance
+# CertWinX — #1 Startup India & Section 80-IAC Advisory
 # Domain: https://certwinx.com
-# Last Updated: 2025
+# ====================================
 
-# ============ ALLOW ALL CRAWLERS ============
+# ============ ALLOW ALL MAJOR SEARCH ENGINE CRAWLERS ============
 User-agent: *
 Allow: /
 
-# ============ BLOCK ADMIN PANEL ============
+# ============ GOOGLEBOT & GOOGLE IMAGE CRAWLER (FOR SEARCH LOGO / FAVICON) ============
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+
+User-agent: Googlebot-Image
+Allow: /
+Allow: /certwinx-logo.png
+Allow: /favicon-48x48.png
+Allow: /favicon-96x96.png
+Allow: /favicon.svg
+Allow: /favicon.ico
+Allow: /apple-touch-icon.png
+Allow: /icon-192.png
+Allow: /icon-512.png
+
+# ============ BLOCK ADMIN PANEL & INTERNAL APIS ============
 Disallow: /admin
 Disallow: /admin/
 Disallow: /admin/*
-
-# ============ BLOCK API ROUTES (if any) ============
 Disallow: /api/
 Disallow: /api/*
 
-# ============ ALLOW ASSETS (Favicons, Images, CSS, JS) ============
+# ============ ALLOW ALL BRAND ASSETS ============
 Allow: /favicon.ico
-Allow: /favicon-16x16.png
-Allow: /favicon-32x32.png
+Allow: /favicon.svg
+Allow: /favicon-48x48.png
+Allow: /favicon-96x96.png
 Allow: /apple-touch-icon.png
-Allow: /android-chrome-192x192.png
-Allow: /android-chrome-512x512.png
+Allow: /icon-192.png
+Allow: /icon-512.png
 Allow: /certwinx-logo.png
 Allow: /og-image.png
 Allow: /*.png$
@@ -34,28 +50,7 @@ Allow: /*.ico$
 Allow: /*.css$
 Allow: /*.js$
 
-# ============ BLOCK BAD BOTS ============
-User-agent: AhrefsBot
-Disallow: /
-
-User-agent: SemrushBot
-Disallow: /
-
-User-agent: MJ12bot
-Disallow: /
-
-User-agent: DotBot
-Disallow: /
-
-# ============ ALLOW MAJOR SEARCH ENGINES ============
-User-agent: Googlebot
-Allow: /
-Disallow: /admin
-
-User-agent: Bingbot
-Allow: /
-Disallow: /admin
-
+# ============ SOCIAL SHARING BOTS ============
 User-agent: Twitterbot
 Allow: /
 

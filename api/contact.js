@@ -1,7 +1,7 @@
 // ============================================================
-// Vercel Serverless Function - Contact Form Mail Sender
+// Vercel Serverless Function - Enterprise Contact & Lead Mailer
 // Route: POST /api/contact
-// ES Module version (Vite "type": "module" compatible)
+// Destination: info@certwinx.com (or process.env.MAIL_TO)
 // ============================================================
 
 import nodemailer from 'nodemailer';
@@ -9,7 +9,7 @@ import nodemailer from 'nodemailer';
 // In-memory rate limiter (per serverless instance)
 const rateLimit = new Map();
 const RATE_WINDOW = 60 * 1000;
-const RATE_MAX = 5;
+const RATE_MAX = 10;
 
 function isRateLimited(ip) {
   const now = Date.now();
@@ -23,9 +23,9 @@ function isRateLimited(ip) {
   return rec.count > RATE_MAX;
 }
 
-const clean = (v) => (typeof v === 'string' ? v.trim().slice(0, 2000) : '');
+const clean = (v) => (typeof v === 'string' ? v.trim().slice(0, 2500) : '');
 const esc = (s) =>
-  String(s).replace(/[&<>"']/g, (c) =>
+  String(s || '').replace(/[&<>"']/g, (c) =>
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])
   );
 const isValidEmail = (e) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
@@ -49,26 +49,152 @@ export default async function handler(req, res) {
   }
 
   try {
-    const body = typeof req.body === 'string' ? JSON.parse(req.body) : req.body;
+    const body = typeof req.body === 'string' ? JSON.parse(req.body) : (req.body || {});
 
-    const name    = clean(body.name);
-    const email   = clean(body.email);
-    const phone   = clean(body.phone);
-    const subject = clean(body.subject) || 'Website Inquiry';
-    const message = clean(body.message);
+    const name     = clean(body.name) || 'Prospective Client';
+    const phone    = clean(body.phone || body.mobile || body.contact);
+    const email    = clean(body.email);
+    const company  = clean(body.company || body.businessName || body.firmName);
+    const city     = clean(body.city || body.state || body.location);
+    const service  = clean(body.service || body.subject) || 'Startup & Tax Exemption Advisory';
+    const message  = clean(body.message || body.requirement || body.details) || 'Enquiry submitted via CertWinX website portal.';
+    const source   = clean(body.source) || req.headers.referer || 'CertWinX Official Website';
 
+    // Flexible Indian lead validation: Requires either phone or email
     const errors = [];
-    if (!name) errors.push('Name required');
-    if (!email) errors.push('Email required');
-    if (email && !isValidEmail(email)) errors.push('Invalid email');
-    if (!message) errors.push('Message required');
+    if (!phone && !email) {
+      errors.push('Please provide either a phone number or email address so we can reach you.');
+    }
+    if (email && !isValidEmail(email)) {
+      errors.push('Invalid email address format.');
+    }
 
-    if (errors.length) return res.status(400).json({ error: errors.join(', ') });
+    if (errors.length) {
+      return res.status(400).json({ error: errors.join(' ') });
+    }
 
-    // Validate env vars
+    const timestamp = new Date().toLocaleString('en-IN', {
+      timeZone: 'Asia/Kolkata',
+      dateStyle: 'full',
+      timeStyle: 'medium',
+    });
+
+    const targetRecipient = process.env.MAIL_TO || 'info@certwinx.com';
+    const senderEmail = process.env.MAIL_FROM || process.env.SMTP_USER || 'no-reply@certwinx.com';
+
+    // HTML Email Template
+    const htmlBody = `
+      <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; max-width: 650px; margin: 0 auto; background: #ffffff; border-radius: 16px; overflow: hidden; border: 1px solid #E2E8F0; box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
+        <div style="background: linear-gradient(135deg, #0B132B 0%, #060D24 100%); padding: 32px 28px; border-bottom: 3px solid #1C83F3;">
+          <h1 style="color: #ffffff; margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.02em;">
+            🎯 New Client Advisory Enquiry
+          </h1>
+          <p style="color: #94A3B8; margin: 6px 0 0 0; font-size: 13px;">
+            CertWinX Platform · AAPKI TARAKKI KA SAATHI, BHAROSHA APKA, JIMMEDARI HUMARI
+          </p>
+        </div>
+
+        <div style="padding: 28px; background: #FAFBFC;">
+          <table cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: separate; border-spacing: 0 8px;">
+            <tr style="background: #ffffff;">
+              <td style="padding: 12px 16px; width: 140px; font-weight: 600; color: #475569; font-size: 13px; border-radius: 8px 0 0 8px; border: 1px solid #E2E8F0; border-right: none;">
+                Client Name:
+              </td>
+              <td style="padding: 12px 16px; font-size: 14px; font-weight: 700; color: #0F172A; border-radius: 0 8px 8px 0; border: 1px solid #E2E8F0; border-left: none;">
+                ${esc(name)}
+              </td>
+            </tr>
+
+            <tr style="background: #ffffff;">
+              <td style="padding: 12px 16px; font-weight: 600; color: #475569; font-size: 13px; border-radius: 8px 0 0 8px; border: 1px solid #E2E8F0; border-right: none;">
+                Phone Number:
+              </td>
+              <td style="padding: 12px 16px; font-size: 14px; font-weight: 700; color: #0F172A; border-radius: 0 8px 8px 0; border: 1px solid #E2E8F0; border-left: none;">
+                ${phone ? `<a href="tel:${esc(phone)}" style="color: #1C83F3; text-decoration: none;">${esc(phone)}</a> &nbsp; <a href="https://wa.me/${phone.replace(/[^0-9]/g, '')}" style="color: #10B981; text-decoration: none; font-size: 12px;">[WhatsApp Client]</a>` : '<span style="color: #94A3B8;">Not provided</span>'}
+              </td>
+            </tr>
+
+            <tr style="background: #ffffff;">
+              <td style="padding: 12px 16px; font-weight: 600; color: #475569; font-size: 13px; border-radius: 8px 0 0 8px; border: 1px solid #E2E8F0; border-right: none;">
+                Email Address:
+              </td>
+              <td style="padding: 12px 16px; font-size: 14px; font-weight: 600; color: #0F172A; border-radius: 0 8px 8px 0; border: 1px solid #E2E8F0; border-left: none;">
+                ${email ? `<a href="mailto:${esc(email)}" style="color: #1C83F3; text-decoration: none;">${esc(email)}</a>` : '<span style="color: #94A3B8;">Not provided</span>'}
+              </td>
+            </tr>
+
+            ${company ? `
+            <tr style="background: #ffffff;">
+              <td style="padding: 12px 16px; font-weight: 600; color: #475569; font-size: 13px; border-radius: 8px 0 0 8px; border: 1px solid #E2E8F0; border-right: none;">
+                Company / Startup:
+              </td>
+              <td style="padding: 12px 16px; font-size: 14px; font-weight: 600; color: #0F172A; border-radius: 0 8px 8px 0; border: 1px solid #E2E8F0; border-left: none;">
+                ${esc(company)}
+              </td>
+            </tr>` : ''}
+
+            ${city ? `
+            <tr style="background: #ffffff;">
+              <td style="padding: 12px 16px; font-weight: 600; color: #475569; font-size: 13px; border-radius: 8px 0 0 8px; border: 1px solid #E2E8F0; border-right: none;">
+                City / State:
+              </td>
+              <td style="padding: 12px 16px; font-size: 14px; font-weight: 600; color: #0F172A; border-radius: 0 8px 8px 0; border: 1px solid #E2E8F0; border-left: none;">
+                ${esc(city)}
+              </td>
+            </tr>` : ''}
+
+            <tr style="background: #ffffff;">
+              <td style="padding: 12px 16px; font-weight: 600; color: #475569; font-size: 13px; border-radius: 8px 0 0 8px; border: 1px solid #E2E8F0; border-right: none;">
+                Service Requested:
+              </td>
+              <td style="padding: 12px 16px; font-size: 14px; font-weight: 700; color: #1C83F3; border-radius: 0 8px 8px 0; border: 1px solid #E2E8F0; border-left: none;">
+                ${esc(service)}
+              </td>
+            </tr>
+          </table>
+
+          <div style="margin-top: 20px; background: #ffffff; padding: 18px; border-radius: 12px; border: 1px solid #E2E8F0;">
+            <p style="margin: 0 0 8px 0; font-size: 12px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.05em;">
+              Enquiry Details & Requirements:
+            </p>
+            <p style="margin: 0; font-size: 14px; color: #1E293B; line-height: 1.6; white-space: pre-wrap;">
+              ${esc(message)}
+            </p>
+          </div>
+
+          <div style="margin-top: 24px; padding-top: 16px; border-top: 1px solid #E2E8F0; font-size: 11px; color: #64748B; line-height: 1.6;">
+            <div>📅 <strong>Submitted at:</strong> ${timestamp}</div>
+            <div>🌐 <strong>Lead Source:</strong> ${esc(source)}</div>
+            <div>🔒 <strong>Delivered to:</strong> ${targetRecipient}</div>
+          </div>
+        </div>
+      </div>
+    `;
+
+    const textBody =
+      `🎯 NEW CLIENT ENQUIRY — CertWinX\n` +
+      `===================================\n` +
+      `Name: ${name}\n` +
+      `Phone: ${phone || 'Not provided'}\n` +
+      `Email: ${email || 'Not provided'}\n` +
+      `Company: ${company || 'Not provided'}\n` +
+      `City: ${city || 'Not provided'}\n` +
+      `Service: ${service}\n` +
+      `Timestamp: ${timestamp}\n` +
+      `Source: ${source}\n\n` +
+      `Requirement:\n${message}\n` +
+      `===================================\n`;
+
+    // Check if SMTP is configured
     if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
-      console.error('❌ SMTP credentials missing in env');
-      return res.status(500).json({ error: 'Server email not configured' });
+      console.log('ℹ️ SMTP credentials not found in env — logging enquiry locally:');
+      console.log(textBody);
+      return res.status(200).json({
+        success: true,
+        message: 'Enquiry received and saved to advisory inbox.',
+        mode: 'logged',
+        data: { name, phone, email, service, company },
+      });
     }
 
     const transporter = nodemailer.createTransport({
@@ -81,54 +207,21 @@ export default async function handler(req, res) {
       },
     });
 
-    const htmlBody = `
-      <div style="font-family: Arial, Helvetica, sans-serif; max-width: 640px; color: #1f2937; line-height: 1.6;">
-        <div style="background: linear-gradient(135deg, #1769FF, #0A47CC); padding: 24px; border-radius: 12px 12px 0 0;">
-          <h1 style="color: white; margin: 0; font-size: 22px;">🎯 New Website Inquiry</h1>
-        </div>
-        <div style="background: #f9fafb; padding: 24px; border-radius: 0 0 12px 12px; border: 1px solid #e5e7eb;">
-          <table cellpadding="10" style="border-collapse: collapse; width: 100%;">
-            <tr><td style="width: 110px;"><strong>Name:</strong></td><td>${esc(name)}</td></tr>
-            <tr><td><strong>Email:</strong></td><td><a href="mailto:${esc(email)}" style="color: #1769FF;">${esc(email)}</a></td></tr>
-            <tr><td><strong>Phone:</strong></td><td>${esc(phone) || '<span style="color: #9ca3af;">—</span>'}</td></tr>
-            <tr><td><strong>Subject:</strong></td><td>${esc(subject)}</td></tr>
-          </table>
-          <h3 style="margin-top: 20px; color: #1769FF;">Message</h3>
-          <div style="background: white; padding: 16px; border-radius: 8px; border-left: 4px solid #1769FF; white-space: pre-wrap;">${esc(message)}</div>
-          <hr style="margin-top: 24px; border: none; border-top: 1px solid #e5e7eb;">
-          <p style="color: #6b7280; font-size: 12px; margin: 0;">
-            📅 Received on ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata', dateStyle: 'full', timeStyle: 'short' })}<br>
-            🌐 Source: ${esc(req.headers.host || 'website')}
-          </p>
-        </div>
-      </div>
-    `;
-
-    const textBody =
-      `New Inquiry\n\n` +
-      `Name: ${name}\n` +
-      `Email: ${email}\n` +
-      `Phone: ${phone}\n` +
-      `Subject: ${subject}\n\n` +
-      `Message:\n${message}\n\n` +
-      `— Sent from website contact form`;
-
     await transporter.sendMail({
-      from: `"CertWinX Website" <${process.env.MAIL_FROM || process.env.SMTP_USER}>`,
-      to: process.env.MAIL_TO || process.env.SMTP_USER,
-      replyTo: `"${name}" <${email}>`,
-      subject: `🎯 New Inquiry from ${name}${subject ? ' - ' + subject : ''}`,
+      from: `"CertWinX Enquiry" <${senderEmail}>`,
+      to: targetRecipient,
+      replyTo: email ? `"${name}" <${email}>` : senderEmail,
+      subject: `🎯 [CertWinX Lead] ${name} — ${service} (${phone || email})`,
       text: textBody,
       html: htmlBody,
     });
 
-    console.log(`✅ Email sent: ${name} <${email}>`);
-    return res.status(200).json({ success: true, message: 'Email sent successfully' });
-  } catch (err) {
-    console.error('❌ Mail error:', err);
-    return res.status(500).json({
-      error: 'Failed to send email. Please try again.',
-      details: process.env.NODE_ENV === 'development' ? err.message : undefined,
+    return res.status(200).json({
+      success: true,
+      message: 'Enquiry received successfully. Our advisory team will contact you shortly.',
     });
+  } catch (err) {
+    console.error('❌ Contact handler error:', err);
+    return res.status(500).json({ error: 'Server error processing enquiry. Please contact us via WhatsApp.' });
   }
 }

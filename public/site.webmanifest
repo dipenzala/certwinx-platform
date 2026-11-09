@@ -1,26 +1,33 @@
 {
-  "name": "CertWinX — Business Certification Experts",
+  "name": "CertWinX — Startup India & Section 80-IAC Advisory",
   "short_name": "CertWinX",
-  "description": "Business registration, certifications, startup benefits, funding and compliance services in India.",
+  "description": "CertWinX Private Limited — 6+ Years Experience in Startup India DPIIT, Section 80-IAC Tax Exemption, SISFS Grants, and Corporate Compliance across India.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#060D24",
+  "theme_color": "#1C83F3",
   "icons": [
     {
-      "src": "/android-chrome-192x192.png",
+      "src": "/favicon-48x48.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/android-chrome-512x512.png",
+      "src": "/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
     }
-  ],
-  "theme_color": "#0A0F1F",
-  "background_color": "#0A0F1F",
-  "display": "standalone",
-  "start_url": "/",
-  "orientation": "portrait-primary",
-  "scope": "/",
-  "lang": "en-IN"
+  ]
 }

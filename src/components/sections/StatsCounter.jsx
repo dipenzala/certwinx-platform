@@ -5,10 +5,10 @@ import RevealOnScroll from '../motion/RevealOnScroll';
 
 const STATS = [
   {
-    to: 16,
-    suffix: '+',
-    label: 'Priority Schemes Mapped',
-    desc: 'Central & State funding & incentive programs',
+    to: 6,
+    suffix: '+ Yrs',
+    label: 'Advisory Experience',
+    desc: 'Institutional startup & MSME advisory since 2018',
     tone: 'blue',
   },
   {
@@ -22,14 +22,14 @@ const STATS = [
     to: 100,
     suffix: '%',
     label: 'Procedural Transparency',
-    desc: 'Direct portal submission & clear documentation',
+    desc: 'Direct portal submission & zero hidden fees',
     tone: 'blue',
   },
   {
     to: 24,
     suffix: ' hrs',
-    label: 'Initial Advisory Response',
-    desc: 'Fast preliminary eligibility assessment',
+    label: 'Eligibility Turnaround',
+    desc: 'Fast diagnostic for Section 80-IAC & grants',
     tone: 'ink',
   },
 ];
@@ -74,7 +74,7 @@ export default function StatsCounter() {
           <div className="text-center mb-14 lg:mb-16">
             <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-soft border border-blue/20 text-[11px] font-semibold tracking-wider text-blue uppercase mb-4">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-              Verified Execution Metrics
+              Verified Execution Metrics · 6+ Years Experience
             </span>
             <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink leading-[1.1] tracking-tight">
               Built on <span className="text-blue">structure</span>. Trusted for{' '}
@@ -98,7 +98,7 @@ export default function StatsCounter() {
               )}
 
               <p
-                className={`font-display text-[3rem] sm:text-[4rem] lg:text-[4.75rem] font-bold tabular leading-none tracking-tight mb-3 ${
+                className={`font-display text-[2.75rem] sm:text-[3.5rem] lg:text-[4.25rem] font-bold tabular leading-none tracking-tight mb-3 ${
                   s.tone === 'blue' ? 'text-blue' : 'text-ink'
                 }`}
               >

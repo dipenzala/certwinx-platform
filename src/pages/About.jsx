@@ -25,9 +25,9 @@ import { getWhatsAppLink } from '../lib/constants';
 
 /* ============ AUTHENTIC OPERATIONAL VALUES ============ */
 const STATS = [
+  { value: '6+ Yrs', label: 'Advisory Experience' },
   { value: '100%', label: 'Procedural Transparency' },
-  { value: '18+', label: 'Verified Priority Schemes' },
-  { value: '28+', label: 'States & UTs Advisory Network' },
+  { value: '28+', label: 'States & UTs Network' },
   { value: '24h', label: 'Client Advisory SLA' },
 ];
 
@@ -95,10 +95,10 @@ export default function About() {
   return (
     <>
       <Helmet>
-        <title>About CertWinX Private Limited — Enterprise Advisory</title>
+        <title>About CertWinX — #1 Startup India & Section 80-IAC Advisory | 6+ Years Experience</title>
         <meta
           name="description"
-          content="CertWinX Private Limited — Ahmedabad, Gujarat. A premium advisory platform helping Indian startups and MSMEs unlock government schemes, Section 80-IAC, funding, and statutory compliance."
+          content="CertWinX brings 6+ years of specialized advisory experience guiding Indian startups across all 28 states for Section 80-IAC 100% Tax Holidays, DPIIT recognition, SISFS Seed Grants & corporate compliance."
         />
       </Helmet>
 

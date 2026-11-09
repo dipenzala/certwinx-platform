@@ -235,7 +235,7 @@ export default function Header({ onMenuToggle }) {
       >
         {/* ============ TOP UTILITY BAR (CorporateMart Benchmark Depth) ============ */}
         <div className={`hidden lg:block bg-[#040814] text-white/80 text-xs border-b border-white/10 transition-all duration-300 ${scrolled ? 'py-1 opacity-95' : 'py-1.5'}`}>
-          <div className="max-w-[1540px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          <div className="max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
             {/* Left: Phone Support & Desk Notice */}
             <div className="flex items-center gap-6">
               <a
@@ -306,7 +306,7 @@ export default function Header({ onMenuToggle }) {
             scrolled ? 'py-2 sm:py-2.5' : 'py-2.5 sm:py-3.5'
           }`}
         >
-          <div className="max-w-[1540px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-[1480px] mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex items-center justify-between gap-4">
 
               {/* BRAND LOGO */}
@@ -683,7 +683,7 @@ export default function Header({ onMenuToggle }) {
               <div className="flex items-center gap-2 sm:gap-3">
 
                 {/* LIVE METRIC CAPSULE (As seen in Live certwinx.com screenshot) */}
-                <div className="hidden 2xl:flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#131E3D] border border-white/15 text-xs text-white shadow-inner">
+                <div className="hidden xl:flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#131E3D] border border-white/15 text-xs text-white shadow-inner">
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
                   <span className="font-semibold text-[11px] text-white/90">99% Success</span>
                   <span className="text-[11px] text-[#A9D2F1] font-bold flex items-center gap-0.5">
@@ -695,14 +695,11 @@ export default function Header({ onMenuToggle }) {
                 {/* Global Search Bar / Trigger */}
                 <button
                   onClick={() => setSearchOpen(true)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10 border border-white/15 text-xs font-medium text-white/80 hover:text-white hover:bg-white/15 transition-all shadow-xs cursor-pointer"
+                  className="flex items-center gap-1.5 p-2 xl:px-2.5 xl:py-1.5 rounded-full bg-white/10 border border-white/15 text-xs font-medium text-white/80 hover:text-white hover:bg-white/15 transition-all shadow-xs cursor-pointer"
                   aria-label="Open Global Search"
                 >
                   <Search size={14} className="text-[#1C83F3]" />
-                  <span className="hidden sm:inline">Search</span>
-                  <kbd className="hidden sm:inline-block text-[10px] font-mono text-white/60 bg-white/10 border border-white/20 px-1.5 py-0.5 rounded">
-                    ⌘K
-                  </kbd>
+                  <span className="hidden 2xl:inline text-[11px]">Search</span>
                 </button>
 
                 {/* WhatsApp Advisory Desk (Glowing Live Style) */}

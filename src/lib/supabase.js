@@ -2,7 +2,7 @@
 // Complete Supabase Replacement + Mail Sender + Local Storage
 // Auto-generated - All-in-one file
 //
-// Isme kya hai:
+// Features:
 //  - submitLead: form se email + localStorage me save
 //  - getLeads / deleteLead / updateLead: Admin panel ke liye
 //  - signIn / signOut / getSession: Authentication
@@ -46,44 +46,69 @@ async function sendEmail(payload) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     });
-    const result = await response.json();
-    if (!response.ok) throw new Error(result.error || 'Failed to send');
-    return { success: true, data: result };
+
+    const contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || 'Failed to send enquiry');
+      return { success: true, data: result };
+    }
+    if (response.ok) {
+      return { success: true, data: { status: 'ok' } };
+    }
+    throw new Error(`Enquiry service responded with status: ${response.status}`);
   } catch (err) {
-    console.error('❌ Email error:', err);
+    console.warn('ℹ️ Email dispatch notice:', err.message);
     return { success: false, error: err.message };
   }
 }
 
 // ============================================================
-// ⭐ LEAD SUBMISSION (LeadForm, LeadPopup use karte hain)
+// ⭐ LEAD SUBMISSION (LeadForm, LeadPopup, Consultation use karte hain)
 // ============================================================
 export async function submitLead(formData = {}) {
-  console.log('📤 Submitting lead:', formData);
+  console.log('📤 Submitting lead to CertWinX:', formData);
+
+  const name = formData.name || formData.fullName || formData.username || formData.contactName || 'Valued Entrepreneur';
+  const phone = formData.phone || formData.mobile || formData.contact || formData.whatsapp || '';
+  const email = formData.email || '';
+  const company = formData.company || formData.businessName || formData.firmName || formData.startupName || '';
+  const city = formData.city || formData.state || formData.location || '';
+  const service = formData.service || formData.subject || formData.inquiryType || 'Startup & Tax Exemption Advisory';
+  const message = formData.message || formData.requirement || formData.details || formData.notes || `Advisory inquiry for ${service}`;
+  const source = formData.source || (typeof window !== 'undefined' ? window.location.pathname : 'CertWinX Web App');
 
   const lead = {
     id: Date.now().toString() + Math.random().toString(36).slice(2, 8),
-    name:    formData.name    || formData.fullName    || formData.username || '',
-    email:   formData.email   || '',
-    phone:   formData.phone   || formData.mobile      || formData.contact  || '',
-    subject: formData.subject || formData.service     || 'New Lead',
-    message: formData.message || formData.requirement || formData.details  || 'No message',
-    status:  'new',
+    name,
+    email,
+    phone,
+    company,
+    city,
+    service,
+    subject: service,
+    message,
+    source,
+    status: 'new',
     createdAt: new Date().toISOString(),
   };
 
-  // 1. LocalStorage me save karo
+  // 1. LocalStorage me save karo (Persistent local record)
   const leads = loadLeads();
   leads.unshift(lead);
   saveLeads(leads);
 
-  // 2. Email bhejo
+  // 2. Email / Backend API bhejo (Destination: info@certwinx.com)
   const emailResult = await sendEmail({
     name: lead.name,
     email: lead.email,
     phone: lead.phone,
+    company: lead.company,
+    city: lead.city,
+    service: lead.service,
     subject: lead.subject,
     message: lead.message,
+    source: lead.source,
   });
 
   return {
