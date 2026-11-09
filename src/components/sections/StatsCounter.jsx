@@ -73,13 +73,23 @@ export default function StatsCounter() {
         <RevealOnScroll>
           <div className="text-center mb-14 lg:mb-16">
             <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-soft border border-blue/20 text-[11px] font-semibold tracking-wider text-blue uppercase mb-4">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               Verified Execution Metrics · 6+ Years Experience
             </span>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink leading-[1.1] tracking-tight">
-              Built on <span className="text-blue">structure</span>. Trusted for{' '}
-              <span className="text-blue">rigor</span>.
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-ink leading-[1.12] tracking-tight text-balance">
+              Engineered for{' '}
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#1C83F3] via-[#0E60D2] to-[#0A47CC]">
+                Ambition
+              </span>
+              . Proven by{' '}
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-[#1C83F3] via-[#0E60D2] to-[#0A47CC]">
+                Sovereign Precision
+              </span>
+              .
             </h2>
+            <p className="mt-4 text-sm sm:text-base text-graphite max-w-2xl mx-auto leading-relaxed font-normal">
+              Navigating India's most prestigious government schemes, 100% tax holidays, and statutory capital grants with zero guesswork.
+            </p>
           </div>
         </RevealOnScroll>
 
