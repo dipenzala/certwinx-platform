@@ -237,7 +237,7 @@ export default function Header({ onMenuToggle }) {
         <div className="hidden lg:block bg-[#040816]/95 border-b border-white/8 text-white py-1.5 text-[11px] backdrop-blur-md">
           <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
             {/* Left: Phone Support & Desk Notice */}
-            <div className="flex items-center gap-4 xl:gap-6">
+            <div className="flex items-center gap-3 xl:gap-5">
               <a
                 href={`tel:${PHONE_NUMBER.replace(/\s+/g, '')}`}
                 className="inline-flex items-center gap-1.5 text-white/90 hover:text-white font-medium transition-colors"
@@ -247,6 +247,16 @@ export default function Header({ onMenuToggle }) {
               </a>
               <span className="w-1 h-1 rounded-full bg-white/20" />
               <span className="text-white/60 text-[11px]">Ahmedabad, Gujarat · Sovereign Schemes & Advisory Desk</span>
+              <span className="w-1 h-1 rounded-full bg-white/20" />
+              {/* Live Metric Ticker in Top Bar so it is ALWAYS visible without breaking the main navigation */}
+              <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-[#131E3D] border border-white/15 text-[10px] text-white shadow-inner">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+                <span className="font-semibold text-white/90 whitespace-nowrap">99% Success</span>
+                <span className="text-[#A9D2F1] font-bold flex items-center gap-0.5 whitespace-nowrap">
+                  <ArrowUpRight size={10} />
+                  <span>+2.1%</span>
+                </span>
+              </div>
             </div>
 
             {/* Right: Brochure 2026, Need Help Dropdown */}
@@ -459,7 +469,7 @@ export default function Header({ onMenuToggle }) {
                 >
                   <button
                     onClick={() => toggleDropdown('schemes')}
-                    className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors cursor-pointer ${
+                    className={`inline-flex items-center gap-1 px-1.5 xl:px-2 py-1.5 rounded-lg text-[11px] xl:text-xs font-medium whitespace-nowrap transition-colors cursor-pointer ${
                       activeDropdown === 'schemes' || location.pathname.startsWith('/schemes')
                         ? 'text-[#1C83F3] font-bold bg-white/10'
                         : 'text-white/80 hover:text-white hover:bg-white/5'
@@ -467,7 +477,7 @@ export default function Header({ onMenuToggle }) {
                     aria-expanded={activeDropdown === 'schemes'}
                   >
                     <span>Schemes</span>
-                    <ChevronDown size={13} className={`transition-transform duration-200 ${activeDropdown === 'schemes' ? 'rotate-180 text-[#1C83F3]' : 'text-white/50'}`} />
+                    <ChevronDown size={12} className={`transition-transform duration-200 ${activeDropdown === 'schemes' ? 'rotate-180 text-[#1C83F3]' : 'text-white/50'}`} />
                   </button>
 
                   {activeDropdown === 'schemes' && (
@@ -521,7 +531,7 @@ export default function Header({ onMenuToggle }) {
                 >
                   <button
                     onClick={() => toggleDropdown('certifications')}
-                    className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors cursor-pointer ${
+                    className={`inline-flex items-center gap-1 px-1.5 xl:px-2 py-1.5 rounded-lg text-[11px] xl:text-xs font-medium whitespace-nowrap transition-colors cursor-pointer ${
                       activeDropdown === 'certifications' || location.pathname.startsWith('/certifications')
                         ? 'text-[#1C83F3] font-bold bg-white/10'
                         : 'text-white/80 hover:text-white hover:bg-white/5'
@@ -529,7 +539,7 @@ export default function Header({ onMenuToggle }) {
                     aria-expanded={activeDropdown === 'certifications'}
                   >
                     <span>Certifications</span>
-                    <ChevronDown size={13} className={`transition-transform duration-200 ${activeDropdown === 'certifications' ? 'rotate-180 text-[#1C83F3]' : 'text-white/50'}`} />
+                    <ChevronDown size={12} className={`transition-transform duration-200 ${activeDropdown === 'certifications' ? 'rotate-180 text-[#1C83F3]' : 'text-white/50'}`} />
                   </button>
 
                   {activeDropdown === 'certifications' && (
@@ -586,7 +596,7 @@ export default function Header({ onMenuToggle }) {
                 >
                   <button
                     onClick={() => toggleDropdown('funding')}
-                    className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors cursor-pointer ${
+                    className={`inline-flex items-center gap-1 px-1.5 xl:px-2 py-1.5 rounded-lg text-[11px] xl:text-xs font-medium whitespace-nowrap transition-colors cursor-pointer ${
                       activeDropdown === 'funding' || location.pathname.startsWith('/funding')
                         ? 'text-[#1C83F3] font-bold bg-white/10'
                         : 'text-white/80 hover:text-white hover:bg-white/5'
@@ -595,7 +605,7 @@ export default function Header({ onMenuToggle }) {
                   >
                     <span>Funding</span>
                     <Sparkles size={11} className="text-sky animate-pulse" />
-                    <ChevronDown size={13} className={`transition-transform duration-200 ${activeDropdown === 'funding' ? 'rotate-180 text-[#1C83F3]' : 'text-white/50'}`} />
+                    <ChevronDown size={12} className={`transition-transform duration-200 ${activeDropdown === 'funding' ? 'rotate-180 text-[#1C83F3]' : 'text-white/50'}`} />
                   </button>
 
                   {activeDropdown === 'funding' && (
@@ -684,11 +694,11 @@ export default function Header({ onMenuToggle }) {
               {/* ACTIONS RIGHT: Metric Capsule, Search, WhatsApp Desk, Check Eligibility CTA, Mobile Hamburger */}
               <div className="flex items-center gap-1.5 xl:gap-2 shrink-0">
 
-                {/* LIVE METRIC CAPSULE (Visible on XL 1280px+ with compact padding) */}
-                <div className="hidden xl:flex items-center gap-1.5 px-2 xl:px-2.5 py-1 rounded-full bg-[#131E3D] border border-white/15 text-[10px] xl:text-xs text-white shadow-inner shrink-0">
+                {/* LIVE METRIC CAPSULE (Visible on 2XL wide screens 1536px+; on standard laptops it is displayed in the top utility bar) */}
+                <div className="hidden 2xl:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#131E3D] border border-white/15 text-xs text-white shadow-inner shrink-0">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
-                  <span className="font-semibold text-[10px] xl:text-[11px] text-white/90 whitespace-nowrap">99% Success</span>
-                  <span className="text-[10px] xl:text-[11px] text-[#A9D2F1] font-bold flex items-center gap-0.5 whitespace-nowrap">
+                  <span className="font-semibold text-[11px] text-white/90 whitespace-nowrap">99% Success</span>
+                  <span className="text-[11px] text-[#A9D2F1] font-bold flex items-center gap-0.5 whitespace-nowrap">
                     <ArrowUpRight size={10} />
                     <span>+2.1%</span>
                   </span>
@@ -697,7 +707,7 @@ export default function Header({ onMenuToggle }) {
                 {/* GLOBAL SEARCH TRIGGER */}
                 <button
                   onClick={() => setSearchOpen(true)}
-                  className="hidden lg:flex items-center gap-1.5 p-1.5 xl:px-2 xl:py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white transition-colors cursor-pointer text-xs shrink-0"
+                  className="hidden lg:flex items-center gap-1.5 p-1.5 xl:px-2.5 xl:py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white transition-colors cursor-pointer text-xs shrink-0"
                   aria-label="Search CertWinX services"
                 >
                   <Search size={13} className="text-[#1C83F3]" />
@@ -718,10 +728,10 @@ export default function Header({ onMenuToggle }) {
                   <span>WhatsApp</span>
                 </a>
 
-                {/* Primary CTA: CHECK ELIGIBILITY (Guaranteed inside screen bounds with zero clipping) */}
+                {/* Primary CTA: CHECK ELIGIBILITY (Guaranteed inside screen bounds with zero clipping on all viewports) */}
                 <Link
                   to="/eligibility"
-                  className="hidden sm:inline-flex items-center gap-1 xl:gap-1.5 px-3 xl:px-4 py-1.5 xl:py-2 rounded-full bg-gradient-to-r from-[#1C83F3] to-[#0A47CC] hover:from-[#2B92FF] hover:to-[#1656E8] text-white text-[11px] xl:text-xs font-bold uppercase tracking-wider whitespace-nowrap shadow-[0_4px_20px_rgba(28,131,243,0.4)] hover:shadow-[0_6px_25px_rgba(28,131,243,0.6)] hover:scale-102 transition-all shrink-0"
+                  className="hidden sm:inline-flex items-center gap-1 xl:gap-1.5 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-full bg-gradient-to-r from-[#1C83F3] to-[#0A47CC] hover:from-[#2B92FF] hover:to-[#1656E8] text-white text-[11px] xl:text-xs font-bold uppercase tracking-wide whitespace-nowrap shadow-[0_4px_20px_rgba(28,131,243,0.4)] hover:shadow-[0_6px_25px_rgba(28,131,243,0.6)] hover:scale-102 transition-all shrink-0"
                 >
                   <span>CHECK ELIGIBILITY</span>
                   <ArrowUpRight size={12} />
