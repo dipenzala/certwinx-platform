@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { ArrowUpRight, MessageCircle, ShieldCheck, Sparkles, Compass, CheckCircle2, Award } from 'lucide-react';
+import { ArrowUpRight, MessageCircle, Sparkles, Compass, CheckCircle2, Award, Check } from 'lucide-react';
 import { gsap, SplitText } from '../../lib/gsap';
 import { getWhatsAppLink } from '../../lib/constants';
 import MagneticButton from '../motion/MagneticButton';
@@ -50,78 +50,78 @@ export default function Hero() {
   return (
     <section
       ref={rootRef}
-      className="relative pt-36 sm:pt-40 lg:pt-44 pb-12 sm:pb-16 overflow-hidden bg-canvas"
+      className="relative pt-28 sm:pt-32 lg:pt-36 pb-12 sm:pb-16 overflow-hidden bg-canvas"
     >
       <LiveBackground />
 
-      <div className="relative max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10">
+      <div className="relative max-w-[1380px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-8 items-center">
 
-          {/* LEFT: ENTERPRISE COPY & CTAs */}
+          {/* LEFT: ENTERPRISE COPY & CTAs (Exact Live Site Image 4 Alignment) */}
           <div className="lg:col-span-6 xl:col-span-6 relative z-10">
-            {/* Tagline Badge */}
-            <div data-hero="badge" className="mb-4 sm:mb-6">
-              <span className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/95 backdrop-blur-sm border border-line shadow-xs text-[10px] sm:text-[11px] font-bold tracking-wide sm:tracking-wider text-blue uppercase max-w-full">
-                <Sparkles size={12} className="text-blue shrink-0" />
-                <span className="truncate">AAPKI TARAKKI KA SAATHI · BHAROSHA APKA, JIMMEDARI HUMARI</span>
+            {/* Tagline / Category Eyebrow */}
+            <div data-hero="badge" className="mb-4 sm:mb-5">
+              <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/95 backdrop-blur-sm border border-line shadow-xs text-[10px] sm:text-[11px] font-bold tracking-wider text-blue uppercase">
+                <span className="text-blue font-mono font-bold">//</span>
+                <span>BUSINESS · STARTUP · GOVERNMENT SERVICES</span>
               </span>
             </div>
 
-            {/* Official Headline */}
+            {/* Headline (Matching Live Site Image 4) */}
             <h1
               data-hero="headline"
-              className="font-display text-[1.85rem] sm:text-[2.75rem] lg:text-[3.5rem] xl:text-[3.75rem] font-bold leading-[1.12] sm:leading-[1.08] tracking-[-0.03em] text-ink text-balance"
+              className="font-display text-[2.25rem] sm:text-[3rem] lg:text-[3.5rem] xl:text-[3.75rem] font-bold leading-[1.08] tracking-[-0.03em] text-ink text-balance"
             >
-              Build Your Business.
+              Grow Your Business
               <br />
-              <span className="text-blue">Unlock India's Growth Opportunities.</span>
+              <span className="text-blue">With Government Support.</span>
             </h1>
 
-            {/* Official Supporting Text */}
+            {/* Supporting Text (Matching Live Site Image 4) */}
             <p
               data-hero="sub"
-              className="mt-4 sm:mt-6 text-sm sm:text-base lg:text-lg text-graphite leading-relaxed max-w-2xl font-normal"
+              className="mt-4 sm:mt-5 text-sm sm:text-base lg:text-lg text-graphite leading-relaxed max-w-2xl font-normal"
             >
-              From business registration and DPIIT recognition to government incentives, funding opportunities and statutory compliance — CertWinX helps businesses navigate every stage of growth.
+              DPIIT recognition, Section 80 IAC, Udyam / MSME registration, government schemes and funding — one partner, end-to-end.
             </p>
 
-            {/* Primary & Secondary CTAs (Responsive Mobile Stack) */}
+            {/* CTAs (Matching Live Site Image 4: Check My Eligibility, Talk to an Expert, WhatsApp) */}
             <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full sm:w-auto">
               <span data-hero="cta" className="w-full sm:w-auto">
-                <MagneticButton to="/schemes" variant="primary" size="lg" className="w-full sm:w-auto justify-center min-h-[46px]">
-                  <Compass size={16} /> Explore Government Schemes
+                <MagneticButton to="/eligibility" variant="primary" size="lg" className="w-full sm:w-auto justify-center min-h-[46px]">
+                  Check My Eligibility <ArrowUpRight size={15} />
+                </MagneticButton>
+              </span>
+              <span data-hero="cta" className="w-full sm:w-auto">
+                <MagneticButton to="/contact" variant="outline" size="lg" className="w-full sm:w-auto justify-center min-h-[46px]">
+                  Talk to an Expert
                 </MagneticButton>
               </span>
               <span data-hero="cta" className="w-full sm:w-auto">
                 <MagneticButton href={getWhatsAppLink('startup advisory')} variant="whatsapp" size="lg" className="w-full sm:w-auto justify-center min-h-[46px]">
-                  <MessageCircle size={15} /> Talk to an Advisor
-                </MagneticButton>
-              </span>
-              <span data-hero="cta" className="w-full sm:w-auto">
-                <MagneticButton to="/eligibility" variant="outline" size="lg" className="w-full sm:w-auto justify-center min-h-[46px]">
-                  Check Eligibility <ArrowUpRight size={15} />
+                  <MessageCircle size={15} /> WhatsApp
                 </MagneticButton>
               </span>
             </div>
 
-            {/* Genuine Trust Anchors */}
-            <div data-hero="trust" className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-line/80 flex flex-col sm:flex-row flex-wrap items-start sm:items-center gap-x-6 gap-y-2.5">
+            {/* Genuine Trust Anchors (Matching Live Site Image 4) */}
+            <div data-hero="trust" className="mt-6 sm:mt-8 pt-5 sm:pt-6 border-t border-line/80 flex flex-wrap items-center gap-x-6 gap-y-2">
               <div className="flex items-center gap-2">
-                <Award size={15} className="text-blue shrink-0" />
-                <p className="text-xs font-semibold text-ink">6+ Years Advisory Experience</p>
+                <Check size={14} className="text-blue shrink-0" strokeWidth={2.5} />
+                <p className="text-xs font-medium text-graphite">Transparent process</p>
               </div>
               <div className="flex items-center gap-2">
-                <CheckCircle2 size={15} className="text-emerald-600 shrink-0" />
-                <p className="text-xs font-medium text-graphite">Official Portal Submission Support</p>
+                <Sparkles size={13} className="text-blue shrink-0" />
+                <p className="text-xs font-medium text-graphite">No advance professional fees*</p>
               </div>
               <div className="flex items-center gap-2">
-                <Sparkles size={14} className="text-sky shrink-0" />
-                <p className="text-xs font-medium text-graphite">Pan-India Entrepreneur Assistance</p>
+                <Award size={14} className="text-blue shrink-0" />
+                <p className="text-xs font-medium text-graphite">6+ Years Advisory Experience</p>
               </div>
             </div>
           </div>
 
-          {/* RIGHT: INTERACTIVE ADVISORY VISUAL */}
+          {/* RIGHT: INTERACTIVE ADVISORY VISUAL (Matching Live Site Image 4) */}
           <div data-hero="visual" className="lg:col-span-6 xl:col-span-6 relative mt-4 lg:mt-0 max-w-full overflow-hidden sm:overflow-visible">
             <div className="absolute inset-0 -m-6 pointer-events-none">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[380px] h-[340px] sm:h-[380px] rounded-full bg-blue/10 blur-[100px]" />

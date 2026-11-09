@@ -282,18 +282,32 @@ export default function ServiceDetail() {
                 </RevealOnScroll>
 
                 <div className="space-y-3">
-                  {service.process.map((step, i) => (
-                    <RevealOnScroll key={i} delay={i * 0.04}>
-                      <div className="flex items-start gap-4 bg-white border border-line rounded-2xl p-5 shadow-sm">
-                        <span className="shrink-0 font-display text-2xl font-bold text-blue/30 tabular">
-                          {String(i + 1).padStart(2, '0')}
-                        </span>
-                        <span className="text-sm font-medium text-graphite leading-relaxed pt-1">
-                          {step}
-                        </span>
-                      </div>
-                    </RevealOnScroll>
-                  ))}
+                  {service.process.map((step, i) => {
+                    const isObj = typeof step === 'object' && step !== null;
+                    const title = isObj ? step.title : step;
+                    const desc = isObj ? step.desc : null;
+                    const stepNum = isObj && step.step ? step.step : String(i + 1).padStart(2, '0');
+
+                    return (
+                      <RevealOnScroll key={i} delay={i * 0.04}>
+                        <div className="flex items-start gap-4 bg-white border border-line rounded-2xl p-5 shadow-sm">
+                          <span className="shrink-0 font-display text-2xl font-bold text-blue/30 tabular">
+                            {stepNum}
+                          </span>
+                          <div className="pt-0.5">
+                            <h4 className="text-sm font-bold text-ink leading-tight">
+                              {title}
+                            </h4>
+                            {desc && (
+                              <p className="text-xs sm:text-sm text-graphite leading-relaxed mt-1">
+                                {desc}
+                              </p>
+                            )}
+                          </div>
+                        </div>
+                      </RevealOnScroll>
+                    );
+                  })}
                 </div>
               </div>
 

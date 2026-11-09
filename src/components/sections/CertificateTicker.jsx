@@ -4,6 +4,8 @@ import { gsap } from '../../lib/gsap';
 
 /* ============ CURATED OFFICIAL GAZETTE NOTIFIED 80-IAC RECIPIENTS ============ */
 const NOTIFIED_STARTUPS = [
+  { name: 'VISIONEXCELLENCE CONSULTING PRIVATE LIMITED', sector: '80-IAC CERTIFICATE FROM IMB COMMITTEE' },
+  { name: 'XOQOVO PRIVATE LIMITED', sector: '80-IAC CERTIFICATE FROM IMB COMMITTEE' },
   { name: 'RNT HEALTH INSIGHTS PRIVATE LIMITED', sector: 'Healthcare AI' },
   { name: 'TROY CONSULTING PRIVATE LIMITED', sector: 'Enterprise Tech' },
   { name: 'GENEBIO HEALTHCARE PRIVATE LIMITED', sector: 'Biotech' },
