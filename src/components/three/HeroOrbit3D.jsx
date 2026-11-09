@@ -84,6 +84,18 @@ export default function HeroOrbit3D() {
   const [activeTab, setActiveTab] = useState('dialogue'); // 'dialogue' | 'ecosystem'
   const [activeNode, setActiveNode] = useState(ECOSYSTEM_NODES[0]);
 
+  // Conversational dialogue step state (0 to 3) for live animated dialogue between founder and advisor
+  const [dialogueStep, setDialogueStep] = useState(0);
+
+  // Conversational timer: cycles dialogue like two people actively talking
+  useEffect(() => {
+    if (activeTab !== 'dialogue') return;
+    const interval = setInterval(() => {
+      setDialogueStep((prev) => (prev + 1) % 4);
+    }, 2400);
+    return () => clearInterval(interval);
+  }, [activeTab]);
+
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const root = rootRef.current;
@@ -93,39 +105,39 @@ export default function HeroOrbit3D() {
       if (activeTab === 'dialogue') {
         // Floating gentle breathing micro-motion for characters
         gsap.to('[data-image]', {
-          y: -6,
+          y: -5,
           duration: 3.5,
           ease: 'sine.inOut',
           yoyo: true,
           repeat: -1,
         });
 
-        // Floating gentle pulse for dialogue bubbles (keeps them persistently visible like live site!)
-        gsap.to('[data-bubble="1"], [data-bubble="3"]', {
-          y: -3,
+        // Floating live sovereign credential popups (independent gentle bobbing)
+        gsap.to('[data-live-popup="dpitt"]', {
+          y: -4,
           duration: 2.8,
           ease: 'sine.inOut',
           yoyo: true,
           repeat: -1,
         });
 
-        gsap.to('[data-bubble="2"], [data-bubble="4"]', {
-          y: 3,
+        gsap.to('[data-live-popup="80iac"]', {
+          y: 4,
           duration: 3.2,
           ease: 'sine.inOut',
           yoyo: true,
           repeat: -1,
-          delay: 0.4,
+          delay: 0.5,
         });
 
-        // 3D parallax on mouse move
+        // Subtle 3D perspective on mouse move
         const onMove = (e) => {
           const rect = root.getBoundingClientRect();
           const x = (e.clientX - rect.left) / rect.width - 0.5;
           const y = (e.clientY - rect.top) / rect.height - 0.5;
           gsap.to('[data-image]', {
-            rotateY: x * 4,
-            rotateX: -y * 3,
+            rotateY: x * 3.5,
+            rotateX: -y * 2.5,
             duration: 1.2,
             ease: 'power3.out',
             transformPerspective: 1200,
@@ -140,10 +152,10 @@ export default function HeroOrbit3D() {
   }, [activeTab]);
 
   return (
-    <div ref={rootRef} className="relative w-full">
-      {/* Sleek Mode Switcher Pill (Docked neatly without displacing the characters) */}
-      <div className="flex items-center justify-center sm:justify-end gap-1.5 mb-3 sm:mb-2 z-30 relative">
-        <div className="inline-flex items-center p-1 rounded-full bg-white/90 backdrop-blur-md border border-line shadow-sm">
+    <div ref={rootRef} className="relative w-full max-w-full overflow-hidden sm:overflow-visible">
+      {/* Sleek Mode Switcher Pill (Docked neatly at the top right) */}
+      <div className="flex items-center justify-center sm:justify-end gap-1.5 mb-2 z-30 relative">
+        <div className="inline-flex items-center p-1 rounded-full bg-white/95 backdrop-blur-md border border-line shadow-xs">
           <button
             onClick={() => setActiveTab('dialogue')}
             className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold transition-all cursor-pointer ${
@@ -171,163 +183,258 @@ export default function HeroOrbit3D() {
         </div>
       </div>
 
-      {/* ================= TAB 1: ADVISORY DIALOGUE (Matching Live certwinx.com Screenshot) ================= */}
+      {/* ================= TAB 1: ADVISORY DIALOGUE (CONVERSATION ANIMATION + ZERO FACE OVERLAP) ================= */}
       {activeTab === 'dialogue' && (
-        <div className="relative">
+        <div className="relative w-full">
           {/* Mobile Layout (< lg) */}
-          <div className="lg:hidden flex flex-col gap-2 py-1">
-            <div className="flex flex-col gap-2 mb-1">
+          <div className="lg:hidden flex flex-col gap-2.5 py-1">
+            {/* Conversational Speech Bubbles on Mobile (Above Characters, Zero Overlap) */}
+            <div className="flex flex-col gap-2 mb-1 px-1">
               <div
-                data-bubble="1"
-                className="self-start max-w-[85%] bg-white rounded-2xl rounded-br-xs shadow-sm border border-line px-3 py-2"
+                className={`self-start max-w-[88%] bg-white rounded-2xl rounded-br-xs shadow-xs border px-3.5 py-2 transition-all duration-300 ${
+                  dialogueStep === 0 || dialogueStep === 1
+                    ? 'border-[#1C83F3] shadow-[0_4px_16px_rgba(28,131,243,0.18)] scale-[1.01]'
+                    : 'border-line opacity-90'
+                }`}
               >
                 <p className="text-[11px] leading-snug text-ink">
-                  <span className="font-bold text-[#1C83F3]">Founder:</span> Need DPIIT + funding. Where should I start?
+                  <span className="font-bold text-[#1C83F3]">Founder:</span>{' '}
+                  {dialogueStep === 0 ? 'Hi! Where should I start my startup?' : 'Need DPIIT recognition & seed funding.'}
                 </p>
               </div>
 
               <div
-                data-bubble="4"
-                className="self-end max-w-[88%] bg-[#E8F3FF] border border-[#1C83F3]/30 rounded-2xl rounded-bl-xs shadow-sm px-3 py-2"
+                className={`self-end max-w-[90%] bg-[#E8F3FF] border rounded-2xl rounded-bl-xs shadow-xs px-3.5 py-2 transition-all duration-300 ${
+                  dialogueStep === 2 || dialogueStep === 3
+                    ? 'border-[#1C83F3] shadow-[0_4px_16px_rgba(28,131,243,0.22)] scale-[1.01]'
+                    : 'border-[#1C83F3]/30 opacity-90'
+                }`}
               >
                 <div className="flex items-start gap-1.5">
                   <Check size={12} className="text-[#1C83F3] mt-0.5 shrink-0" strokeWidth={3} />
                   <p className="text-[11px] leading-snug text-[#0A2566] font-semibold">
-                    CertWinX maps DPIIT, SISFS & 80-IAC via 60s diagnostic.
+                    <span className="font-bold text-[#0A2566]">CertWinX:</span>{' '}
+                    {dialogueStep === 2 ? 'Are you incorporated yet? We handle SPICe+ MCA.' : 'Free 60-second diagnostic maps 18+ sovereign schemes.'}
                   </p>
                 </div>
               </div>
             </div>
 
-            <div data-image className="relative will-change-transform max-w-[340px] sm:max-w-[420px] mx-auto">
+            {/* Character Image */}
+            <div data-image className="relative will-change-transform max-w-[340px] sm:max-w-[400px] mx-auto">
               <picture>
                 <source srcSet="/hero-characters.webp" type="image/webp" />
                 <img
                   src="/hero-characters.png"
                   alt="CertWinX consultant guiding an entrepreneur"
-                  className="w-full h-auto rounded-2xl max-h-[270px] object-contain mx-auto"
+                  className="w-full h-auto rounded-2xl max-h-[260px] object-contain mx-auto"
                   loading="eager"
-                  style={{ filter: 'drop-shadow(0 15px 30px rgba(28,131,243,0.15))' }}
+                  style={{ filter: 'drop-shadow(0 15px 30px rgba(28,131,243,0.14))' }}
                 />
               </picture>
             </div>
 
-            {/* Mobile Metric Badges */}
-            <div className="grid grid-cols-2 gap-2 mt-2">
-              <div className="bg-white border border-line rounded-xl p-2.5 shadow-xs text-center">
-                <span className="text-[9px] font-bold text-[#1C83F3] uppercase tracking-wider block">DPIIT Recognition</span>
-                <p className="text-xs font-bold text-ink mt-0.5">10-Year Validity Window</p>
-              </div>
-              <div className="bg-white border border-line rounded-xl p-2.5 shadow-xs text-center">
-                <span className="text-[9px] font-bold text-emerald-600 uppercase tracking-wider block">Section 80-IAC</span>
-                <p className="text-xs font-bold text-ink mt-0.5">100% Tax Relief (3 Yrs)</p>
-              </div>
+            {/* Mobile Live Popups (DPIIT & 80-IAC) */}
+            <div className="grid grid-cols-2 gap-2 mt-2 px-1">
+              <Link
+                to="/startup"
+                className="bg-white border border-line rounded-xl p-2.5 shadow-xs text-center hover:border-[#1C83F3]/40 transition-colors"
+              >
+                <div className="flex items-center justify-center gap-1.5 mb-0.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  <span className="text-[9px] font-bold text-[#1C83F3] uppercase tracking-wider">DPIIT Recognition</span>
+                </div>
+                <p className="text-xs font-bold text-ink">10-Year Validity Window</p>
+              </Link>
+              <Link
+                to="/eligibility/80-iac"
+                className="bg-white border border-line rounded-xl p-2.5 shadow-xs text-center hover:border-[#1C83F3]/40 transition-colors"
+              >
+                <div className="flex items-center justify-center gap-1 mb-0.5">
+                  <ShieldCheck size={11} className="text-emerald-600" />
+                  <span className="text-[9px] font-bold text-emerald-600 uppercase tracking-wider">Section 80-IAC</span>
+                </div>
+                <p className="text-xs font-bold text-ink">100% Tax Relief (3 Yrs)</p>
+              </Link>
             </div>
           </div>
 
-          {/* Desktop Layout (lg+) — EXACT LIVE CERTWINX.COM ALIGNMENT */}
-          <div className="hidden lg:block relative w-full h-[530px]">
-            {/* Ambient Glow */}
+          {/* Desktop Layout (lg+) — ZERO OVERLAP & CONVERSATIONAL ANIMATION */}
+          <div className="hidden lg:block relative w-full h-[520px]">
+            {/* Ambient Backing Glow */}
             <div className="absolute inset-0 pointer-events-none">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[440px] h-[440px] rounded-full bg-[#1C83F3]/10 blur-[100px]" />
-              <div className="absolute top-[25%] left-[10%] w-[200px] h-[200px] rounded-full bg-sky/20 blur-[80px]" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[420px] h-[420px] rounded-full bg-[#1C83F3]/10 blur-[100px]" />
+              <div className="absolute top-[20%] left-[10%] w-[180px] h-[180px] rounded-full bg-sky/20 blur-[80px]" />
             </div>
 
-            <div className="relative w-full h-full flex items-center justify-center pb-6">
-              <div className="relative w-full max-w-[680px] mx-auto px-2">
-                
-                {/* Character image */}
+            <div className="relative w-full h-full flex items-center justify-center pb-4">
+              <div className="relative w-full max-w-[620px] mx-auto">
+
+                {/* Character 3D illustration */}
                 <div data-image className="relative z-10 will-change-transform">
                   <picture>
                     <source srcSet="/hero-characters.webp" type="image/webp" />
                     <img
                       src="/hero-characters.png"
                       alt="CertWinX consultant guiding an entrepreneur"
-                      className="w-full h-auto rounded-3xl"
+                      className="w-full h-auto rounded-3xl max-h-[410px] object-contain mx-auto"
                       loading="eager"
-                      style={{ filter: 'drop-shadow(0 25px 50px rgba(22,58,138,0.14))' }}
+                      style={{ filter: 'drop-shadow(0 20px 45px rgba(22,58,138,0.14))' }}
                     />
                   </picture>
                 </div>
 
-                {/* CUSTOMER BUBBLES — TOP LEFT (Persistently Visible As Seen on Live certwinx.com) */}
-                <div className="absolute -top-3 left-0 sm:-left-4 lg:-left-6 z-20 flex flex-col gap-2.5 w-[190px] sm:w-[210px]">
-                  <div
-                    data-bubble="3"
-                    className="relative bg-white rounded-2xl rounded-br-sm shadow-[0_16px_36px_-12px_rgba(22,58,138,0.25)] border border-line px-3.5 py-2.5"
-                  >
-                    <p className="text-xs leading-snug text-ink">
-                      Need <span className="font-bold text-[#1C83F3]">DPIIT + funding</span>.
-                    </p>
-                    <span className="absolute bottom-[-6px] right-5 w-2.5 h-2.5 bg-white border-r border-b border-line rotate-45" />
-                  </div>
-
+                {/* =======================================================
+                    SPEECH BUBBLE 1 & 2: LEFT FOUNDER (Positioned safely in top-left, ZERO face overlap)
+                   ======================================================= */}
+                <div className="absolute top-0 left-1 xl:left-3 z-20 flex flex-col gap-2 max-w-[200px]">
+                  {/* Bubble 1: "Hi! Where should I start?" */}
                   <div
                     data-bubble="1"
-                    className="relative bg-white rounded-2xl rounded-br-sm shadow-[0_16px_36px_-12px_rgba(22,58,138,0.25)] border border-line px-3.5 py-2.5"
+                    className={`relative bg-white rounded-2xl rounded-br-xs shadow-[0_12px_28px_-8px_rgba(22,58,138,0.2)] border px-3 py-2 transition-all duration-300 ${
+                      dialogueStep === 0
+                        ? 'border-[#1C83F3] shadow-[0_12px_32px_rgba(28,131,243,0.3)] ring-2 ring-[#1C83F3]/20 scale-102'
+                        : 'border-line/80 opacity-90'
+                    }`}
                   >
-                    <p className="text-xs leading-snug text-ink">
-                      <span className="font-bold text-[#1C83F3]">Hi!</span> Where should I start?
+                    <div className="flex items-center gap-1.5 mb-0.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#1C83F3]" />
+                      <span className="text-[9px] font-bold text-[#1C83F3] uppercase tracking-wider">Founder Inquiry</span>
+                    </div>
+                    <p className="text-xs font-semibold leading-snug text-ink">
+                      Hi! Where should I start?
                     </p>
-                    <span className="absolute bottom-[-6px] right-5 w-2.5 h-2.5 bg-white border-r border-b border-line rotate-45" />
+                    {/* Directional speech pointer toward founder */}
+                    <span className="absolute -bottom-1.5 right-6 w-2.5 h-2.5 bg-white border-r border-b border-line rotate-45" />
+                  </div>
+
+                  {/* Bubble 2: "Need DPIIT + funding." */}
+                  <div
+                    data-bubble="2"
+                    className={`relative bg-white rounded-2xl rounded-br-xs shadow-[0_12px_28px_-8px_rgba(22,58,138,0.2)] border px-3 py-2 transition-all duration-300 ${
+                      dialogueStep === 1
+                        ? 'border-[#1C83F3] shadow-[0_12px_32px_rgba(28,131,243,0.3)] ring-2 ring-[#1C83F3]/20 scale-102'
+                        : 'border-line/80 opacity-90'
+                    }`}
+                  >
+                    <p className="text-xs font-semibold leading-snug text-ink">
+                      Need <span className="text-[#1C83F3] font-bold">DPIIT + seed funding</span>.
+                    </p>
+                    <span className="absolute -bottom-1.5 right-6 w-2.5 h-2.5 bg-white border-r border-b border-line rotate-45" />
                   </div>
                 </div>
 
-                {/* CERTWINX BUBBLES — TOP RIGHT (Persistently Visible As Seen on Live certwinx.com) */}
-                <div className="absolute -top-3 right-0 sm:-right-4 lg:-right-6 z-20 flex flex-col gap-2.5 w-[200px] sm:w-[220px]">
+                {/* =======================================================
+                    SPEECH BUBBLE 3 & 4: RIGHT ADVISOR (Positioned safely in top-right, ZERO face overlap)
+                   ======================================================= */}
+                <div className="absolute top-0 right-1 xl:right-3 z-20 flex flex-col gap-2 max-w-[210px]">
+                  {/* Bubble 3: "Are you registered yet?" */}
+                  <div
+                    data-bubble="3"
+                    className={`relative bg-[#060D24] border rounded-2xl rounded-bl-xs shadow-[0_12px_28px_-8px_rgba(0,0,0,0.5)] px-3.5 py-2 transition-all duration-300 ${
+                      dialogueStep === 2
+                        ? 'border-[#1C83F3] shadow-[0_12px_32px_rgba(28,131,243,0.4)] ring-2 ring-[#1C83F3]/30 scale-102'
+                        : 'border-white/15 opacity-90'
+                    }`}
+                  >
+                    <div className="flex items-center gap-1.5 mb-0.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                      <span className="text-[9px] font-bold text-sky uppercase tracking-wider">CertWinX Advisor</span>
+                    </div>
+                    <p className="text-xs font-semibold leading-snug text-white">
+                      Are you <span className="text-[#1C83F3] font-bold">registered</span> yet?
+                    </p>
+                    {/* Directional speech pointer toward advisor */}
+                    <span className="absolute -bottom-1.5 left-6 w-2.5 h-2.5 bg-[#060D24] border-r border-b border-white/10 rotate-45" />
+                  </div>
+
+                  {/* Bubble 4: "✓ Free eligibility first." */}
                   <div
                     data-bubble="4"
-                    className="relative bg-[#E8F3FF] border border-[#1C83F3]/30 rounded-2xl rounded-bl-sm shadow-[0_16px_36px_-12px_rgba(28,131,243,0.3)] px-3.5 py-2.5"
+                    className={`relative bg-[#E8F3FF] border rounded-2xl rounded-bl-xs shadow-[0_12px_28px_-8px_rgba(28,131,243,0.25)] px-3.5 py-2 transition-all duration-300 ${
+                      dialogueStep === 3
+                        ? 'border-[#1C83F3] shadow-[0_12px_32px_rgba(28,131,243,0.35)] ring-2 ring-[#1C83F3]/30 scale-102'
+                        : 'border-[#1C83F3]/30 opacity-90'
+                    }`}
                   >
                     <div className="flex items-start gap-1.5">
                       <Check size={13} className="text-[#1C83F3] mt-0.5 shrink-0" strokeWidth={3} />
-                      <p className="text-xs leading-snug text-[#0A2566] font-semibold">
-                        Free eligibility first.
+                      <p className="text-xs leading-snug text-[#0A2566] font-bold">
+                        Free eligibility check first.
                       </p>
                     </div>
-                    <span className="absolute bottom-[-6px] left-5 w-2.5 h-2.5 bg-[#E8F3FF] border-r border-b border-[#1C83F3]/30 rotate-45" />
+                    <span className="absolute -bottom-1.5 left-6 w-2.5 h-2.5 bg-[#E8F3FF] border-r border-b border-[#1C83F3]/30 rotate-45" />
                   </div>
+                </div>
 
-                  <div
-                    data-bubble="2"
-                    className="relative bg-[#060D24] border border-white/10 rounded-2xl rounded-bl-sm shadow-[0_16px_36px_-12px_rgba(0,0,0,0.5)] px-3.5 py-2.5"
+                {/* =======================================================
+                    LIVE POPUP BADGES: "10-Year Validity Window" & "100% Tax Holiday"
+                    (Dynamic live floating credentials, never stuck, zero screen overflow!)
+                   ======================================================= */}
+                {/* 1. DPIIT Live Credential Popup */}
+                <div
+                  data-live-popup="dpitt"
+                  className="absolute bottom-3 left-1 xl:left-3 z-20 group"
+                >
+                  <Link
+                    to="/startup"
+                    className="block bg-white/95 backdrop-blur-md rounded-2xl border border-line hover:border-[#1C83F3]/50 shadow-[0_12px_30px_-8px_rgba(28,131,243,0.22)] hover:shadow-[0_16px_36px_-6px_rgba(28,131,243,0.35)] p-3 max-w-[205px] transition-all duration-300 cursor-pointer"
                   >
-                    <p className="text-xs leading-snug text-white">
-                      Are you <span className="font-bold text-[#1C83F3]">registered</span> yet?
+                    <div className="flex items-center justify-between gap-1 mb-1">
+                      <div className="flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                        <span className="text-[9px] font-bold text-[#1C83F3] uppercase tracking-wider">
+                          DPIIT Sovereign
+                        </span>
+                      </div>
+                      <span className="text-[8px] font-extrabold px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        VERIFIED
+                      </span>
+                    </div>
+                    <h4 className="text-xs font-bold text-ink leading-tight group-hover:text-[#1C83F3] transition-colors">
+                      10-Year Validity Window
+                    </h4>
+                    <p className="text-[10px] text-graphite mt-0.5 leading-snug">
+                      Fast-track patent & tender exemptions
                     </p>
-                    <span className="absolute bottom-[-6px] left-5 w-2.5 h-2.5 bg-[#060D24] rotate-45" />
-                  </div>
+                  </Link>
                 </div>
 
-                {/* FLOATING VERIFIED ENTERPRISE METRIC BADGES (DESKTOP) */}
-                <div className="absolute -bottom-2 -left-4 z-20 bg-white/95 backdrop-blur-md rounded-2xl border border-line shadow-[0_15px_30px_-10px_rgba(22,58,138,0.18)] p-3 max-w-[210px] hidden sm:block">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-[10px] font-bold text-[#1C83F3] uppercase tracking-wider">
-                      DPIIT Recognition
-                    </span>
-                  </div>
-                  <p className="text-xs font-bold text-ink mt-1">10-Year Validity Window</p>
-                  <p className="text-[10px] text-graphite">Fast-track patent & tender exemptions</p>
-                </div>
-
-                <div className="absolute -bottom-2 -right-4 z-20 bg-white/95 backdrop-blur-md rounded-2xl border border-line shadow-[0_15px_30px_-10px_rgba(22,58,138,0.18)] p-3 max-w-[210px] hidden sm:block">
-                  <div className="flex items-center gap-2">
-                    <ShieldCheck size={13} className="text-[#1C83F3]" />
-                    <span className="text-[10px] font-bold text-emerald-600 uppercase tracking-wider">
-                      Section 80-IAC
-                    </span>
-                  </div>
-                  <p className="text-xs font-bold text-ink mt-1">100% Tax Holiday</p>
-                  <p className="text-[10px] text-graphite">Any 3 consecutive years out of 10</p>
+                {/* 2. Section 80-IAC Live Credential Popup */}
+                <div
+                  data-live-popup="80iac"
+                  className="absolute bottom-3 right-1 xl:right-3 z-20 group"
+                >
+                  <Link
+                    to="/eligibility/80-iac"
+                    className="block bg-white/95 backdrop-blur-md rounded-2xl border border-line hover:border-[#1C83F3]/50 shadow-[0_12px_30px_-8px_rgba(28,131,243,0.22)] hover:shadow-[0_16px_36px_-6px_rgba(28,131,243,0.35)] p-3 max-w-[205px] transition-all duration-300 cursor-pointer"
+                  >
+                    <div className="flex items-center justify-between gap-1 mb-1">
+                      <div className="flex items-center gap-1">
+                        <ShieldCheck size={12} className="text-[#1C83F3]" />
+                        <span className="text-[9px] font-bold text-emerald-600 uppercase tracking-wider">
+                          Section 80-IAC
+                        </span>
+                      </div>
+                      <span className="text-[8px] font-extrabold px-1.5 py-0.2 rounded bg-blue-soft text-[#1C83F3] border border-[#1C83F3]/20">
+                        IMB BOARD
+                      </span>
+                    </div>
+                    <h4 className="text-xs font-bold text-ink leading-tight group-hover:text-[#1C83F3] transition-colors">
+                      100% Tax Holiday
+                    </h4>
+                    <p className="text-[10px] text-graphite mt-0.5 leading-snug">
+                      Any 3 consecutive years out of 10
+                    </p>
+                  </Link>
                 </div>
 
               </div>
             </div>
 
             {/* Bottom indicator */}
-            <div className="absolute bottom-1 left-1/2 -translate-x-1/2 z-20">
-              <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-muted whitespace-nowrap">
+            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 z-10 pointer-events-none">
+              <p className="text-[10px] font-semibold tracking-[0.2em] uppercase text-muted/70 whitespace-nowrap">
                 Right Guidance · Real Opportunities · Long-Term Partnership
               </p>
             </div>
@@ -439,7 +546,7 @@ export default function HeroOrbit3D() {
             </div>
 
             <Link
-              to={nodeToUrl(activeNode)}
+              to={activeNode.link || '/services'}
               className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-[#1C83F3] text-white text-xs font-bold hover:bg-[#0A2566] transition-colors shrink-0 shadow-sm"
             >
               <span>Explore Pillar</span>
@@ -450,8 +557,4 @@ export default function HeroOrbit3D() {
       )}
     </div>
   );
-}
-
-function nodeToUrl(node) {
-  return node.link || '/services';
 }

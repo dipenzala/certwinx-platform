@@ -296,18 +296,6 @@ export default function Header({ onMenuToggle }) {
                   </div>
                 </div>
               </div>
-
-              <span className="w-1 h-1 rounded-full bg-white/20" />
-
-              {/* Client Portal Button */}
-              <Link
-                to="/admin"
-                className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#1C83F3] hover:bg-white hover:text-[#0B132B] text-white font-bold transition-all shadow-sm"
-              >
-                <ShieldCheck size={11} />
-                <span>Client Portal</span>
-                <span className="px-1.5 py-0.2 rounded text-[9px] bg-emerald-400 text-[#0B132B] font-black uppercase">LIVE</span>
-              </Link>
             </div>
           </div>
         </div>
@@ -730,10 +718,10 @@ export default function Header({ onMenuToggle }) {
                   <span>WhatsApp</span>
                 </a>
 
-                {/* Primary CTA: Check Eligibility (High Contrast Glowing Royal Blue) */}
+                {/* Primary CTA: Check Eligibility (High Contrast Glowing Royal Blue - responsive on sm+) */}
                 <Link
                   to="/eligibility"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-gradient-to-r from-[#1C83F3] to-[#0E60D2] text-white text-xs font-bold uppercase tracking-wider shadow-[0_4px_20px_rgba(28,131,243,0.4)] hover:shadow-[0_6px_25px_rgba(28,131,243,0.6)] hover:scale-102 transition-all shrink-0"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-gradient-to-r from-[#1C83F3] to-[#0E60D2] text-white text-xs font-bold uppercase tracking-wider shadow-[0_4px_20px_rgba(28,131,243,0.4)] hover:shadow-[0_6px_25px_rgba(28,131,243,0.6)] hover:scale-102 transition-all shrink-0"
                 >
                   <span>Check Eligibility</span>
                   <ArrowUpRight size={13} />

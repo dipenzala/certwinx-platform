@@ -77,31 +77,42 @@ export default function TrustStrip() {
     if (!root) return;
 
     const ctx = gsap.context(() => {
-      gsap.from('[data-pillar]', {
-        y: 16,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.06,
-        ease: 'expo.out',
-        scrollTrigger: {
-          trigger: root,
-          start: 'top 85%',
-          once: true,
-        },
-      });
+      // Use fromTo with clearProps so elements NEVER get stuck invisible
+      gsap.fromTo(
+        '[data-pillar]',
+        { y: 16, opacity: 0.2 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.6,
+          stagger: 0.06,
+          ease: 'power3.out',
+          clearProps: 'all',
+          scrollTrigger: {
+            trigger: root,
+            start: 'top 85%',
+            once: true,
+          },
+        }
+      );
 
-      gsap.from('[data-chip]', {
-        y: 12,
-        opacity: 0,
-        duration: 0.5,
-        stagger: 0.04,
-        ease: 'expo.out',
-        scrollTrigger: {
-          trigger: root,
-          start: 'top 85%',
-          once: true,
-        },
-      });
+      gsap.fromTo(
+        '[data-chip]',
+        { y: 12, opacity: 0.2 },
+        {
+          y: 0,
+          opacity: 1,
+          duration: 0.5,
+          stagger: 0.04,
+          ease: 'power3.out',
+          clearProps: 'all',
+          scrollTrigger: {
+            trigger: root,
+            start: 'top 85%',
+            once: true,
+          },
+        }
+      );
     }, root);
 
     return () => ctx.revert();
@@ -110,15 +121,15 @@ export default function TrustStrip() {
   return (
     <section
       ref={rootRef}
-      className="relative bg-white border-b border-line overflow-hidden py-10 lg:py-14"
+      className="relative bg-[#FAFBFC] border-b border-line overflow-hidden py-12 lg:py-16"
       aria-label="CertWinX Structured Service Approach"
     >
       <div className="relative max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-10">
         
         {/* Top Header */}
         <div className="text-center max-w-2xl mx-auto mb-10">
-          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-soft border border-blue/20 text-[10px] font-bold tracking-[0.2em] text-blue uppercase mb-3">
-            <Sparkles size={11} className="text-blue" />
+          <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1C83F3]/10 border border-[#1C83F3]/20 text-[10px] font-bold tracking-[0.2em] text-[#1C83F3] uppercase mb-3">
+            <Sparkles size={11} className="text-[#1C83F3]" />
             CertWinX Advisory Framework
           </span>
           <h2 className="font-display text-2xl sm:text-3xl font-bold text-ink">
@@ -129,26 +140,26 @@ export default function TrustStrip() {
           </p>
         </div>
 
-        {/* The 6 Pillars Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5 sm:gap-4 mb-10">
+        {/* The 6 Pillars Grid — Guaranteed 100% visible & richly styled */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3.5 sm:gap-4 mb-10">
           {SIX_PILLARS.map((p) => {
             const Icon = p.icon;
             return (
               <div
                 key={p.step}
                 data-pillar
-                className="group relative bg-canvas border border-line rounded-2xl p-4 hover:border-blue/30 hover:bg-blue-soft/30 hover:shadow-sm transition-all duration-300 flex flex-col justify-between"
+                className="group relative bg-white border border-line rounded-2xl p-4.5 shadow-xs hover:border-[#1C83F3]/40 hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
               >
                 <div>
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-[10px] font-extrabold text-blue tracking-wider font-mono">
-                      {p.step}
+                    <span className="text-[10px] font-extrabold text-[#1C83F3] bg-[#1C83F3]/10 px-2 py-0.5 rounded-full tracking-wider font-mono">
+                      STEP {p.step}
                     </span>
-                    <div className="w-7 h-7 rounded-lg bg-blue-soft text-blue flex items-center justify-center group-hover:bg-blue group-hover:text-white transition-colors">
-                      <Icon size={14} />
+                    <div className="w-8 h-8 rounded-xl bg-[#1C83F3]/10 text-[#1C83F3] flex items-center justify-center group-hover:bg-[#1C83F3] group-hover:text-white transition-colors shadow-2xs">
+                      <Icon size={15} />
                     </div>
                   </div>
-                  <h3 className="font-display text-xs sm:text-sm font-bold text-ink group-hover:text-blue transition-colors leading-snug mb-1.5">
+                  <h3 className="font-display text-xs sm:text-sm font-bold text-ink group-hover:text-[#1C83F3] transition-colors leading-snug mb-1.5">
                     {p.title}
                   </h3>
                   <p className="text-[11px] text-graphite leading-relaxed">
@@ -172,12 +183,12 @@ export default function TrustStrip() {
                 <div
                   key={item.label}
                   data-chip
-                  className="group flex items-center gap-2 px-3 py-1.5 rounded-xl bg-canvas border border-line hover:border-blue/30 hover:bg-blue-soft/40 transition-colors"
+                  className="group flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-line shadow-2xs hover:border-[#1C83F3]/30 hover:bg-[#1C83F3]/5 transition-all"
                 >
-                  <span className="w-5 h-5 rounded-md bg-blue-soft text-blue flex items-center justify-center shrink-0">
+                  <span className="w-5 h-5 rounded-md bg-[#1C83F3]/10 text-[#1C83F3] flex items-center justify-center shrink-0">
                     <Icon size={12} strokeWidth={2.2} />
                   </span>
-                  <span className="text-[11px] font-semibold text-ink group-hover:text-blue transition-colors whitespace-nowrap">
+                  <span className="text-[11px] font-semibold text-ink group-hover:text-[#1C83F3] transition-colors whitespace-nowrap">
                     {item.label}
                   </span>
                 </div>

@@ -50,7 +50,7 @@ export default function Hero() {
   return (
     <section
       ref={rootRef}
-      className="relative pt-24 sm:pt-32 lg:pt-36 pb-12 sm:pb-16 overflow-hidden bg-canvas"
+      className="relative pt-32 sm:pt-36 lg:pt-40 pb-12 sm:pb-16 overflow-hidden bg-canvas"
     >
       <LiveBackground />
 
@@ -58,7 +58,7 @@ export default function Hero() {
         <div className="grid lg:grid-cols-12 gap-8 lg:gap-8 items-center">
 
           {/* LEFT: ENTERPRISE COPY & CTAs */}
-          <div className="lg:col-span-7 relative z-10">
+          <div className="lg:col-span-6 xl:col-span-6 relative z-10">
             {/* Tagline Badge */}
             <div data-hero="badge" className="mb-4 sm:mb-6">
               <span className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-white/95 backdrop-blur-sm border border-line shadow-xs text-[10px] sm:text-[11px] font-bold tracking-wide sm:tracking-wider text-blue uppercase max-w-full">
@@ -122,7 +122,7 @@ export default function Hero() {
           </div>
 
           {/* RIGHT: INTERACTIVE ADVISORY VISUAL */}
-          <div data-hero="visual" className="lg:col-span-5 relative mt-4 lg:mt-0">
+          <div data-hero="visual" className="lg:col-span-6 xl:col-span-6 relative mt-4 lg:mt-0 max-w-full overflow-hidden sm:overflow-visible">
             <div className="absolute inset-0 -m-6 pointer-events-none">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] sm:w-[380px] h-[340px] sm:h-[380px] rounded-full bg-blue/10 blur-[100px]" />
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[240px] sm:w-[260px] h-[240px] sm:h-[260px] rounded-full bg-sky/20 blur-[80px]" />
