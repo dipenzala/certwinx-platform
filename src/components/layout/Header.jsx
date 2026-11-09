@@ -233,30 +233,30 @@ export default function Header({ onMenuToggle }) {
         ref={headerRef}
         className="fixed top-0 left-0 right-0 z-[500] transition-all duration-300"
       >
-        {/* ============ TOP UTILITY BAR (Hidden for clean single-bar live aesthetic) ============ */}
-        <div className="hidden">
-          <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        {/* ============ TOP UTILITY BAR (Live Enterprise Sovereign Desk) ============ */}
+        <div className="hidden lg:block bg-[#040816]/95 border-b border-white/8 text-white py-1.5 text-[11px] backdrop-blur-md">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
             {/* Left: Phone Support & Desk Notice */}
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-4 xl:gap-6">
               <a
                 href={`tel:${PHONE_NUMBER.replace(/\s+/g, '')}`}
                 className="inline-flex items-center gap-1.5 text-white/90 hover:text-white font-medium transition-colors"
               >
-                <Phone size={12} className="text-[#1C83F3]" />
+                <Phone size={11} className="text-[#1C83F3]" />
                 <span>For Support: <strong className="text-white font-bold">+91 81289 31029</strong></span>
               </a>
               <span className="w-1 h-1 rounded-full bg-white/20" />
               <span className="text-white/60 text-[11px]">Ahmedabad, Gujarat · Sovereign Schemes & Advisory Desk</span>
             </div>
 
-            {/* Right: Brochure 2026, Need Help Dropdown, Client Portal */}
+            {/* Right: Brochure 2026, Need Help Dropdown */}
             <div className="flex items-center gap-4 text-[11px]">
               {/* Brochure Download / Modal */}
               <button
                 onClick={() => setBrochureModalOpen(true)}
                 className="inline-flex items-center gap-1.5 text-white/80 hover:text-white transition-colors cursor-pointer"
               >
-                <FileText size={12} className="text-[#1C83F3]" />
+                <FileText size={11} className="text-[#1C83F3]" />
                 <span>Brochure 2026</span>
               </button>
 
@@ -306,8 +306,8 @@ export default function Header({ onMenuToggle }) {
             scrolled ? 'py-2 sm:py-2.5' : 'py-2.5 sm:py-3.5'
           }`}
         >
-          <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between gap-4">
+          <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between gap-3 xl:gap-4">
 
               {/* BRAND LOGO */}
               <div className="shrink-0 flex items-center">
@@ -320,7 +320,7 @@ export default function Header({ onMenuToggle }) {
                 {/* 1. About */}
                 <Link
                   to="/about"
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                  className={`px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                     location.pathname === '/about' ? 'text-[#1C83F3] font-bold bg-white/10' : 'text-white/80 hover:text-white hover:bg-white/5'
                   }`}
                 >
@@ -335,7 +335,7 @@ export default function Header({ onMenuToggle }) {
                 >
                   <button
                     onClick={() => toggleDropdown('services')}
-                    className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                    className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
                       activeDropdown === 'services' || location.pathname.startsWith('/services')
                         ? 'text-[#1C83F3] font-bold bg-white/10'
                         : 'text-white/80 hover:text-white hover:bg-white/5'
@@ -459,7 +459,7 @@ export default function Header({ onMenuToggle }) {
                 >
                   <button
                     onClick={() => toggleDropdown('schemes')}
-                    className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                    className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
                       activeDropdown === 'schemes' || location.pathname.startsWith('/schemes')
                         ? 'text-[#1C83F3] font-bold bg-white/10'
                         : 'text-white/80 hover:text-white hover:bg-white/5'
@@ -521,7 +521,7 @@ export default function Header({ onMenuToggle }) {
                 >
                   <button
                     onClick={() => toggleDropdown('certifications')}
-                    className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                    className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
                       activeDropdown === 'certifications' || location.pathname.startsWith('/certifications')
                         ? 'text-[#1C83F3] font-bold bg-white/10'
                         : 'text-white/80 hover:text-white hover:bg-white/5'
@@ -586,7 +586,7 @@ export default function Header({ onMenuToggle }) {
                 >
                   <button
                     onClick={() => toggleDropdown('funding')}
-                    className={`inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                    className={`inline-flex items-center gap-1 px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
                       activeDropdown === 'funding' || location.pathname.startsWith('/funding')
                         ? 'text-[#1C83F3] font-bold bg-white/10'
                         : 'text-white/80 hover:text-white hover:bg-white/5'
@@ -644,30 +644,35 @@ export default function Header({ onMenuToggle }) {
                   )}
                 </div>
 
-                {/* 6. Startup (DPIIT) */}
+                {/* 6. Startup India (DPIIT) */}
                 <Link
                   to="/startup"
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                  className={`px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                     location.pathname === '/startup' ? 'text-[#1C83F3] font-bold bg-white/10' : 'text-white/80 hover:text-white hover:bg-white/5'
                   }`}
                 >
-                  Startup
+                  Startup India
                 </Link>
 
-                {/* 7. 80-IAC (Tax Holiday Pill) */}
+                {/* 7. 80-IAC (Tax Holiday Pill with Glowing Badge) */}
                 <Link
                   to="/eligibility/80-iac"
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                    location.pathname === '/eligibility/80-iac' ? 'text-[#1C83F3] font-bold bg-white/10' : 'text-white/80 hover:text-white hover:bg-white/5'
+                  className={`inline-flex items-center gap-1.5 px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                    location.pathname === '/eligibility/80-iac'
+                      ? 'text-[#1C83F3] font-bold bg-white/10'
+                      : 'text-white/90 hover:text-white hover:bg-white/5'
                   }`}
                 >
-                  80-IAC
+                  <span>80-IAC</span>
+                  <span className="inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold bg-[#1C83F3]/25 border border-[#1C83F3]/50 text-sky shadow-[0_0_10px_rgba(28,131,243,0.35)] leading-none whitespace-nowrap">
+                    100% Tax Holiday
+                  </span>
                 </Link>
 
                 {/* 8. Contact */}
                 <Link
                   to="/contact"
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                  className={`px-2 xl:px-2.5 py-1.5 rounded-lg text-xs font-medium transition-colors ${
                     location.pathname === '/contact' ? 'text-[#1C83F3] font-bold bg-white/10' : 'text-white/80 hover:text-white hover:bg-white/5'
                   }`}
                 >
@@ -676,25 +681,36 @@ export default function Header({ onMenuToggle }) {
 
               </nav>
 
-              {/* ACTIONS RIGHT: Metric Capsule, WhatsApp Desk, Check Eligibility CTA, Mobile Hamburger */}
-              <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+              {/* ACTIONS RIGHT: Metric Capsule, Search, WhatsApp Desk, Check Eligibility CTA, Mobile Hamburger */}
+              <div className="flex items-center gap-2 xl:gap-2.5 shrink-0">
 
-                {/* LIVE METRIC CAPSULE (As seen in Live certwinx.com benchmark Image 4) */}
-                <div className="hidden 2xl:flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#131E3D] border border-white/15 text-xs text-white shadow-inner">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0" />
-                  <span className="font-semibold text-[11px] text-white/90">89+ Approvals</span>
+                {/* LIVE METRIC CAPSULE (As seen in Live certwinx.com benchmark) */}
+                <div className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#131E3D] border border-white/15 text-xs text-white shadow-inner">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shrink-0" />
+                  <span className="font-semibold text-[11px] text-white/90">99% Success</span>
                   <span className="text-[11px] text-[#A9D2F1] font-bold flex items-center gap-0.5">
-                    <ArrowUpRight size={12} />
-                    <span>+8.3%</span>
+                    <ArrowUpRight size={11} />
+                    <span>+2.1%</span>
                   </span>
                 </div>
+
+                {/* GLOBAL SEARCH TRIGGER */}
+                <button
+                  onClick={() => setSearchOpen(true)}
+                  className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-white/80 hover:text-white transition-colors cursor-pointer text-xs"
+                  aria-label="Search CertWinX services"
+                >
+                  <Search size={13} className="text-[#1C83F3]" />
+                  <span className="hidden xl:inline text-[11px]">Search</span>
+                  <kbd className="hidden xl:inline-block px-1 py-0.2 rounded text-[9px] bg-white/10 text-white/60 font-mono">⌘K</kbd>
+                </button>
 
                 {/* WhatsApp Advisory Desk (Live Site Style) */}
                 <a
                   href={getWhatsAppLink('Website Header Enquiry')}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hidden md:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/40 hover:bg-emerald-500/25 text-xs font-bold transition-all shadow-[0_0_12px_rgba(16,185,129,0.15)]"
+                  className="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/40 hover:bg-emerald-500/25 text-xs font-bold transition-all shadow-[0_0_12px_rgba(16,185,129,0.15)]"
                   aria-label="Contact CertWinX on WhatsApp"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
@@ -702,10 +718,10 @@ export default function Header({ onMenuToggle }) {
                   <span>WhatsApp</span>
                 </a>
 
-                {/* Primary CTA: CHECK ELIGIBILITY (Matching Live Site Image 4) */}
+                {/* Primary CTA: CHECK ELIGIBILITY (Adjusted with right breathing margin so it never touches screen edge) */}
                 <Link
                   to="/eligibility"
-                  className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-[#1C83F3] hover:bg-[#0E60D2] text-white text-xs font-bold uppercase tracking-wider shadow-[0_4px_20px_rgba(28,131,243,0.4)] hover:shadow-[0_6px_25px_rgba(28,131,243,0.6)] hover:scale-102 transition-all shrink-0 mr-2 sm:mr-4"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 rounded-full bg-gradient-to-r from-[#1C83F3] to-[#0A47CC] hover:from-[#2B92FF] hover:to-[#1656E8] text-white text-xs font-bold uppercase tracking-wider shadow-[0_4px_20px_rgba(28,131,243,0.4)] hover:shadow-[0_6px_25px_rgba(28,131,243,0.6)] hover:scale-102 transition-all shrink-0 mr-1 sm:mr-3"
                 >
                   <span>CHECK ELIGIBILITY</span>
                   <ArrowUpRight size={13} />
